@@ -151,26 +151,26 @@ function render(list){
     // Table
     let tableHTML="";
     list.forEach(item=>{
-        tableHTML+=
+        tableHTML+=`
         <tr>
             <td>${item.town}</td>
             <td><span class="code">${item.code}</span></td>
             <td>${item.city}</td>
             <td>${item.region}</td>
-        </tr>;
+        </tr>`;
     });
     document.getElementById("tableBody").innerHTML=tableHTML;
 
     // Cards
     let cardHTML="";
     list.forEach(item=>{
-        cardHTML+=
+        cardHTML+=`
         <div class="card">
             <div><strong>မြို့နယ်:</strong> ${item.town}</div>
             <div><strong>Code:</strong> <span class="code">${item.code}</span></div>
             <div><strong>မြို့:</strong> ${item.city}</div>
             <div><strong>တိုင်း:</strong> ${item.region}</div>
-        </div>;
+        </div>`;
     });
     document.getElementById("cardList").innerHTML=cardHTML;
 }
