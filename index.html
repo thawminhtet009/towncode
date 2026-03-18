@@ -124,9 +124,9 @@ body{
     <table class="table">
         <thead>
             <tr>
-                <th>မြို့နယ်</th>
+                <th>မြို့ code</th>
                 <th>Code</th>
-                <th>မြို့</th>
+                <th>မြို့နယ်</th>
                 <th>တိုင်းဒေသကြီး</th>
             </tr>
         </thead>
@@ -153,9 +153,9 @@ function render(list){
     list.forEach(item=>{
         tableHTML+=`
         <tr>
-            <td>${item.town}</td>
+        <td>${item.city}</td>
             <td><span class="code">${item.code}</span></td>
-            <td>${item.city}</td>
+            <td>${item.town}</td>
             <td>${item.region}</td>
         </tr>`;
     });
