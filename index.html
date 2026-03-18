@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Township Search</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family: system-ui, -apple-system, sans-serif;
+}
+
+body{
+    background:#f1f5f9;
+    color:#111;
+}
+
+/* Container */
+.container{
+    max-width:1000px;
+    margin:auto;
+    padding:15px;
+}
+
+/* Title */
+.title{
+    text-align:center;
+    font-size:24px;
+    font-weight:600;
+    margin-bottom:15px;
+}
+
+/* Search */
+.search-box{
+    margin-bottom:15px;
+}
+
+.search-box input{
+    width:100%;
+    padding:14px;
+    border-radius:10px;
+    border:1px solid #ccc;
+    font-size:16px;
+}
+
+/* Table (Desktop) */
+.table{
+    width:100%;
+    border-collapse: collapse;
+    background:white;
+    border-radius:10px;
+    overflow:hidden;
+}
+
+.table th, .table td{
+    padding:12px;
+    text-align:left;
+    border-bottom:1px solid #eee;
+}
+
+.table th{
+    background:#e2e8f0;
+    font-weight:600;
+}
+
+.table tr:hover{
+    background:#f8fafc;
+}
+
+/* Code badge */
+.code{
+    background:#22c55e;
+    color:white;
+    padding:4px 8px;
+    border-radius:6px;
+    font-size:13px;
+}
+
+/* Mobile Card */
+.cards{
+    display:none;
+}
+
+.card{
+    background:white;
+    padding:12px;
+    margin-bottom:10px;
+    border-radius:10px;
+    box-shadow:0 2px 6px rgba(0,0,0,0.1);
+}
+
+.card div{
+    margin-bottom:6px;
+}
+
+/* Responsive */
+@media(max-width:768px){
+    .table{
+        display:none;
+    }
+    .cards{
+        display:block;
+    }
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="title">🔍 Township Code Search</div>
+
+    <!-- Search -->
+    <div class="search-box">
+        <input type="text" id="search" placeholder="Search (12 / ရကန / ရန်ကုန်)" onkeyup="searchData()">
+    </div>
+
+    <!-- Desktop Table -->
+    <table class="table">
+        <thead>
+            <tr>
+                <th>မြို့နယ်</th>
+                <th>Code</th>
+                <th>မြို့</th>
+                <th>တိုင်းဒေသကြီး</th>
+            </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+    </table>
+
+    <!-- Mobile Cards -->
+    <div class="cards" id="cardList"></div>
+
+</div>
+
+<script>
+const data = [
+    {town:"ရန်ကင်း", code:"12 ရကန", city:"ရန်ကုန်", region:"ရန်ကုန်တိုင်းဒေသကြီး"},
+    {town:"မင်္ဂလာဒုံ", code:"12 မကဒ", city:"ရန်ကုန်", region:"ရန်ကုန်တိုင်းဒေသကြီး"},
+    {town:"သန်လျင်", code:"12 သကန", city:"ရန်ကုန်", region:"ရန်ကုန်တိုင်းဒေသကြီး"},
+    {town:"အလုံ", code:"12 အလန", city:"ရန်ကုန်", region:"ရန်ကုန်တိုင်းဒေသကြီး"},
+    {town:"မော်လမြိုင်", code:"5 မလမ", city:"မွန်", region:"မွန်ပြည်နယ်"}
+];
+
+function render(list){
+    // Table
+    let tableHTML="";
+    list.forEach(item=>{
+        tableHTML+=
+        <tr>
+            <td>${item.town}</td>
+            <td><span class="code">${item.code}</span></td>
+            <td>${item.city}</td>
+            <td>${item.region}</td>
+        </tr>;
+    });
+    document.getElementById("tableBody").innerHTML=tableHTML;
+
+    // Cards
+    let cardHTML="";
+    list.forEach(item=>{
+        cardHTML+=
+        <div class="card">
+            <div><strong>မြို့နယ်:</strong> ${item.town}</div>
+            <div><strong>Code:</strong> <span class="code">${item.code}</span></div>
+            <div><strong>မြို့:</strong> ${item.city}</div>
+            <div><strong>တိုင်း:</strong> ${item.region}</div>
+        </div>;
+    });
+    document.getElementById("cardList").innerHTML=cardHTML;
+}
+
+function searchData(){
+    let value=document.getElementById("search").value.toLowerCase();
+
+    let filtered=data.filter(item =>
+        item.code.toLowerCase().includes(value) ||
+        item.town.toLowerCase().includes(value) ||
+        item.city.toLowerCase().includes(value) ||
+        item.region.toLowerCase().includes(value)
+    );
+
+    render(filtered);
+}
+
+render(data);
+</script>
+
+</body>
+</html>
