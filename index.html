@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="my">
-
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,13 +11,11 @@
     --card: #ffffff;
     --text: #111;
 }
-
 body.dark {
     --bg: #0f172a;
     --card: #1e293b;
     --text: #f1f5f9;
 }
-
 body {
     margin: 0;
     font-family: system-ui;
@@ -26,38 +23,49 @@ body {
     color: var(--text);
 }
 
-/* Header */
+/* HEADER */
 .header {
     display: flex;
     justify-content: space-between;
-    padding: 12px;
+    align-items: center;
+    padding: 12px 16px;
+    background: var(--card);
+    border-bottom: 1px solid #ccc;
 }
-
 .menu-btn {
-    background: #0ea5e9;
-    color: white;
+    font-size: 22px;
+    background: none;
     border: none;
-    padding: 10px;
-    border-radius: 10px;
+    cursor: pointer;
+    color: var(--text);
+}
+/* Dark mode auto adjust */
+body.dark .menu-btn {
+    color: var(--text);
+}
+.header-title {
+    font-weight: bold;
+}
+.lang-btn {
+    border: none;
+    padding: 6px 10px;
+    border-radius: 8px;
+    background: #0ea5e9;
+    color: #fff;
+    cursor: pointer;
 }
 
-/* Container */
+/* CONTAINER */
 .container {
     max-width: 1000px;
     margin: auto;
     padding: 16px;
 }
 
-.title {
-    text-align: center;
-    margin-bottom: 16px;
-}
-
-/* ✅ SEARCH FIXED */
+/* SEARCH */
 .search-box {
-    margin-bottom: 16px;
+    margin: 20px 0;
 }
-
 .search-box input {
     width: 100%;
     padding: 14px;
@@ -67,101 +75,76 @@ body {
     color: var(--text);
     box-sizing: border-box;
 }
-
-/* focus effect */
 .search-box input:focus {
     outline: none;
     border-color: #0ea5e9;
-    box-shadow: 0 0 0 2px rgba(14,165,233,0.3);
 }
 
-/* Table */
+/* TABLE */
 .table {
     width: 100%;
     background: var(--card);
     border-radius: 12px;
 }
-
 .table th, .table td {
     padding: 12px;
     text-align: center;
 }
-
 .table th {
     background: #4e5e74;
-    color: white;
+    color: #fff;
 }
 
-/* Cards */
-.cards { display: none; }
-
+/* CARDS */
+.cards { display:none; }
 .card {
     background: var(--card);
     padding: 12px;
     margin-bottom: 10px;
     border-radius: 12px;
-    text-align: center;
+    text-align:center;
 }
 
-/* Menu */
-.menu a {
-    color: rgb(255, 0, 136);
-    text-decoration: none;
-}
-
-body.dark .menu a {
-    color: white;
-}
-
-/* Responsive */
-@media(max-width:768px) {
-    .table { display: none; }
-    .cards { display: block; }
-}
-
-/* Menu UI */
+/* MENU */
 .overlay {
     position: fixed;
-    inset: 0;
+    inset:0;
     background: rgba(0,0,0,0.4);
-    display: none;
+    display:none;
 }
-
 .menu {
     position: fixed;
-    top: 0;
-    left: -100%;
-    width: 260px;
-    height: 100%;
+    top:0;
+    left:-100%;
+    width:260px;
+    height:100%;
     background: var(--card);
-    padding: 15px;
-    transition: 0.3s;
+    padding:15px;
+    transition:.3s;
 }
-
-.menu.active { left: 0; }
+.menu.active { left:0; }
 
 .menu-card {
-    display: block;
-    padding: 12px;
-    margin-bottom: 10px;
-    border-radius: 12px;
-    background: var(--bg);
+    display:block;
+    padding:12px;
+    margin-bottom:10px;
+    border-radius:12px;
+    text-decoration:none;
+    color:#ff0088;
+}
+body.dark .menu-card { color:#fff; }
+
+/* FOOTER */
+.footer {
+    text-align:center;
+    padding:12px;
+    margin-top:20px;
 }
 
-/* Toggle */
-.switch {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-.footer {
-    margin-top: 20px;
-    padding: 12px;
-    text-align: center;
-    background: var(--card);
-    color: var(--text);
-    border-top: 1px solid #ccc;
-    font-size: 14px;
+/* MOBILE */
+@media(max-width:768px){
+    .table{display:none;}
+    .cards{display:block;}
 }
 </style>
 </head>
@@ -169,7 +152,9 @@ body.dark .menu a {
 <body>
 
 <div class="header">
-    <button class="menu-btn" onclick="toggleMenu()">☰ Menu</button>
+    <button class="menu-btn" onclick="toggleMenu()">☰</button>
+    <div class="header-title">🔍 Township Search</div>
+    <button class="lang-btn" onclick="toggleLang()">MM</button>
 </div>
 
 <div class="overlay" id="overlay" onclick="closeMenu()"></div>
@@ -177,22 +162,19 @@ body.dark .menu a {
 <div class="menu" id="menu">
     <h3>Menu</h3>
 
-    <div class="menu-card switch">
-        <span>🌙 Dark Mode</span>
+    <div class="menu-card">
+        🌙 Dark Mode
         <input type="checkbox" id="darkToggle" onchange="toggleDarkMode()">
     </div>
 
     <a href="#" class="menu-card">🏠 Home</a>
-    <a href="Birdwing.html" class="menu-card">🐦 Bird wing game</a>
-    <a href="about.html" class="menu-card">ℹ️ About</a>
+    <a href="#" class="menu-card">ℹ️ About</a>
 </div>
 
 <div class="container">
 
-    <div class="title">🔍 Township Search</div>
-
     <div class="search-box">
-        <input id="search" placeholder="Search (၁၂ / 12 / ရကန)">
+        <input id="search" placeholder="Search...">
     </div>
 
     <table class="table">
@@ -208,516 +190,496 @@ body.dark .menu a {
     </table>
 
     <div class="cards" id="cardList"></div>
-
-    <div id="noResult" style="text-align:center;color:#ef4444;display:none;">
-        ❌ မတွေ့ပါ
-    </div>
+    <div id="noResult" style="text-align:center;color:red;display:none;">❌ No result</div>
 
 </div>
+
 <footer class="footer">
-    <div class="footer-content">
-        Developer by Zar Soe
-    </div>
+Developer by Zar Soe
 </footer>
+
 <script>
+let isMM = true;
+
+/* SAMPLE DATA (MM + ENG) */
 const data = [
-    {town:"မြစ်ကြီးနား", code:"မကန", city:"၁", region:"ကချင်ပြည်နယ်"},
-{town:"ကန်ပိုက်တီး", code:"ကပတ", city:"၁", region:"ကချင်ပြည်နယ်"},
-{town:"ပန်ဝါ", code:"ပဝန", city:"၁", region:"ကချင်ပြည်နယ်"},
-{town:"မိုးညှင်း", code:"မညန", city:"၁", region:"ကချင်ပြည်နယ်"},
-{town:"ဟိုပင်", code:"ဟပန", city:"၁", region:"ကချင်ပြည်နယ်"},
-{town:"မိုးကောင်း", code:"မကတ", city:"၁", region:"ကချင်ပြည်နယ်"},
-{town:"ဖားကန့်", code:"ကမန", city:"၁", region:"ကချင်ပြည်နယ်"},
-{town:"ဖားကန့်", code:"ဖကန", city:"၁", region:"ကချင်ပြည်နယ်"},
-{town:"ကာမိုင်း", code:"ကမတ", city:"၁", region:"ကချင်ပြည်နယ်"},
-{town:"ဗန်းမော်", code:"ဗမန", city:"၁", region:"ကချင်ပြည်နယ်"},
-{town:"​ရွှေကူ", code:"ရကန", city:"၁", region:"ကချင်ပြည်နယ်"},
-{town:"ဆင်ဘို", code:"‌ဆဘတ", city:"၁", region:"ကချင်ပြည်နယ်"},
-{town:"မြို့လှ", code:"မလန", city:"၁", region:"ကချင်ပြည်နယ်"},
-{town:"မိုးမောက်", code:"မမန", city:"၁", region:"ကချင်ပြည်နယ်"},
-{town:"လွယ်ဂျယ်", code:"လဂန", city:"၁", region:"ကချင်ပြည်နယ်"},
-{town:"​ဒေါ့ဖုန်းယန်", code:"ဒဖယ", city:"၁", region:"ကချင်ပြည်နယ်"},
-{town:"မံစီ", code:"မစန", city:"၁", region:"ကချင်ပြည်နယ်"},
-{town:"ပူတာအို", code:"ပတအ", city:"၁", region:"ကချင်ပြည်နယ်"},
-{town:"မချမ်းဘော", code:"မခဘ", city:"၁", region:"ကချင်ပြည်နယ်"},
-{town:"​နောင်မွန်း", code:"နမန", city:"၁", region:"ကချင်ပြည်နယ်"},
-{town:"ပန်းနန်းဒင်", code:"ပနဒ", city:"၁", region:"ကချင်ပြည်နယ်"},
-{town:"ခေါင်လန်ဖူး", code:"ခဘဒ", city:"၁", region:"ကချင်ပြည်နယ်"},
-{town:"ခေါင်လန်ဖူး", code:"ခလဖ", city:"၁", region:"ကချင်ပြည်နယ်"},
-{town:"ဝိုင်းမော်", code:"ဝမန", city:"၁", region:"ကချင်ပြည်နယ်"},
-{town:"ဆွမ်ပရာဘွမ်", code:"ဆပဘ", city:"၁", region:"ကချင်ပြည်နယ်"},
-{town:"ဆဒုံး", code:"ဆဒန", city:"၁", region:"ကချင်ပြည်နယ်"},
-{town:"အင်ဂျန်းယန်", code:"အဂယ", city:"၁", region:"ကချင်ပြည်နယ်"},
-{town:"တနိုင်း", code:"တနန", city:"၁", region:"ကချင်ပြည်နယ်"},
-{town:"ရှင်ဗွေယန်", code:"ရဗယ", city:"၁", region:"ကချင်ပြည်နယ်"},
-{town:"ချီဖွေ", code:"ခဖန", city:"၁", region:"ကချင်ပြည်နယ်"},
-{town:"​ဆော့လော်", code:"ဆလန", city:"၁", region:"ကချင်ပြည်နယ်"},
-{town:"လွိုင်ကော်", code:"လကန", city:"၂", region:"ကယားပြည်နယ်"},
-{town:"ဒီးမော့ဆို", code:"ဒမဆ", city:"၂", region:"ကယားပြည်နယ်"},
-{town:"ဖရူဆို", code:"ဖရဆ", city:"၂", region:"ကယားပြည်နယ်"},
-{town:"ရှားတော", code:"ရတန", city:"၂", region:"ကယားပြည်နယ်"},
-{town:"ဘော်လခဲ", code:"ဘလခ", city:"၂", region:"ကယားပြည်နယ်"},
-{town:"ဖားဆောင်း", code:"ဖဆန", city:"၂", region:"ကယားပြည်နယ်"},
-{town:"မယ်စဲ", code:"မစန", city:"၂", region:"ကယားပြည်နယ်"},
-{town:"ရွာသစ်", code:"ရသန", city:"၂", region:"ကယားပြည်နယ်"},
-{town:"ဘားအံ", code:"ဘအန", city:"၃", region:"ကရင်ပြည်နယ်"},
-{town:"လှိုင်းဘွဲ့", code:"လဘန", city:"၃", region:"ကရင်ပြည်နယ်"},
-{town:"ပိုင်ကျုံ", code:"ပကန", city:"၃", region:"ကရင်ပြည်နယ်"},
-{town:"ရှမ်းရွာသစ်", code:"ရရသ", city:"၃", region:"ကရင်ပြည်နယ်"},
-{town:"သံတောင်ကြီး", code:"သတက", city:"၃", region:"ကရင်ပြည်နယ်"},
-{town:"သံတောင်", code:"သတန", city:"၃", region:"ကရင်ပြည်နယ်"},
-{town:"လိပ်သို", code:"လသန", city:"၃", region:"ကရင်ပြည်နယ်"},
-{town:"ဘောဂလိ", code:"ဘဂလ", city:"၃", region:"ကရင်ပြည်နယ်"},
-{town:"ဖာပွန်", code:"ဖပန", city:"၃", region:"ကရင်ပြည်နယ်"},
-{town:"ကမမောင်း", code:"ကမမ", city:"၃", region:"ကရင်ပြည်နယ်"},
-{town:"ကော့ကရိတ်", code:"ကကရ", city:"၃", region:"ကရင်ပြည်နယ်"},
-{town:"ကြာအင်းဆိပ်ကြီး", code:"ကဆက", city:"၃", region:"ကရင်ပြည်နယ်"},
-{town:"ကျိုက်ဒုံ", code:"ကဒန", city:"၃", region:"ကရင်ပြည်နယ်"},
-{town:"ဘုရားသုံးဆူ", code:"ဘသဆ", city:"၃", region:"ကရင်ပြည်နယ်"},
-{town:"မြဝတီ", code:"မဝတ", city:"၃", region:"ကရင်ပြည်နယ်"},
-{town:"စုကလိ", code:"စကလ", city:"၃", region:"ကရင်ပြည်နယ်"},
-{town:"ဝေါလေမြိုင်", code:"ဝလမ", city:"၃", region:"ကရင်ပြည်နယ်"},
-{town:"ဟားခါး", code:"ဟခန", city:"၄", region:"ချင်းပြည်နယ်"},
-{town:"ထန်တလန်", code:"ထတလ", city:"၄", region:"ချင်းပြည်နယ်"},
-{town:"ဖလမ်း", code:"ဖလန", city:"၄", region:"ချင်းပြည်နယ်"},
-{town:"ရိဒ်ခေါ်ဒါရ်", code:"ရခဒ", city:"၄", region:"ချင်းပြည်နယ်"},
-{town:"တီးတိန်", code:"တတန", city:"၄", region:"ချင်းပြည်နယ်"},
-{town:"တွန်းဇံ", code:"တဇန", city:"၄", region:"ချင်းပြည်နယ်"},
-{town:"ကျီခါး", code:"ကခန", city:"၄", region:"ချင်းပြည်နယ်"},
-{town:"မင်းတပ်", code:"မတန", city:"၄", region:"ချင်းပြည်နယ်"},
-{town:"မတူပီ", code:"မတပ", city:"၄", region:"ချင်းပြည်နယ်"},
-{town:"​ရေဇွာ", code:"ရဇန", city:"၄", region:"ချင်းပြည်နယ်"},
-{town:"ကန်ပက်လက်", code:"ကပလ", city:"၄", region:"ချင်းပြည်နယ်"},
-{town:"ပလက်ဝ", code:"ပလဝ", city:"၄", region:"ချင်းပြည်နယ်"},
-{town:"ဆမီး", code:"ဆမန", city:"၄", region:"ချင်းပြည်နယ်"},
-{town:"တမူး", code:"တမန", city:"၅", region:"စစ်ကိုင်းတိုင်းဒေသကြီး"},
-{town:"ခါမ်းပတ်", code:"ခပန", city:"၅", region:"စစ်ကိုင်းတိုင်းဒေသကြီး"},
-{town:"မြို့သစ်", code:"မသန", city:"၅", region:"စစ်ကိုင်းတိုင်းဒေသကြီး"},
-{town:"မော်လိုက်", code:"မလန", city:"၅", region:"စစ်ကိုင်းတိုင်းဒေသကြီး"},
-{town:"ဖောင်းပြင်", code:"ဖပန", city:"၅", region:"စစ်ကိုင်းတိုင်းဒေသကြီး"},
-{town:"ခန္တီး", code:"ခတန", city:"၅", region:"စစ်ကိုင်းတိုင်းဒေသကြီး"},
-{town:"ဟုမ္မလင်း", code:"ဟမလ", city:"၅", region:"စစ်ကိုင်းတိုင်းဒေသကြီး"},
-{town:"လေရှီး", code:"လရန", city:"၅", region:"စစ်ကိုင်းတိုင်းဒေသကြီး"},
-{town:"လဟယ်", code:"လဟန", city:"၅", region:"စစ်ကိုင်းတိုင်းဒေသကြီး"},
-{town:"နန်းယွန်း", code:"နယန", city:"၅", region:"စစ်ကိုင်းတိုင်းဒေသကြီး"},
-{town:"ပန်ဆောင်", code:"ပဆန", city:"၅", region:"စစ်ကိုင်းတိုင်းဒေသကြီး"},
-{town:"ဒုံဟီး", code:"ဒဟန", city:"၅", region:"စစ်ကိုင်းတိုင်းဒေသကြီး"},
-{town:"မိုပိုင်းလွတ်", code:"မပလ", city:"၅", region:"စစ်ကိုင်းတိုင်းဒေသကြီး"},
-{town:"ထန်ပါခွေ", code:"ထပခ", city:"၅", region:"စစ်ကိုင်းတိုင်းဒေသကြီး"},
-{town:"ဆွမ္မရာ", code:"ဆမရ", city:"၅", region:"စစ်ကိုင်းတိုင်းဒေသကြီး"},
-{town:"စစ်ကိုင်း", code:"စကန", city:"၅", region:"စစ်ကိုင်းတိုင်းဒေသကြီး"},
-{town:"မြင်းမူ", code:"မမတ", city:"၅", region:"စစ်ကိုင်းတိုင်းဒေသကြီး"},
-{town:"​မြောင်", code:"မမန", city:"၅", region:"စစ်ကိုင်းတိုင်းဒေသကြီး"},
-{town:"ရွှေဘို", code:"ရဘန", city:"၅", region:"စစ်ကိုင်းတိုင်းဒေသကြီး"},
-{town:"ဝက်လက်", code:"ဝလန", city:"၅", region:"စစ်ကိုင်းတိုင်းဒေသကြီး"},
-{town:"ခင်ဦး", code:"ခဥန", city:"၅", region:"စစ်ကိုင်းတိုင်းဒေသကြီး"},
-{town:"ကန့်ဘလူ", code:"ကဘလ", city:"၅", region:"စစ်ကိုင်းတိုင်းဒေသကြီး"},
-{town:"ကျွန်းလှ", code:"ကလန", city:"၅", region:"စစ်ကိုင်းတိုင်းဒေသကြီး"},
-{town:"ရေဦး", code:"ရဥန", city:"၅", region:"စစ်ကိုင်းတိုင်းဒေသကြီး"},
-{town:"ဒီပဲယင်း", code:"ဒပယ", city:"၅", region:"စစ်ကိုင်းတိုင်းဒေသကြီး"},
-{town:"တန့်ဆည်", code:"တဆန", city:"၅", region:"စစ်ကိုင်းတိုင်းဒေသကြီး"},
-{town:"ကျောက်မြောင်း", code:"ကမန", city:"၅", region:"စစ်ကိုင်းတိုင်းဒေသကြီး"},
-{town:"မုံရွာ", code:"မရန", city:"၅", region:"စစ်ကိုင်းတိုင်းဒေသကြီး"},
-{town:"ချောင်းဦး", code:"ခဥတ", city:"၅", region:"စစ်ကိုင်းတိုင်းဒေသကြီး"},
-{town:"အရာတော်", code:"အရတ", city:"၅", region:"စစ်ကိုင်းတိုင်းဒေသကြီး"},
-{town:"ဘုတလင်", code:"ဘတလ", city:"၅", region:"စစ်ကိုင်းတိုင်းဒေသကြီး"},
-{town:"ယင်းမာပင်", code:"ယမပ", city:"၅", region:"စစ်ကိုင်းတိုင်းဒေသကြီး"},
-{town:"ပုလဲ", code:"ပလန", city:"၅", region:"စစ်ကိုင်းတိုင်းဒေသကြီး"},
-{town:"ကနီ", code:"ကနန", city:"၅", region:"စစ်ကိုင်းတိုင်းဒေသကြီး"},
-{town:"ဆားလင်းကြီး", code:"ဆလက", city:"၅", region:"စစ်ကိုင်းတိုင်းဒေသကြီး"},
-{town:"ကသာ", code:"ကသန", city:"၅", region:"စစ်ကိုင်းတိုင်းဒေသကြီး"},
-{town:"ထီးချိုင့်", code:"ထခန", city:"၅", region:"စစ်ကိုင်းတိုင်းဒေသကြီး"},
-{town:"အင်းတော်", code:"အတန", city:"၅", region:"စစ်ကိုင်းတိုင်းဒေသကြီး"},
-{town:"ဗန်းမောက်", code:"ဗမန", city:"၅", region:"စစ်ကိုင်းတိုင်းဒေသကြီး"},
-{town:"ကောလင်း", code:"ကလတ", city:"၅", region:"စစ်ကိုင်းတိုင်းဒေသကြီး"},
-{town:"ပင်လည်ဘူး", code:"ပလဘ", city:"၅", region:"စစ်ကိုင်းတိုင်းဒေသကြီး"},
-{town:"ဝန်းသို", code:"ဝသန", city:"၅", region:"စစ်ကိုင်းတိုင်းဒေသကြီး"},
-{town:"ကလေး", code:"ကလထ", city:"၅", region:"စစ်ကိုင်းတိုင်းဒေသကြီး"},
-{town:"ကလေးဝ", code:"ကလဝ", city:"၅", region:"စစ်ကိုင်းတိုင်းဒေသကြီး"},
-{town:"မင်းကင်း", code:"မကန", city:"၅", region:"စစ်ကိုင်းတိုင်းဒေသကြီး"},
-{town:"ငါန်းဇွန်", code:"ငဇန", city:"၅", region:"စစ်ကိုင်းတိုင်းဒေသကြီး"},
-{town:"ထားဝယ်", code:"ထဝန", city:"၆", region:"တနင်္သာရီတိုင်းဒေသကြီး"},
-{town:"လောင်းလုံ", code:"လလန", city:"၆", region:"တနင်္သာရီတိုင်းဒေသကြီး"},
-{town:"သရက်ချောင်း", code:"သရခ", city:"၆", region:"တနင်္သာရီတိုင်းဒေသကြီး"},
-{town:"ရေဖြူ", code:"ရဖန", city:"၆", region:"တနင်္သာရီတိုင်းဒေသကြီး"},
-{town:"မေတ္တာ", code:"မတန", city:"၆", region:"တနင်္သာရီတိုင်းဒေသကြီး"},
-{town:"ကလိန်အောင်", code:"ကလအ", city:"၆", region:"တနင်္သာရီတိုင်းဒေသကြီး"},
-{town:"မြိတ်", code:"မအရ", city:"၆", region:"တနင်္သာရီတိုင်းဒေသကြီး"},
-{town:"ကျွန်းစု", code:"မအန", city:"၆", region:"တနင်္သာရီတိုင်းဒေသကြီး"},
-{town:"ကျွန်းစု", code:"က", city:"၆", region:"တနင်္သာရီတိုင်းဒေသကြီး"},
-{town:"ပုလော", code:"ပလန", city:"၆", region:"တနင်္သာရီတိုင်းဒေသကြီး"},
-{town:"တနင်္သာရီ", code:"တသရ", city:"၆", region:"တနင်္သာရီတိုင်းဒေသကြီး"},
-{town:"ပလောက်", code:"ပလတ", city:"၆", region:"တနင်္သာရီတိုင်းဒေသကြီး"},
-{town:"ကော့သောင်း", code:"ကသန", city:"၆", region:"တနင်္သာရီတိုင်းဒေသကြီး"},
-{town:"ဘုတ်ပြင်း", code:"ဘပန", city:"၆", region:"တနင်္သာရီတိုင်းဒေသကြီး"},
-{town:"ခမောက်ကြီး", code:"ခမက", city:"၆", region:"တနင်္သာရီတိုင်းဒေသကြီး"},
-{town:"ပြည်ကြီးမဏ္ဍိုင်", code:"ပကမ", city:"၆", region:"တနင်္သာရီတိုင်းဒေသကြီး"},
-{town:"ကရသူရိ", code:"ကရရ", city:"၆", region:"တနင်္သာရီတိုင်းဒေသကြီး"},
-{town:"မြိတ်", code:"မမန", city:"၆", region:"တနင်္သာရီတိုင်းဒေသကြီး"},
-{town:"​တောင်ငူ", code:"တငန", city:"၇", region:"ပဲခူးတိုင်းဒေသကြီး"},
-{town:"​ရေတာရှည်", code:"ရတရ", city:"၇", region:"ပဲခူးတိုင်းဒေသကြီး"},
-{town:"ထန်းတပင်", code:"ထတပ", city:"၇", region:"ပဲခူးတိုင်းဒေသကြီး"},
-{town:"အုတ်တွင်း", code:"အတန", city:"၇", region:"ပဲခူးတိုင်းဒေသကြီး"},
-{town:"ဖြူး", code:"ဖမန", city:"၇", region:"ပဲခူးတိုင်းဒေသကြီး"},
-{town:"​ကျောက်ကြီး", code:"ကကန", city:"၇", region:"ပဲခူးတိုင်းဒေသကြီး"},
-{town:"ပဲခူး", code:" ပခန", city:"၇", region:"ပဲခူးတိုင်းဒေသကြီး"},
-{town:"​ကျောက်တံခါး", code:"ကတခ", city:"၇", region:"ပဲခူးတိုင်းဒေသကြီး"},
-{town:"​ရွှေကျင်", code:"ရကန", city:"၇", region:"ပဲခူးတိုင်းဒေသကြီး"},
-{town:"​ညောင်လေးပင်", code:"ညလပ", city:"၇", region:"ပဲခူးတိုင်းဒေသကြီး"},
-{town:"ဒိုက်ဦး", code:"ဒဥန", city:"၇", region:"ပဲခူးတိုင်းဒေသကြီး"},
-{town:"​ဝေါ", code:"ဝမန", city:"၇", region:"ပဲခူးတိုင်းဒေသကြီး"},
-{town:"သနပ်ပင်", code:"သနပ", city:"၇", region:"ပဲခူးတိုင်းဒေသကြီး"},
-{town:"ကဝ", code:"ကဝန", city:"၇", region:"ပဲခူးတိုင်းဒေသကြီး"},
-{town:"သာယာဝတီ", code:"သဝတ", city:"၇", region:"ပဲခူးတိုင်းဒေသကြီး"},
-{town:"လက်ပံတန်း", code:"လပတ", city:"၇", region:"ပဲခူးတိုင်းဒေသကြီး"},
-{town:"မင်းလှ", code:"မလန", city:"၇", region:"ပဲခူးတိုင်းဒေသကြီး"},
-{town:"မိုးညို", code:"မညန", city:"၇", region:"ပဲခူးတိုင်းဒေသကြီး"},
-{town:"အုတ်ဖို", code:"အဖန", city:"၇", region:"ပဲခူးတိုင်းဒေသကြီး"},
-{town:"ကြို့ပင်ကောက်", code:"ကပက", city:"၇", region:"ပဲခူးတိုင်းဒေသကြီး"},
-{town:"ဇီးကုန်း", code:"ဇကန", city:"၇", region:"ပဲခူးတိုင်းဒေသကြီး"},
-{town:"နတ်တလင်း", code:"နတလ", city:"၇", region:"ပဲခူးတိုင်းဒေသကြီး"},
-{town:"ပြည်", code:"ပမန", city:"၇", region:"ပဲခူးတိုင်းဒေသကြီး"},
-{town:"သဲကုန်း", code:"သကန", city:"၇", region:"ပဲခူးတိုင်းဒေသကြီး"},
-{town:"​ရွှေတောင်", code:"ရတန", city:"၇", region:"ပဲခူးတိုင်းဒေသကြီး"},
-{town:"​ပေါင်းတည်", code:"ပတတ", city:"၇", region:"ပဲခူးတိုင်းဒေသကြီး"},
-{town:"ပန်းတောင်း", code:"ပတန", city:"၇", region:"ပဲခူးတိုင်းဒေသကြီး"},
-{town:"​ပေါက်ခေါင်း", code:"ပခတ", city:"၇", region:"ပဲခူးတိုင်းဒေသကြီး"},
-{town:"မကွေး", code:"မကန", city:"၈", region:"မကွေးတိုင်းဒေသကြီး"},
-{town:"​ရေနံချောင်း", code:"ရနခ", city:"၈", region:"မကွေးတိုင်းဒေသကြီး"},
-{town:"​ချောက်", code:"ခမန", city:"၈", region:"မကွေးတိုင်းဒေသကြီး"},
-{town:"နတ်မောက်", code:"နမန", city:"၈", region:"မကွေးတိုင်းဒေသကြီး"},
-{town:"မြို့သစ်", code:"မသန", city:"၈", region:"မကွေးတိုင်းဒေသကြီး"},
-{town:"တောင်တွင်းကြီး", code:"တတက", city:"၈", region:"မကွေးတိုင်းဒေသကြီး"},
-{town:"မင်းဘူး", code:"မဘန", city:"၈", region:"မကွေးတိုင်းဒေသကြီး"},
-{town:"ပွင့်ဖြူ", code:"ပဖန", city:"၈", region:"မကွေးတိုင်းဒေသကြီး"},
-{town:"စလင်း", code:"စလန", city:"၈", region:"မကွေးတိုင်းဒေသကြီး"},
-{town:"​စေတုတ္တရာ", code:"စတရ", city:"၈", region:"မကွေးတိုင်းဒေသကြီး"},
-{town:"ငဖဲ", code:"ငဖန", city:"၈", region:"မကွေးတိုင်းဒေသကြီး"},
-{town:"သရက်", code:"သရန", city:"၈", region:"မကွေးတိုင်းဒေသကြီး"},
-{town:"​အောင်လံ", code:"မထန", city:"၈", region:"မကွေးတိုင်းဒေသကြီး"},
-{town:"​အောင်လံ", code:"အလန", city:"၈", region:"မကွေးတိုင်းဒေသကြီး"},
-{town:"ကံမ", code:"ကမန", city:"၈", region:"မကွေးတိုင်းဒေသကြီး"},
-{town:"မင်းတုန်း", code:"မတန", city:"၈", region:"မကွေးတိုင်းဒေသကြီး"},
-{town:"ဆင်ပေါင်ဝဲ", code:"ဆပဝ", city:"၈", region:"မကွေးတိုင်းဒေသကြီး"},
-{town:"မင်းလှ", code:"မလန", city:"၈", region:"မကွေးတိုင်းဒေသကြီး"},
-{town:"ပခုက္ကူ", code:"ပခက", city:"၈", region:"မကွေးတိုင်းဒေသကြီး"},
-{town:"​ရေစကြို", code:"ရစက", city:"၈", region:"မကွေးတိုင်းဒေသကြီး"},
-{town:"မြိုင်", code:"မမန", city:"၈", region:"မကွေးတိုင်းဒေသကြီး"},
-{town:"​ပေါက်", code:"ပမန", city:"၈", region:"မကွေးတိုင်းဒေသကြီး"},
-{town:"ဆိပ်ဖြူ", code:"ဆဖန", city:"၈", region:"မကွေးတိုင်းဒေသကြီး"},
-{town:"ဂန့်ဂေါ", code:"ဂဂန", city:"၈", region:"မကွေးတိုင်းဒေသကြီး"},
-{town:"​ဆော", code:"ဆမန", city:"၈", region:"မကွေးတိုင်းဒေသကြီး"},
-{town:"ထီးလင်း", code:"ထလန", city:"၈", region:"မကွေးတိုင်းဒေသကြီး"},
-{town:"​ကျောက်ထု", code:"ကထန", city:"၈", region:"မကွေးတိုင်းဒေသကြီး"},
-{town:"​အောင်မြေသာဇံ", code:"မနမ", city:"၉", region:"မန္တလေးတိုင်းဒေသကြီး"},
-{town:"​အောင်မြေသာဇံ", code:"အမဇ", city:"၉", region:"မန္တလေးတိုင်းဒေသကြီး"},
-{town:"ချမ်းအေးသာစံ", code:"မရမ", city:"၉", region:"မန္တလေးတိုင်းဒေသကြီး"},
-{town:"ချမ်းအေးသာစံ", code:"ခအဇ", city:"၉", region:"မန္တလေးတိုင်းဒေသကြီး"},
-{town:"ချမ်းမြသာစည်", code:"မနတ", city:"၉", region:"မန္တလေးတိုင်းဒေသကြီး"},
-{town:"ချမ်းမြသာစည်", code:"ခမစ", city:"၉", region:"မန္တလေးတိုင်းဒေသကြီး"},
-{town:"မဟာအောင်မြေ", code:"မရတ", city:"၉", region:"မန္တလေးတိုင်းဒေသကြီး"},
-{town:"မဟာအောင်မြေ", code:"မဟမ", city:"၉", region:"မန္တလေးတိုင်းဒေသကြီး"},
-{town:"ပြည်ကြီးတံခွန်", code:"ပကခ", city:"၉", region:"မန္တလေးတိုင်းဒေသကြီး"},
-{town:"အမရပူရ", code:"အမရ", city:"၉", region:"မန္တလေးတိုင်းဒေသကြီး"},
-{town:"ပုသိမ်ကြီး", code:"ပသက", city:"၉", region:"မန္တလေးတိုင်းဒေသကြီး"},
-{town:"ပြင်ဦးလွင်", code:"မမန", city:"၉", region:"မန္တလေးတိုင်းဒေသကြီး"},
-{town:"ပြင်ဦးလွင်", code:"ပဥလ", city:"၉", region:"မန္တလေးတိုင်းဒေသကြီး"},
-{town:"မတ္တရာ", code:"မတရ", city:"၉", region:"မန္တလေးတိုင်းဒေသကြီး"},
-{town:"စဉ့်ကူး", code:"စကန", city:"၉", region:"မန္တလေးတိုင်းဒေသကြီး"},
-{town:"သပိတ်ကျင်း", code:"သပက", city:"၉", region:"မန္တလေးတိုင်းဒေသကြီး"},
-{town:"မိုးကုတ်", code:"မကန", city:"၉", region:"မန္တလေးတိုင်းဒေသကြီး"},
-{town:"တကောင်း", code:"တကတ", city:"၉", region:"မန္တလေးတိုင်းဒေသကြီး"},
-{town:"ကျောက်ဆည်", code:"ကဆန", city:"၉", region:"မန္တလေးတိုင်းဒေသကြီး"},
-{town:"စဉ့်ကိုင်", code:"စကတ", city:"၉", region:"မန္တလေးတိုင်းဒေသကြီး"},
-{town:"မြစ်သား", code:"မသန", city:"၉", region:"မန္တလေးတိုင်းဒေသကြီး"},
-{town:"တံတားဦး", code:"တတဥ", city:"၉", region:"မန္တလေးတိုင်းဒေသကြီး"},
-{town:"မြင်းခြံ", code:"မခန", city:"၉", region:"မန္တလေးတိုင်းဒေသကြီး"},
-{town:"တောင်သာ", code:"တသန", city:"၉", region:"မန္တလေးတိုင်းဒေသကြီး"},
-{town:"ကျောက်ပန်းတောင်း", code:"ကပတ", city:"၉", region:"မန္တလေးတိုင်းဒေသကြီး"},
-{town:"နွားထိုးကြီး", code:"နထက", city:"၉", region:"မန္တလေးတိုင်းဒေသကြီး"},
-{town:"ညောင်ဦး", code:"ညဥန", city:"၉", region:"မန္တလေးတိုင်းဒေသကြီး"},
-{town:"ငါန်းဇွန်", code:"ငဇန", city:"၉", region:"မန္တလေးတိုင်းဒေသကြီး"},
-{town:"ငါ့သရောက်", code:"ငသရ", city:"၉", region:"မန္တလေးတိုင်းဒေသကြီး"},
-{town:"မိတ္ထီလာ", code:"မထလ", city:"၉", region:"မန္တလေးတိုင်းဒေသကြီး"},
-{town:"မလှိုင်", code:"မလန", city:"၉", region:"မန္တလေးတိုင်းဒေသကြီး"},
-{town:"သာစည်", code:"သစန", city:"၉", region:"မန္တလေးတိုင်းဒေသကြီး"},
-{town:"ဝမ်းတွင်း", code:"ဝတန", city:"၉", region:"မန္တလေးတိုင်းဒေသကြီး"},
-{town:"ရမည်းသင်း", code:"ရမသ", city:"၉", region:"မန္တလေးတိုင်းဒေသကြီး"},
-{town:"ပျော်ဘွယ်", code:"ပဘန", city:"၉", region:"မန္တလေးတိုင်းဒေသကြီး"},
-{town:"ဥတ္တရသီရိ", code:"ဥတသ", city:"၉", region:"မန္တလေးတိုင်းဒေသကြီး"},
-{town:"ဇေယျာသီရိ", code:"ဇယသ", city:"၉", region:"မန္တလေးတိုင်းဒေသကြီး"},
-{town:"ပုဗ္ဗသီရိ", code:"ပဗသ", city:"၉", region:"မန္တလေးတိုင်းဒေသကြီး"},
-{town:"တပ်ကုန်း", code:"တကန", city:"၉", region:"မန္တလေးတိုင်းဒေသကြီး"},
-{town:"ဒက္ခိဏသီရိ", code:"ဒခသ", city:"၉", region:"မန္တလေးတိုင်းဒေသကြီး"},
-{town:"ပျဉ်းမနား", code:"ပမန", city:"၉", region:"မန္တလေးတိုင်းဒေသကြီး"},
-{town:"လယ်ဝေး", code:"လဝန", city:"၉", region:"မန္တလေးတိုင်းဒေသကြီး"},
-{town:"ဇမ္ဗူသီရိ", code:"ဇဗသ", city:"၉", region:"မန္တလေးတိုင်းဒေသကြီး"},
-{town:"​မော်လမြိုင်", code:"မလမ", city:"၁၀", region:"မွန်ပြည်နယ်"},
-{town:"ကျိုက်မရော", code:"ကမရ", city:"၁၀", region:"မွန်ပြည်နယ်"},
-{town:"​ချောင်းဆုံ", code:"ခဆန", city:"၁၀", region:"မွန်ပြည်နယ်"},
-{town:"သံဖြူဇရပ်", code:"သဖရ", city:"၁၀", region:"မွန်ပြည်နယ်"},
-{town:"မုဒုံ", code:"မဒန", city:"၁၀", region:"မွန်ပြည်နယ်"},
-{town:"​ရေး", code:"ရမန", city:"၁၀", region:"မွန်ပြည်နယ်"},
-{town:"လမိုင်း", code:"လမန", city:"၁၀", region:"မွန်ပြည်နယ်"},
-{town:"​ခေါဇာ", code:"ခဇန", city:"၁၀", region:"မွန်ပြည်နယ်"},
-{town:"သထုံ", code:"သထန", city:"၁၀", region:"မွန်ပြည်နယ်"},
-{town:"​ပေါင်", code:"ပမန", city:"၁၀", region:"မွန်ပြည်နယ်"},
-{town:"ကျိုက်ထို", code:"ကထန", city:"၁၀", region:"မွန်ပြည်နယ်"},
-{town:"ဘီးလင်း", code:"ဘလန", city:"၁၀", region:"မွန်ပြည်နယ်"},
-{town:"စစ်တွေ", code:"စတန", city:"၁၁", region:"ရခိုင်ပြည်နယ်"},
-{town:"ရသေ့တောင်", code:"ရသတ", city:"၁၁", region:"ရခိုင်ပြည်နယ်"},
-{town:"ပုဏ္ဏားကျွန်း", code:"ပဏက", city:"၁၁", region:"ရခိုင်ပြည်နယ်"},
-{town:"​ပေါက်တော", code:"ပတန", city:"၁၁", region:"ရခိုင်ပြည်နယ်"},
-{town:"​မြောက်ဦး", code:"ပတန", city:"၁၁", region:"ရခိုင်ပြည်နယ်"},
-{town:"မင်းပြား", code:"မပန", city:"၁၁", region:"ရခိုင်ပြည်နယ်"},
-{town:"​ကျောက်တော်", code:"ကတန", city:"၁၁", region:"ရခိုင်ပြည်နယ်"},
-{town:"​မြေပုံ", code:"မပတ", city:"၁၁", region:"ရခိုင်ပြည်နယ်"},
-{town:"မောင်တော", code:"မတန", city:"၁၁", region:"ရခိုင်ပြည်နယ်"},
-{town:"ဘူးသီးတောင်", code:"ဘသတ", city:"၁၁", region:"ရခိုင်ပြည်နယ်"},
-{town:"တောင်ပြိုလက်ဝဲ", code:"တပဝ", city:"၁၁", region:"ရခိုင်ပြည်နယ်"},
-{town:"ကျောက်ဖြူ", code:"ကဖန", city:"၁၁", region:"ရခိုင်ပြည်နယ်"},
-{town:"ရမ်းဗြဲ", code:"ရဗန", city:"၁၁", region:"ရခိုင်ပြည်နယ်"},
-{town:"မာန်အောင်", code:"မအန", city:"၁၁", region:"ရခိုင်ပြည်နယ်"},
-{town:"အမ်း", code:"အမန", city:"၁၁", region:"ရခိုင်ပြည်နယ်"},
-{town:"သံတွဲ", code:"သတန", city:"၁၁", region:"ရခိုင်ပြည်နယ်"},
-{town:"တောင်ကုတ်", code:"တကန", city:"၁၁", region:"ရခိုင်ပြည်နယ်"},
-{town:"မအီ", code:"မအတ", city:"၁၁", region:"ရခိုင်ပြည်နယ်"},
-{town:"ဂွ", code:"ဂမန", city:"၁၁", region:"ရခိုင်ပြည်နယ်"},
-{town:"ကျိန္တလီ", code:"ကတလ", city:"၁၁", region:"ရခိုင်ပြည်နယ်"},
-{town:"သင်္ဃန်းကျွန်း", code:"သဃက", city:"၁၂", region:"ရန်ကုန်တိုင်းဒေသကြီး"},
-{town:"ရန်ကင်း", code:"ရကန", city:"၁၂", region:"ရန်ကုန်တိုင်းဒေသကြီး"},
-{town:"​တောင်ဉက္ကလာပ", code:"ဥကတ", city:"၁၂", region:"ရန်ကုန်တိုင်းဒေသကြီး"},
-{town:"မြောက်ဥက္ကလာပ", code:"ဥကမ", city:"၁၂", region:"ရန်ကုန်တိုင်းဒေသကြီး"},
-{town:"သာကေတ", code:"သကတ", city:"၁၂", region:"ရန်ကုန်တိုင်းဒေသကြီး"},
-{town:"​ဒေါပုံ", code:"ဒပန", city:"၁၂", region:"ရန်ကုန်တိုင်းဒေသကြီး"},
-{town:"တာမွေ", code:"တမန", city:"၁၂", region:"ရန်ကုန်တိုင်းဒေသကြီး"},
-{town:"ပုဇွန်တောင်", code:"ပဇတ", city:"၁၂", region:"ရန်ကုန်တိုင်းဒေသကြီး"},
-{town:"ဗိုလ်တထောင်", code:"ဗတထ", city:"၁၂", region:"ရန်ကုန်တိုင်းဒေသကြီး"},
-{town:"မင်္ဂလာတောင်ညွန့်", code:"မဂတ", city:"၁၂", region:"ရန်ကုန်တိုင်းဒေသကြီး"},
-{town:"ဒဂုံမြို့သစ်(မြောက်ပိုင်း)", code:"ဒဂမ", city:"၁၂", region:"ရန်ကုန်တိုင်းဒေသကြီး"},
-{town:"ဒဂုံမြို့သစ်(အရှေ့ပိုင်း)", code:"ဒဂရ", city:"၁၂", region:"ရန်ကုန်တိုင်းဒေသကြီး"},
-{town:"ဒဂုံမြို့သစ်(တောင်ပိုင်း)", code:"ဒဂတ", city:"၁၂", region:"ရန်ကုန်တိုင်းဒေသကြီး"},
-{town:"ဒဂုံမြို့သစ်(ဆိပ်ကမ်း)", code:"ဒဂဆ", city:"၁၂", region:"ရန်ကုန်တိုင်းဒေသကြီး"},
-{town:"​ကျောက်တံတား", code:"ကတတ", city:"၁၂", region:"ရန်ကုန်တိုင်းဒေသကြီး"},
-{town:"ပန်းဘဲတန်း", code:"ပဘတ", city:"၁၂", region:"ရန်ကုန်တိုင်းဒေသကြီး"},
-{town:"လမ်းမတော်", code:"လမတ", city:"၁၂", region:"ရန်ကုန်တိုင်းဒေသကြီး"},
-{town:"လသာ", code:"လသန", city:"၁၂", region:"ရန်ကုန်တိုင်းဒေသကြီး"},
-{town:"အလုံ", code:"အလန", city:"၁၂", region:"ရန်ကုန်တိုင်းဒေသကြီး"},
-{town:"ကြည့်မြင်တိုင်", code:"ကမတ", city:"၁၂", region:"ရန်ကုန်တိုင်းဒေသကြီး"},
-{town:"စမ်းချောင်း", code:"စခန", city:"၁၂", region:"ရန်ကုန်တိုင်းဒေသကြီး"},
-{town:"လှိုင်", code:"လမန", city:"၁၂", region:"ရန်ကုန်တိုင်းဒေသကြီး"},
-{town:"ကမာရွတ်", code:"ကမရ", city:"၁၂", region:"ရန်ကုန်တိုင်းဒေသကြီး"},
-{town:"မရမ်းကုန်း", code:"မရက", city:"၁၂", region:"ရန်ကုန်တိုင်းဒေသကြီး"},
-{town:"ဒဂုံ", code:"ဒဂန", city:"၁၂", region:"ရန်ကုန်တိုင်းဒေသကြီး"},
-{town:"ဗဟန်း", code:"ဗဟန", city:"၁၂", region:"ရန်ကုန်တိုင်းဒေသကြီး"},
-{town:"ဆိပ်ကမ်း", code:"ဆကန", city:"၁၂", region:"ရန်ကုန်တိုင်းဒေသကြီး"},
-{town:"သန်လျင်", code:"သလန", city:"၁၂", region:"ရန်ကုန်တိုင်းဒေသကြီး"},
-{town:"​ကျောက်တန်း", code:"ကတန", city:"၁၂", region:"ရန်ကုန်တိုင်းဒေသကြီး"},
-{town:"တံတား", code:"တတတ", city:"၁၂", region:"ရန်ကုန်တိုင်းဒေသကြီး"},
-{town:"သုံးခွ", code:"သခန", city:"၁၂", region:"ရန်ကုန်တိုင်းဒေသကြီး"},
-{town:"ခရမ်း", code:"ခရန", city:"၁၂", region:"ရန်ကုန်တိုင်းဒေသကြီး"},
-{town:"တွံတေး", code:"တတန", city:"၁၂", region:"ရန်ကုန်တိုင်းဒေသကြီး"},
-{town:"​ကော့မှူး", code:"ကမန", city:"၁၂", region:"ရန်ကုန်တိုင်းဒေသကြီး"},
-{town:"ကွမ်းခြံကုန်း", code:"ကခက", city:"၁၂", region:"ရန်ကုန်တိုင်းဒေသကြီး"},
-{town:"ဒလ", code:"ဒလန", city:"၁၂", region:"ရန်ကုန်တိုင်းဒေသကြီး"},
-{town:"​ဆိပ်ကြီးခနောင်တို", code:"ဒလန", city:"၁၂", region:"ရန်ကုန်တိုင်းဒေသကြီး"},
-{town:"ကိုကိုကျွန်း", code:"ကကက", city:"၁၂", region:"ရန်ကုန်တိုင်းဒေသကြီး"},
-{town:"အင်းစိန်", code:"အစန", city:"၁၂", region:"ရန်ကုန်တိုင်းဒေသကြီး"},
-{town:"မင်္ဂလာဒုံ", code:"မဂဒ", city:"၁၂", region:"ရန်ကုန်တိုင်းဒေသကြီး"},
-{town:"​မှော်ဘီ", code:"မဘန", city:"၁၂", region:"ရန်ကုန်တိုင်းဒေသကြီး"},
-{town:"လှည်းကူး", code:"လကန", city:"၁၂", region:"ရန်ကုန်တိုင်းဒေသကြီး"},
-{town:"တိုက်ကြီး", code:"တကန", city:"၁၂", region:"ရန်ကုန်တိုင်းဒေသကြီး"},
-{town:"ထန်းတပင်", code:"ထတပ", city:"၁၂", region:"ရန်ကုန်တိုင်းဒေသကြီး"},
-{town:"​ရွှေပြည်သာ", code:"ရပသ", city:"၁၂", region:"ရန်ကုန်တိုင်းဒေသကြီး"},
-{town:"လှိုင်သာယာ", code:"လသယ", city:"၁၂", region:"ရန်ကုန်တိုင်းဒေသကြီး"},
-{town:"လှိုင်သာယာ(အရှေ့)", code:"လယရ", city:"၁၂", region:"ရန်ကုန်တိုင်းဒေသကြီး"},
-{town:"လှိုင်သာယာ(အနောက်)", code:"လယန", city:"၁၂", region:"ရန်ကုန်တိုင်းဒေသကြီး"},
-{town:"တောင်ကြီး", code:"တကန", city:"၁၃", region:"ရှမ်းပြည်နယ်"},
-{town:"ဟိုပုံး", code:"ဟပန", city:"၁၃", region:"ရှမ်းပြည်နယ်"},
-{town:"ညောင်ရွှေ", code:"ညရန", city:"၁၃", region:"ရှမ်းပြည်နယ်"},
-{town:"ဆီဆိုင်", code:"ဆဆန", city:"၁၃", region:"ရှမ်းပြည်နယ်"},
-{town:"ကလော", code:"ကလန", city:"၁၃", region:"ရှမ်းပြည်နယ်"},
-{town:"ပင်းတယ", code:"ပတယ", city:"၁၃", region:"ရှမ်းပြည်နယ်"},
-{town:"ရွာငံ", code:"ရငန", city:"၁၃", region:"ရှမ်းပြည်နယ်"},
-{town:"ရပ်စောက်", code:"ရစန", city:"၁၃", region:"ရှမ်းပြည်နယ်"},
-{town:"ပင်လောင်း", code:"ပလန", city:"၁၃", region:"ရှမ်းပြည်နယ်"},
-{town:"ဖယ်ခုံ", code:"ဖခန", city:"၁၃", region:"ရှမ်းပြည်နယ်"},
-{town:"ကျောက်တလုံးကြီး", code:"ကတလ", city:"၁၃", region:"ရှမ်းပြည်နယ်"},
-{town:"နောင်တရား", code:"နတရ", city:"၁၃", region:"ရှမ်းပြည်နယ်"},
-{town:"အင်တော", code:"အတန", city:"၁၃", region:"ရှမ်းပြည်နယ်"},
-{town:"လွိုင်လင်", code:"လလန", city:"၁၃", region:"ရှမ်းပြည်နယ်"},
-{town:"လဲချား", code:"လခန", city:"၁၃", region:"ရှမ်းပြည်နယ်"},
-{town:"နမ့်စန်", code:"နစန", city:"၁၃", region:"ရှမ်းပြည်နယ်"},
-{town:"ကွန်ဟိန်း", code:"ကဟန", city:"၁၃", region:"ရှမ်းပြည်နယ်"},
-{town:"ကျေးသီး", code:"ကသန", city:"၁၃", region:"ရှမ်းပြည်နယ်"},
-{town:"မိုင်းကိုင်", code:"မကန", city:"၁၃", region:"ရှမ်းပြည်နယ်"},
-{town:"မိုင်းရှူး", code:"မရန", city:"၁၃", region:"ရှမ်းပြည်နယ်"},
-{town:"ပင်လုံ", code:"ပလတ", city:"၁၃", region:"ရှမ်းပြည်နယ်"},
-{town:"မိုင်းနောင်", code:"မနတ", city:"၁၃", region:"ရှမ်းပြည်နယ်"},
-{town:"ခိုလမ်", code:"ခလန", city:"၁၃", region:"ရှမ်းပြည်နယ်"},
-{town:"ကာလိ", code:"ကလဒ", city:"၁၃", region:"ရှမ်းပြည်နယ်"},
-{town:"မိုင်းစံ(မုန်းဆန်း)", code:"မစန", city:"၁၃", region:"ရှမ်းပြည်နယ်"},
-{town:"လင်းခေး", code:"လခတ", city:"၁၃", region:"ရှမ်းပြည်နယ်"},
-{town:"မိုးနဲ", code:"မနန", city:"၁၃", region:"ရှမ်းပြည်နယ်"},
-{town:"မောက်မယ်", code:"မမန", city:"၁၃", region:"ရှမ်းပြည်နယ်"},
-{town:"မိုင်းပန်", code:"မပန", city:"၁၃", region:"ရှမ်းပြည်နယ်"},
-{town:"ဟိုမိန်း", code:"ဟမန", city:"၁၃", region:"ရှမ်းပြည်နယ်"},
-{town:"ကျိုင်းတောင်း", code:"ကတတ", city:"၁၃", region:"ရှမ်းပြည်နယ်"},
-{town:"မက်မန်း", code:"ပယန", city:"၁၃", region:"ရှမ်းပြည်နယ်"},
-{town:"နားဖန်", code:"နဖန", city:"၁၃", region:"ရှမ်းပြည်နယ်"},
-{town:"ပန်ဆန်း(ပန်ခမ်း)", code:"ပဆန", city:"၁၃", region:"ရှမ်းပြည်နယ်"},
-{town:"မန်ကန်", code:"မကထ", city:"၁၃", region:"ရှမ်းပြည်နယ်"},
-{town:"ကျိုင်းတုံ", code:"ကတန", city:"၁၃", region:"ရှမ်းပြည်နယ်"},
-{town:"မိုင်းလား", code:"မလန", city:"၁၃", region:"ရှမ်းပြည်နယ်"},
-{town:"မိုင်းယန်း", code:"မယန", city:"၁၃", region:"ရှမ်းပြည်နယ်"},
-{town:"မိုင်းပေါက်", code:"မပထ", city:"၁၃", region:"ရှမ်းပြည်နယ်"},
-{town:"မိုင်းခတ်", code:"မခန", city:"၁၃", region:"ရှမ်းပြည်နယ်"},
-{town:"မိုင်းပျဉ်း", code:"မပတ", city:"၁၃", region:"ရှမ်းပြည်နယ်"},
-{town:"တုံတာ", code:"တတန", city:"၁၃", region:"ရှမ်းပြည်နယ်"},
-{town:"မိုင်းဆတ်", code:"မဆန", city:"၁၃", region:"ရှမ်းပြည်နယ်"},
-{town:"မိုင်းခုတ်", code:"မခတ", city:"၁၃", region:"ရှမ်းပြည်နယ်"},
-{town:"မိုင်းတုံ", code:"မတန", city:"၁၃", region:"ရှမ်းပြည်နယ်"},
-{town:"ပုံပါကျင်", code:"ပပက", city:"၁၃", region:"ရှမ်းပြည်နယ်"},
-{town:"မုံးထ", code:"မထန", city:"၁၃", region:"ရှမ်းပြည်နယ်"},
-{town:"မိုင်းဖြတ်", code:"မဖန", city:"၁၃", region:"ရှမ်းပြည်နယ်"},
-{town:"မိုင်းယောင်း", code:"မယတ", city:"၁၃", region:"ရှမ်းပြည်နယ်"},
-{town:"မိုင်းယု", code:"မယထ", city:"၁၃", region:"ရှမ်းပြည်နယ်"},
-{town:"တာချီလိတ်", code:"တခလ", city:"၁၃", region:"ရှမ်းပြည်နယ်"},
-{town:"တာလေ", code:"တလန", city:"၁၃", region:"ရှမ်းပြည်နယ်"},
-{town:"ကျိုင်းလပ်", code:"ကလထ", city:"၁၃", region:"ရှမ်းပြည်နယ်"},
-{town:"လားရှိုး", code:"လရန", city:"၁၃", region:"ရှမ်းပြည်နယ်"},
-{town:"သိန္နီ", code:"သနန", city:"၁၃", region:"ရှမ်းပြည်နယ်"},
-{town:"တန့်ယန်း", code:"တယန", city:"၁၃", region:"ရှမ်းပြည်နယ်"},
-{town:"မိုင်းရယ်", code:"မရတ", city:"၁၃", region:"ရှမ်းပြည်နယ်"},
-{town:"ကွမ်းလုံ", code:"ကလတ", city:"၁၃", region:"ရှမ်းပြည်နယ်"},
-{town:"မန်ဖန့်", code:"မဖတ", city:"၁၃", region:"ရှမ်းပြည်နယ်"},
-{town:"မူဆယ်မြို့", code:"မဆတ", city:"၁၃", region:"ရှမ်းပြည်နယ်"},
-{town:"နမ့်ခမ်းမြို့", code:"နခန", city:"၁၃", region:"ရှမ်းပြည်နယ်"},
-{town:"ကွတ်ခိုင်မြို့", code:"ကခန", city:"၁၃", region:"ရှမ်းပြည်နယ်"},
-{town:"တားမိုးညဲမြို့", code:"တမည", city:"၁၃", region:"ရှမ်းပြည်နယ်"},
-{town:"မန်ဟျှိုး(မန်ဟီးရိုး)မြို့", code:"မဟရ", city:"၁၃", region:"ရှမ်းပြည်နယ်"},
-{town:"မုံးကိုးမြို့", code:"မကတ", city:"၁၃", region:"ရှမ်းပြည်နယ်"},
-{town:"ပန်ဆိုင်း(ကြူကုတ်)မြို့", code:"ပဆတ", city:"၁၃", region:"ရှမ်းပြည်နယ်"},
-{town:"ကျောက်မဲ", code:"ကမန", city:"၁၃", region:"ရှမ်းပြည်နယ်"},
-{town:"သီပေါ", code:"သပန", city:"၁၃", region:"ရှမ်းပြည်နယ်"},
-{town:"နောင်ချို", code:"နခတ", city:"၁၃", region:"ရှမ်းပြည်နယ်"},
-{town:"နမ္မတူ", code:"နမတ", city:"၁၃", region:"ရှမ်းပြည်နယ်"},
-{town:"နမ့်ဆန်", code:"နဆန", city:"၁၃", region:"ရှမ်းပြည်နယ်"},
-{town:"မန်တုံ", code:"မတတ", city:"၁၃", region:"ရှမ်းပြည်နယ်"},
-{town:"မိုင်းငေါ့", code:"မငန", city:"၁၃", region:"ရှမ်းပြည်နယ်"},
-{town:"မိုင်းလုံ", code:"မလတ", city:"၁၃", region:"ရှမ်းပြည်နယ်"},
-{town:"မိုးမိတ်", code:"မမတ", city:"၁၃", region:"ရှမ်းပြည်နယ်"},
-{town:"မဘိမ်း", code:"မဘန", city:"၁၃", region:"ရှမ်းပြည်နယ်"},
-{town:"ဟိုပန်", code:"ဟပတ", city:"၁၃", region:"ရှမ်းပြည်နယ်"},
-{town:"ပန်ဝိုင်", code:"ပဝန", city:"၁၃", region:"ရှမ်းပြည်နယ်"},
-{town:"မိုင်းမော", code:"မမထ", city:"၁၃", region:"ရှမ်းပြည်နယ်"},
-{town:"နမ့်တစ်", code:"နတန", city:"၁၃", region:"ရှမ်းပြည်နယ်"},
-{town:"ပန်လုံ", code:"ပလထ", city:"၁၃", region:"ရှမ်းပြည်နယ်"},
-{town:"လောက်ကိုင်", code:"လကန", city:"၁၃", region:"ရှမ်းပြည်နယ်"},
-{town:"ကုန်ကြမ်း", code:"ကကန", city:"၁၃", region:"ရှမ်းပြည်နယ်"},
-{town:"ချင်းရွှေဟော်", code:"ခရဟ", city:"၁၃", region:"ရှမ်းပြည်နယ်"},
-{town:"မော်ထိုက်", code:"မထတ", city:"၁၃", region:"ရှမ်းပြည်နယ်"},
-{town:"ပုသိမ်", code:"ပသန", city:"၁၄", region:"ဧရာဝတီတိုင်းဒေသကြီး"},
-{town:"ရွှေသောင်ယံ", code:"ရသယ", city:"၁၄", region:"ဧရာဝတီတိုင်းဒေသကြီး"},
-{town:"ငွေဆောင်", code:"ငဆန", city:"၁၄", region:"ဧရာဝတီတိုင်းဒေသကြီး"},
-{town:"ကန်ကြီးထောင့်", code:"ပသရ", city:"၁၄", region:"ဧရာဝတီတိုင်းဒေသကြီး"},
-{town:"ကန်ကြီးထောင့်", code:"ကကထ", city:"၁၄", region:"ဧရာဝတီတိုင်းဒေသကြီး"},
-{town:"ငပုတော", code:"ငပတ", city:"၁၄", region:"ဧရာဝတီတိုင်းဒေသကြီး"},
-{town:"ဟိုင်းကြီးကျွန်း", code:"ဟကက", city:"၁၄", region:"ဧရာဝတီတိုင်းဒေသကြီး"},
-{town:"ငရုတ်ကောင်း", code:"ငရက", city:"၁၄", region:"ဧရာဝတီတိုင်းဒေသကြီး"},
-{town:"သာပေါင်း", code:"သပန", city:"၁၄", region:"ဧရာဝတီတိုင်းဒေသကြီး"},
-{town:"ကျောင်းကုန်း", code:"ကကန", city:"၁၄", region:"ဧရာဝတီတိုင်းဒေသကြီး"},
-{town:"​ရေကြည်", code:"ရကန", city:"၁၄", region:"ဧရာဝတီတိုင်းဒေသကြီး"},
-{town:"ငါးသိုင်းချောင်း", code:"ငသခ", city:"၁၄", region:"ဧရာဝတီတိုင်းဒေသကြီး"},
-{town:"ကျုံပျော်", code:"ကပန", city:"၁၄", region:"ဧရာဝတီတိုင်းဒေသကြီး"},
-{town:"ဟင်္သာတ", code:"ဟသတ", city:"၁၄", region:"ဧရာဝတီတိုင်းဒေသကြီး"},
-{town:"ဇလွန်", code:"ဇလန", city:"၁၄", region:"ဧရာဝတီတိုင်းဒေသကြီး"},
-{town:"လေးမျက်နှာ", code:"လမန", city:"၁၄", region:"ဧရာဝတီတိုင်းဒေသကြီး"},
-{town:"အင်္ဂပူ", code:"အဂပ", city:"၁၄", region:"ဧရာဝတီတိုင်းဒေသကြီး"},
-{town:"မြန်အောင်", code:"မအန", city:"၁၄", region:"ဧရာဝတီတိုင်းဒေသကြီး"},
-{town:"ကြံခင်း", code:"ကခန", city:"၁၄", region:"ဧရာဝတီတိုင်းဒေသကြီး"},
-{town:"မအူပင်", code:"မအပ", city:"၁၄", region:"ဧရာဝတီတိုင်းဒေသကြီး"},
-{town:"ပန်းတနော်", code:"ပတန", city:"၁၄", region:"ဧရာဝတီတိုင်းဒေသကြီး"},
-{town:"​ညောင်တုန်း", code:"ညတန", city:"၁၄", region:"ဧရာဝတီတိုင်းဒေသကြီး"},
-{town:"ဓနုဖြူ", code:"ဓနဖ", city:"၁၄", region:"ဧရာဝတီတိုင်းဒေသကြီး"},
-{town:"ဖျာပုံ", code:"ဖပန", city:"၁၄", region:"ဧရာဝတီတိုင်းဒေသကြီး"},
-{town:"အမာ", code:"အမတ", city:"၁၄", region:"ဧရာဝတီတိုင်းဒေသကြီး"},
-{town:"ဘိုကလေး", code:"ဘကလ", city:"၁၄", region:"ဧရာဝတီတိုင်းဒေသကြီး"},
-{town:"ကျိုက်လတ်", code:"ကလန", city:"၁၄", region:"ဧရာဝတီတိုင်းဒေသကြီး"},
-{town:"ဒေးဒရဲ", code:"ဒဒရ", city:"၁၄", region:"ဧရာဝတီတိုင်းဒေသကြီး"},
-{town:"လပွတ္တာ", code:"လပတ", city:"၁၄", region:"ဧရာဝတီတိုင်းဒေသကြီး"},
-{town:"ပြင်စလူ", code:"ပစလ", city:"၁၄", region:"ဧရာဝတီတိုင်းဒေသကြီး"},
-{town:"မော်လမြိုင်ကျွန်း", code:"မမက", city:"၁၄", region:"ဧရာဝတီတိုင်းဒေသကြီး"},
-{town:"မြောင်းမြ", code:"မမန", city:"၁၄", region:"ဧရာဝတီတိုင်းဒေသကြီး"},
-{town:"အိမ်မဲ", code:"အမန", city:"၁၄", region:"ဧရာဝတီတိုင်းဒေသကြီး"},
-{town:"ဝါးခယ်မ", code:"ဝခမ", city:"၁၄", region:"ဧရာဝတီတိုင်းဒေသကြီး"}
+{mm:{town:"မြစ်ကြီးနား", code:"မကန", city:"၁", region:"ကချင်ပြည်နယ်"},en:{town:"Myitkyina", code:"MaKaNa", city:"1", region:"Kachin State"}},
+{mm:{town:"ကန်ပိုက်တီး", code:"ကပတ", city:"၁", region:"ကချင်ပြည်နယ်"},en:{town:"Kanpaikti", code:"KaPaTa", city:"1", region:"Kachin State"}},
+{mm:{town:"ပန်ဝါ", code:"ပဝန", city:"၁", region:"ကချင်ပြည်နယ်"},en:{town:"Panwa", code:"PaWaNa", city:"1", region:"Kachin State"}},
+{mm:{town:"မိုးညှင်း", code:"မညန", city:"၁", region:"ကချင်ပြည်နယ်"},en:{town:"Mohnyin", code:"MaNyaNa", city:"1", region:"Kachin State"}},
+{mm:{town:"ဟိုပင်", code:"ဟပန", city:"၁", region:"ကချင်ပြည်နယ်"},en:{town:"Hopin", code:"HaPaNa", city:"1", region:"Kachin State"}},
+{mm:{town:"မိုးကောင်း", code:"မကတ", city:"၁", region:"ကချင်ပြည်နယ်"},en:{town:"Mogaung", code:"MaKaTa", city:"1", region:"Kachin State"}},
+{mm:{town:"ဖားကန့်", code:"ကမန", city:"၁", region:"ကချင်ပြည်နယ်"},en:{town:"Hpakant", code:"KaMaNa", city:"1", region:"Kachin State"}},
+{mm:{town:"ဖားကန့်", code:"ဖကန", city:"၁", region:"ကချင်ပြည်နယ်"},en:{town:"Hpakant", code:"PhaKaNa", city:"1", region:"Kachin State"}},
+{mm:{town:"ကာမိုင်း", code:"ကမတ", city:"၁", region:"ကချင်ပြည်နယ်"},en:{town:"Kamaing", code:"KaMaTa", city:"1", region:"Kachin State"}},
+{mm:{town:"ဗန်းမော်", code:"ဗမန", city:"၁", region:"ကချင်ပြည်နယ်"},en:{town:"Bhamo", code:"BaMaNa", city:"1", region:"Kachin State"}},
+{mm:{town:"​ရွှေကူ", code:"ရကန", city:"၁", region:"ကချင်ပြည်နယ်"},en:{town:"Shwegu", code:"YaKaNa", city:"1", region:"Kachin State"}},
+{mm:{town:"ဆင်ဘို", code:"‌ဆဘတ", city:"၁", region:"ကချင်ပြည်နယ်"},en:{town:"Sinbo", code:"HsaBaTa", city:"1", region:"Kachin State"}},
+{mm:{town:"မြို့လှ", code:"မလန", city:"၁", region:"ကချင်ပြည်နယ်"},en:{town:"Myohla", code:"MaLaNa", city:"1", region:"Kachin State"}},
+{mm:{town:"မိုးမောက်", code:"မမန", city:"၁", region:"ကချင်ပြည်နယ်"},en:{town:"Momauk", code:"MaMaNa", city:"1", region:"Kachin State"}},
+{mm:{town:"လွယ်ဂျယ်", code:"လဂန", city:"၁", region:"ကချင်ပြည်နယ်"},en:{town:"Lwegel", code:"LaGaNa", city:"1", region:"Kachin State"}},
+{mm:{town:"​ဒေါ့ဖုန်းယန်", code:"ဒဖယ", city:"၁", region:"ကချင်ပြည်နယ်"},en:{town:"Dotphoneyan", code:"DaPhaYa", city:"1", region:"Kachin State"}},
+{mm:{town:"မံစီ", code:"မစန", city:"၁", region:"ကချင်ပြည်နယ်"},en:{town:"Mansi", code:"MaSaNa", city:"1", region:"Kachin State"}},
+{mm:{town:"ပူတာအို", code:"ပတအ", city:"၁", region:"ကချင်ပြည်နယ်"},en:{town:"Putao", code:"PaTaAh", city:"1", region:"Kachin State"}},
+{mm:{town:"မချမ်းဘော", code:"မခဘ", city:"၁", region:"ကချင်ပြည်နယ်"},en:{town:"Machanbaw", code:"MaKhaBa", city:"1", region:"Kachin State"}},
+{mm:{town:"​နောင်မွန်း", code:"နမန", city:"၁", region:"ကချင်ပြည်နယ်"},en:{town:"Naungmon", code:"NaMaNa", city:"1", region:"Kachin State"}},
+{mm:{town:"ပန်းနန်းဒင်", code:"ပနဒ", city:"၁", region:"ကချင်ပြည်နယ်"},en:{town:"Pannandin", code:"PaNaDa", city:"1", region:"Kachin State"}},
+{mm:{town:"ခေါင်လန်ဖူး", code:"ခဘဒ", city:"၁", region:"ကချင်ပြည်နယ်"},en:{town:"Khaunglanhpu", code:"KhaBaDa", city:"1", region:"Kachin State"}},
+{mm:{town:"ခေါင်လန်ဖူး", code:"ခလဖ", city:"၁", region:"ကချင်ပြည်နယ်"},en:{town:"Khaunglanhpu", code:"KhaLaPha", city:"1", region:"Kachin State"}},
+{mm:{town:"ဝိုင်းမော်", code:"ဝမန", city:"၁", region:"ကချင်ပြည်နယ်"},en:{town:"Waingmaw", code:"WaMaNa", city:"1", region:"Kachin State"}},
+{mm:{town:"ဆွမ်ပရာဘွမ်", code:"ဆပဘ", city:"၁", region:"ကချင်ပြည်နယ်"},en:{town:"Sumprabum", code:"SaPaBa", city:"1", region:"Kachin State"}},
+{mm:{town:"ဆဒုံး", code:"ဆဒန", city:"၁", region:"ကချင်ပြည်နယ်"},en:{town:"Sadone", code:"HsaDaNa", city:"1", region:"Kachin State"}},
+{mm:{town:"အင်ဂျန်းယန်", code:"အဂယ", city:"၁", region:"ကချင်ပြည်နယ်"},en:{town:"Injangyang", code:"AhGaYa", city:"1", region:"Kachin State"}},
+{mm:{town:"တနိုင်း", code:"တနန", city:"၁", region:"ကချင်ပြည်နယ်"},en:{town:"Tanai", code:"TaNaNa", city:"1", region:"Kachin State"}},
+{mm:{town:"ရှင်ဗွေယန်", code:"ရဗယ", city:"၁", region:"ကချင်ပြည်နယ်"},en:{town:"Shinbwayyan", code:"RaBaYa", city:"1", region:"Kachin State"}},
+{mm:{town:"ချီဖွေ", code:"ခဖန", city:"၁", region:"ကချင်ပြည်နယ်"},en:{town:"Chipwi", code:"KhaPhaNa", city:"1", region:"Kachin State"}},
+{mm:{town:"​ဆော့လော်", code:"ဆလန", city:"၁", region:"ကချင်ပြည်နယ်"},en:{town:"Sawlaw", code:"SaLaNa", city:"1", region:"Kachin State"}},
+{mm:{town:"လွိုင်ကော်", code:"လကန", city:"၂", region:"ကယားပြည်နယ်"},en:{town:"Loikaw", code:"LaKaNa", city:"2", region:"Kayah State"}},
+{mm:{town:"ဒီးမော့ဆို", code:"ဒမဆ", city:"၂", region:"ကယားပြည်နယ်"},en:{town:"Demoso", code:"DaMaSa", city:"2", region:"Kayah State"}},
+{mm:{town:"ဖရူဆို", code:"ဖရဆ", city:"၂", region:"ကယားပြည်နယ်"},en:{town:"Hpruso", code:"PhaYaSa", city:"2", region:"Kayah State"}},
+{mm:{town:"ရှားတော", code:"ရတန", city:"၂", region:"ကယားပြည်နယ်"},en:{town:"Shadaw", code:"YaTaNa", city:"2", region:"Kayah State"}},
+{mm:{town:"ဘော်လခဲ", code:"ဘလခ", city:"၂", region:"ကယားပြည်နယ်"},en:{town:"Bawlakhe", code:"BaLaKha", city:"2", region:"Kayah State"}},
+{mm:{town:"ဖားဆောင်း", code:"ဖဆန", city:"၂", region:"ကယားပြည်နယ်"},en:{town:"Hpasawng", code:"PhaSaNa", city:"2", region:"Kayah State"}},
+{mm:{town:"မယ်စဲ", code:"မစန", city:"၂", region:"ကယားပြည်နယ်"},en:{town:"Mese", code:"MaSaNa", city:"2", region:"Kayah State"}},
+{mm:{town:"ရွာသစ်", code:"ရသန", city:"၂", region:"ကယားပြည်နယ်"},en:{town:"Ywathit", code:"YaThaNa", city:"2", region:"Kayah State"}},
+{mm:{town:"ဘားအံ", code:"ဘအန", city:"၃", region:"ကရင်ပြည်နယ်"},en:{town:"Hpa-An", code:"BaAhNa", city:"3", region:"Kayin State"}},
+{mm:{town:"လှိုင်းဘွဲ့", code:"လဘန", city:"၃", region:"ကရင်ပြည်နယ်"},en:{town:"Hlaingbwe", code:"LaBaNa", city:"3", region:"Kayin State"}},
+{mm:{town:"ပိုင်ကျုံ", code:"ပကန", city:"၃", region:"ကရင်ပြည်နယ်"},en:{town:"Paingkyon", code:"PaKaNa", city:"3", region:"Kayin State"}},
+{mm:{town:"ရှမ်းရွာသစ်", code:"ရရသ", city:"၃", region:"ကရင်ပြည်နယ်"},en:{town:"Shan Ywathit", code:"RaRaTha", city:"3", region:"Kayin State"}},
+{mm:{town:"သံတောင်ကြီး", code:"သတက", city:"၃", region:"ကရင်ပြည်နယ်"},en:{town:"Thandaunggyi", code:"ThaTaKa", city:"3", region:"Kayin State"}},
+{mm:{town:"သံတောင်", code:"သတန", city:"၃", region:"ကရင်ပြည်နယ်"},en:{town:"Thandaung", code:"ThaTaNa", city:"3", region:"Kayin State"}},
+{mm:{town:"လိပ်သို", code:"လသန", city:"၃", region:"ကရင်ပြည်နယ်"},en:{town:"Leiktho", code:"LaThaNa", city:"3", region:"Kayin State"}},
+{mm:{town:"ဘောဂလိ", code:"ဘဂလ", city:"၃", region:"ကရင်ပြည်နယ်"},en:{town:"Bawgali", code:"BaGaLa", city:"3", region:"Kayin State"}},
+{mm:{town:"ဖာပွန်", code:"ဖပန", city:"၃", region:"ကရင်ပြည်နယ်"},en:{town:"Hpapun", code:"PhaPaNa", city:"3", region:"Kayin State"}},
+{mm:{town:"ကမမောင်း", code:"ကမမ", city:"၃", region:"ကရင်ပြည်နယ်"},en:{town:"Kamamaung", code:"KaMaMa", city:"3", region:"Kayin State"}},
+{mm:{town:"ကော့ကရိတ်", code:"ကကရ", city:"၃", region:"ကရင်ပြည်နယ်"},en:{town:"Kawkareik", code:"KaKaYa", city:"3", region:"Kayin State"}},
+{mm:{town:"ကြာအင်းဆိပ်ကြီး", code:"ကဆက", city:"၃", region:"ကရင်ပြည်နယ်"},en:{town:"Kyarinseikgyi", code:"KaSaKa", city:"3", region:"Kayin State"}},
+{mm:{town:"ကျိုက်ဒုံ", code:"ကဒန", city:"၃", region:"ကရင်ပြည်နယ်"},en:{town:"Kyaikdon", code:"KaDaNa", city:"3", region:"Kayin State"}},
+{mm:{town:"ဘုရားသုံးဆူ", code:"ဘသဆ", city:"၃", region:"ကရင်ပြည်နယ်"},en:{town:"Three Pagodas Pass", code:"BaThaSa", city:"3", region:"Kayin State"}},
+{mm:{town:"မြဝတီ", code:"မဝတ", city:"၃", region:"ကရင်ပြည်နယ်"},en:{town:"Myawaddy", code:"MaWaTa", city:"3", region:"Kayin State"}},
+{mm:{town:"စုကလိ", code:"စကလ", city:"၃", region:"ကရင်ပြည်နယ်"},en:{town:"Sukali", code:"SaKaLa", city:"3", region:"Kayin State"}},
+{mm:{town:"ဝေါလေမြိုင်", code:"ဝလမ", city:"၃", region:"ကရင်ပြည်နယ်"},en:{town:"Wawlay Myaing", code:"WaLaMa", city:"3", region:"Kayin State"}},
+{mm:{town:"ဟားခါး", code:"ဟခန", city:"၄", region:"ချင်းပြည်နယ်"},en:{town:"Hakha", code:"HaKhaNa", city:"4", region:"Chin State"}},
+{mm:{town:"ထန်တလန်", code:"ထတလ", city:"၄", region:"ချင်းပြည်နယ်"},en:{town:"Thantlang", code:"HtaTaLa", city:"4", region:"Chin State"}},
+{mm:{town:"ဖလမ်း", code:"ဖလန", city:"၄", region:"ချင်းပြည်နယ်"},en:{town:"Falam", code:"PhaLaNa", city:"4", region:"Chin State"}},
+{mm:{town:"ရိဒ်ခေါ်ဒါရ်", code:"ရခဒ", city:"၄", region:"ချင်းပြည်နယ်"},en:{town:"Rihkhawdar", code:"YaKhaDa", city:"4", region:"Chin State"}},
+{mm:{town:"တီးတိန်", code:"တတန", city:"၄", region:"ချင်းပြည်နယ်"},en:{town:"Tedim", code:"TaTaNa", city:"4", region:"Chin State"}},
+{mm:{town:"တွန်းဇံ", code:"တဇန", city:"၄", region:"ချင်းပြည်နယ်"},en:{town:"Tonzang", code:"TaZaNa", city:"4", region:"Chin State"}},
+{mm:{town:"ကျီခါး", code:"ကခန", city:"၄", region:"ချင်းပြည်နယ်"},en:{town:"Cikha", code:"KaKhaNa", city:"4", region:"Chin State"}},
+{mm:{town:"မင်းတပ်", code:"မတန", city:"၄", region:"ချင်းပြည်နယ်"},en:{town:"Mindat", code:"MaTaNa", city:"4", region:"Chin State"}},
+{mm:{town:"မတူပီ", code:"မတပ", city:"၄", region:"ချင်းပြည်နယ်"},en:{town:"Matupi", code:"MaTaPa", city:"4", region:"Chin State"}},
+{mm:{town:"​ရေဇွာ", code:"ရဇန", city:"၄", region:"ချင်းပြည်နယ်"},en:{town:"Rezua", code:"YaZaNa", city:"4", region:"Chin State"}},
+{mm:{town:"ကန်ပက်လက်", code:"ကပလ", city:"၄", region:"ချင်းပြည်နယ်"},en:{town:"Kanpetlet", code:"KaPaLa", city:"4", region:"Chin State"}},
+{mm:{town:"ပလက်ဝ", code:"ပလဝ", city:"၄", region:"ချင်းပြည်နယ်"},en:{town:"Paletwa", code:"PaLaWa", city:"4", region:"Chin State"}},
+{mm:{town:"ဆမီး", code:"ဆမန", city:"၄", region:"ချင်းပြည်နယ်"},en:{town:"Sami", code:"HsaMaNa", city:"4", region:"Chin State"}},
+{mm:{town:"တမူး", code:"တမန", city:"၅", region:"စစ်ကိုင်းတိုင်းဒေသကြီး"},en:{town:"Tamu", code:"TaMaNa", city:"5", region:"Sagaing Region"}},
+{mm:{town:"ခါမ်းပတ်", code:"ခပန", city:"၅", region:"စစ်ကိုင်းတိုင်းဒေသကြီး"},en:{town:"Khampat", code:"KhaPaNa", city:"5", region:"Sagaing Region"}},
+{mm:{town:"မြို့သစ်", code:"မသန", city:"၅", region:"စစ်ကိုင်းတိုင်းဒေသကြီး"},en:{town:"Myothit", code:"MaThaNa", city:"5", region:"Sagaing Region"}},
+{mm:{town:"မော်လိုက်", code:"မလန", city:"၅", region:"စစ်ကိုင်းတိုင်းဒေသကြီး"},en:{town:"Mawlaik", code:"MaLaNa", city:"5", region:"Sagaing Region"}},
+{mm:{town:"ဖောင်းပြင်", code:"ဖပန", city:"၅", region:"စစ်ကိုင်းတိုင်းဒေသကြီး"},en:{town:"Paungbyin", code:"PhaPaNa", city:"5", region:"Sagaing Region"}},
+{mm:{town:"ခန္တီး", code:"ခတန", city:"၅", region:"စစ်ကိုင်းတိုင်းဒေသကြီး"},en:{town:"Khamti", code:"KhaTaNa", city:"5", region:"Sagaing Region"}},
+{mm:{town:"ဟုမ္မလင်း", code:"ဟမလ", city:"၅", region:"စစ်ကိုင်းတိုင်းဒေသကြီး"},en:{town:"Homalin", code:"HaMaLa", city:"5", region:"Sagaing Region"}},
+{mm:{town:"လေရှီး", code:"လရန", city:"၅", region:"စစ်ကိုင်းတိုင်းဒေသကြီး"},en:{town:"Leshi", code:"LaYaNa", city:"5", region:"Sagaing Region"}},
+{mm:{town:"လဟယ်", code:"လဟန", city:"၅", region:"စစ်ကိုင်းတိုင်းဒေသကြီး"},en:{town:"Lahe", code:"LaHaNa", city:"5", region:"Sagaing Region"}},
+{mm:{town:"နန်းယွန်း", code:"နယန", city:"၅", region:"စစ်ကိုင်းတိုင်းဒေသကြီး"},en:{town:"Nanyun", code:"NaYaNa", city:"5", region:"Sagaing Region"}},
+{mm:{town:"ပန်ဆောင်", code:"ပဆန", city:"၅", region:"စစ်ကိုင်းတိုင်းဒေသကြီး"},en:{town:"Pansaung", code:"PaHsaNa", city:"5", region:"Sagaing Region"}},
+{mm:{town:"ဒုံဟီး", code:"ဒဟန", city:"၅", region:"စစ်ကိုင်းတိုင်းဒေသကြီး"},en:{town:"Donhee", code:"DaHaNa", city:"5", region:"Sagaing Region"}},
+{mm:{town:"မိုပိုင်းလွတ်", code:"မပလ", city:"၅", region:"စစ်ကိုင်းတိုင်းဒေသကြီး"},en:{town:"Mopone Lout", code:"MaPaLa", city:"5", region:"Sagaing Region"}},
+{mm:{town:"ထန်ပါခွေ", code:"ထပခ", city:"၅", region:"စစ်ကိုင်းတိုင်းဒေသကြီး"},en:{town:"Htanparkwel", code:"HtaPaKha", city:"5", region:"Sagaing Region"}},
+{mm:{town:"ဆွမ္မရာ", code:"ဆမရ", city:"၅", region:"စစ်ကိုင်းတိုင်းဒေသကြီး"},en:{town:"Hsomara", code:"HsaMaRa", city:"5", region:"Sagaing Region"}},
+{mm:{town:"စစ်ကိုင်း", code:"စကန", city:"၅", region:"စစ်ကိုင်းတိုင်းဒေသကြီး"},en:{town:"Sagaing", code:"SaKaNa", city:"5", region:"Sagaing Region"}},
+{mm:{town:"မြင်းမူ", code:"မမတ", city:"၅", region:"စစ်ကိုင်းတိုင်းဒေသကြီး"},en:{town:"Myinmu", code:"MaMaTa", city:"5", region:"Sagaing Region"}},
+{mm:{town:"​မြောင်", code:"မမန", city:"၅", region:"စစ်ကိုင်းတိုင်းဒေသကြီး"},en:{town:"Myaung", code:"MaMaNa", city:"5", region:"Sagaing Region"}},
+{mm:{town:"ရွှေဘို", code:"ရဘန", city:"၅", region:"စစ်ကိုင်းတိုင်းဒေသကြီး"},en:{town:"Shwebo", code:"YaBaNa", city:"5", region:"Sagaing Region"}},
+{mm:{town:"ဝက်လက်", code:"ဝလန", city:"၅", region:"စစ်ကိုင်းတိုင်းဒေသကြီး"},en:{town:"Wetlet", code:"WaLaNa", city:"5", region:"Sagaing Region"}},
+{mm:{town:"ခင်ဦး", code:"ခဥန", city:"၅", region:"စစ်ကိုင်းတိုင်းဒေသကြီး"},en:{town:"Khin-U", code:"KhaOoNa", city:"5", region:"Sagaing Region"}},
+{mm:{town:"ကန့်ဘလူ", code:"ကဘလ", city:"၅", region:"စစ်ကိုင်းတိုင်းဒေသကြီး"},en:{town:"Kanbalu", code:"KaBaLa", city:"5", region:"Sagaing Region"}},
+{mm:{town:"ကျွန်းလှ", code:"ကလန", city:"၅", region:"စစ်ကိုင်းတိုင်းဒေသကြီး"},en:{town:"Kyunhla", code:"KaLaNa", city:"5", region:"Sagaing Region"}},
+{mm:{town:"ရေဦး", code:"ရဥန", city:"၅", region:"စစ်ကိုင်းတိုင်းဒေသကြီး"},en:{town:"Ye-U", code:"YaONa", city:"5", region:"Sagaing Region"}},
+{mm:{town:"ဒီပဲယင်း", code:"ဒပယ", city:"၅", region:"စစ်ကိုင်းတိုင်းဒေသကြီး"},en:{town:"Depayin", code:"DaPaYa", city:"5", region:"Sagaing Region"}},
+{mm:{town:"တန့်ဆည်", code:"တဆန", city:"၅", region:"စစ်ကိုင်းတိုင်းဒေသကြီး"},en:{town:"Taze", code:"TaSaNa", city:"5", region:"Sagaing Region"}},
+{mm:{town:"ကျောက်မြောင်း", code:"ကမန", city:"၅", region:"စစ်ကိုင်းတိုင်းဒေသကြီး"},en:{town:"Kyaukmyaung", code:"KaMaNa", city:"5", region:"Sagaing Region"}},
+{mm:{town:"မုံရွာ", code:"မရန", city:"၅", region:"စစ်ကိုင်းတိုင်းဒေသကြီး"},en:{town:"Monywa", code:"MaRaNa", city:"5", region:"Sagaing Region"}},
+{mm:{town:"ချောင်းဦး", code:"ခဥတ", city:"၅", region:"စစ်ကိုင်းတိုင်းဒေသကြီး"},en:{town:"Chaung-U", code:"KhaOoTa", city:"5", region:"Sagaing Region"}},
+{mm:{town:"အရာတော်", code:"အရတ", city:"၅", region:"စစ်ကိုင်းတိုင်းဒေသကြီး"},en:{town:"Ayadaw", code:"AhYaTa", city:"5", region:"Sagaing Region"}},
+{mm:{town:"ဘုတလင်", code:"ဘတလ", city:"၅", region:"စစ်ကိုင်းတိုင်းဒေသကြီး"},en:{town:"Budalin", code:"BaTaLa", city:"5", region:"Sagaing Region"}},
+{mm:{town:"ယင်းမာပင်", code:"ယမပ", city:"၅", region:"စစ်ကိုင်းတိုင်းဒေသကြီး"},en:{town:"Yinmabin", code:"YaMaPa", city:"5", region:"Sagaing Region"}},
+{mm:{town:"ပုလဲ", code:"ပလန", city:"၅", region:"စစ်ကိုင်းတိုင်းဒေသကြီး"},en:{town:"Pale", code:"PaLaNa", city:"5", region:"Sagaing Region"}},
+{mm:{town:"ကနီ", code:"ကနန", city:"၅", region:"စစ်ကိုင်းတိုင်းဒေသကြီး"},en:{town:"Kani", code:"KaNaNa", city:"5", region:"Sagaing Region"}},
+{mm:{town:"ဆားလင်းကြီး", code:"ဆလက", city:"၅", region:"စစ်ကိုင်းတိုင်းဒေသကြီး"},en:{town:"Salingyi", code:"SaLaKa", city:"5", region:"Sagaing Region"}},
+{mm:{town:"ကသာ", code:"ကသန", city:"၅", region:"စစ်ကိုင်းတိုင်းဒေသကြီး"},en:{town:"Katha", code:"KaThaNa", city:"5", region:"Sagaing Region"}},
+{mm:{town:"ထီးချိုင့်", code:"ထခန", city:"၅", region:"စစ်ကိုင်းတိုင်းဒေသကြီး"},en:{town:"Htigyaing", code:"HtaKhaNa", city:"5", region:"Sagaing Region"}},
+{mm:{town:"အင်းတော်", code:"အတန", city:"၅", region:"စစ်ကိုင်းတိုင်းဒေသကြီး"},en:{town:"Indaw", code:"AhTaNa", city:"5", region:"Sagaing Region"}},
+{mm:{town:"ဗန်းမောက်", code:"ဗမန", city:"၅", region:"စစ်ကိုင်းတိုင်းဒေသကြီး"},en:{town:"Banmauk", code:"BaMaNa", city:"5", region:"Sagaing Region"}},
+{mm:{town:"ကောလင်း", code:"ကလတ", city:"၅", region:"စစ်ကိုင်းတိုင်းဒေသကြီး"},en:{town:"Kawlin", code:"KaLaTa", city:"5", region:"Sagaing Region"}},
+{mm:{town:"ပင်လည်ဘူး", code:"ပလဘ", city:"၅", region:"စစ်ကိုင်းတိုင်းဒေသကြီး"},en:{town:"Pinlebu", code:"PaLaBa", city:"5", region:"Sagaing Region"}},
+{mm:{town:"ဝန်းသို", code:"ဝသန", city:"၅", region:"စစ်ကိုင်းတိုင်းဒေသကြီး"},en:{town:"Wuntho", code:"WaThaNa", city:"5", region:"Sagaing Region"}},
+{mm:{town:"ကလေး", code:"ကလထ", city:"၅", region:"စစ်ကိုင်းတိုင်းဒေသကြီး"},en:{town:"Kalay", code:"KaLaHta", city:"5", region:"Sagaing Region"}},
+{mm:{town:"ကလေးဝ", code:"ကလဝ", city:"၅", region:"စစ်ကိုင်းတိုင်းဒေသကြီး"},en:{town:"Kalewa", code:"KaLaWa", city:"5", region:"Sagaing Region"}},
+{mm:{town:"မင်းကင်း", code:"မကန", city:"၅", region:"စစ်ကိုင်းတိုင်းဒေသကြီး"},en:{town:"Mingin", code:"MaKaNa", city:"5", region:"Sagaing Region"}},
+{mm:{town:"ငါန်းဇွန်", code:"ငဇန", city:"၅", region:"စစ်ကိုင်းတိုင်းဒေသကြီး"},en:{town:"Ngazun", code:"NgaZaNa", city:"5", region:"Sagaing Region"}},
+{mm:{town:"ထားဝယ်", code:"ထဝန", city:"၆", region:"တနင်္သာရီတိုင်းဒေသကြီး"},en:{town:"Dawei", code:"HtaWaNa", city:"6", region:"Tanintharyi Region"}},
+{mm:{town:"လောင်းလုံ", code:"လလန", city:"၆", region:"တနင်္သာရီတိုင်းဒေသကြီး"},en:{town:"Launglon", code:"LaLaNa", city:"6", region:"Tanintharyi Region"}},
+{mm:{town:"သရက်ချောင်း", code:"သရခ", city:"၆", region:"တနင်္သာရီတိုင်းဒေသကြီး"},en:{town:"Thayetchaung", code:"ThaYaKha", city:"6", region:"Tanintharyi Region"}},
+{mm:{town:"ရေဖြူ", code:"ရဖန", city:"၆", region:"တနင်္သာရီတိုင်းဒေသကြီး"},en:{town:"Yebyu", code:"YaPhaNa", city:"6", region:"Tanintharyi Region"}},
+{mm:{town:"မေတ္တာ", code:"မတန", city:"၆", region:"တနင်္သာရီတိုင်းဒေသကြီး"},en:{town:"Metta", code:"MaTaNa", city:"6", region:"Tanintharyi Region"}},
+{mm:{town:"ကလိန်အောင်", code:"ကလအ", city:"၆", region:"တနင်္သာရီတိုင်းဒေသကြီး"},en:{town:"Kaleinaung", code:"KaLaA", city:"6", region:"Tanintharyi Region"}},
+{mm:{town:"မြိတ်", code:"မအရ", city:"၆", region:"တနင်္သာရီတိုင်းဒေသကြီး"},en:{town:"Myeik", code:"MaAhYa", city:"6", region:"Tanintharyi Region"}},
+{mm:{town:"ကျွန်းစု", code:"မအန", city:"၆", region:"တနင်္သာရီတိုင်းဒေသကြီး"},en:{town:"Kyunzu", code:"MaAhNa", city:"6", region:"Tanintharyi Region"}},
+{mm:{town:"ကျွန်းစု", code:"ကစန", city:"၆", region:"တနင်္သာရီတိုင်းဒေသကြီး"},en:{town:"Kyunzu", code:"KaSaNa", city:"6", region:"Tanintharyi Region"}},
+{mm:{town:"ပုလော", code:"ပလန", city:"၆", region:"တနင်္သာရီတိုင်းဒေသကြီး"},en:{town:"Palaw", code:"PaLaNa", city:"6", region:"Tanintharyi Region"}},
+{mm:{town:"တနင်္သာရီ", code:"တသရ", city:"၆", region:"တနင်္သာရီတိုင်းဒေသကြီး"},en:{town:"Tanintharyi", code:"TaThaYa", city:"6", region:"Tanintharyi Region"}},
+{mm:{town:"ပလောက်", code:"ပလတ", city:"၆", region:"တနင်္သာရီတိုင်းဒေသကြီး"},en:{town:"Palauk", code:"PaLaTa", city:"6", region:"Tanintharyi Region"}},
+{mm:{town:"ကော့သောင်း", code:"ကသန", city:"၆", region:"တနင်္သာရီတိုင်းဒေသကြီး"},en:{town:"Kawthaung", code:"KaThaNa", city:"6", region:"Tanintharyi Region"}},
+{mm:{town:"ဘုတ်ပြင်း", code:"ဘပန", city:"၆", region:"တနင်္သာရီတိုင်းဒေသကြီး"},en:{town:"Bokpyin", code:"BaPaNa", city:"6", region:"Tanintharyi Region"}},
+{mm:{town:"ခမောက်ကြီး", code:"ခမက", city:"၆", region:"တနင်္သာရီတိုင်းဒေသကြီး"},en:{town:"Khamaukgyi", code:"KhaMaKa", city:"6", region:"Tanintharyi Region"}},
+{mm:{town:"ပြည်ကြီးမဏ္ဍိုင်", code:"ပကမ", city:"၆", region:"တနင်္သာရီတိုင်းဒေသကြီး"},en:{town:"Pyigyimandaing", code:"PaKaMa", city:"6", region:"Tanintharyi Region"}},
+{mm:{town:"ကရသူရိ", code:"ကရရ", city:"၆", region:"တနင်္သာရီတိုင်းဒေသကြီး"},en:{town:"Karathuri", code:"KaYaYa", city:"6", region:"Tanintharyi Region"}},
+{mm:{town:"မြိတ်", code:"မမန", city:"၆", region:"တနင်္သာရီတိုင်းဒေသကြီး"},en:{town:"Myeik", code:"MaMaNa", city:"6", region:"Tanintharyi Region"}},
+{mm:{town:"​တောင်ငူ", code:"တငန", city:"၇", region:"ပဲခူးတိုင်းဒေသကြီး"},en:{town:"Taungoo", code:"TaNgaNa", city:"7", region:"Bago Region"}},
+{mm:{town:"​ရေတာရှည်", code:"ရတရ", city:"၇", region:"ပဲခူးတိုင်းဒေသကြီး"},en:{town:"Yedashe", code:"YaTaYa", city:"7", region:"Bago Region"}},
+{mm:{town:"ထန်းတပင်", code:"ထတပ", city:"၇", region:"ပဲခူးတိုင်းဒေသကြီး"},en:{town:"Tantabin", code:"HtaTaPa", city:"7", region:"Bago Region"}},
+{mm:{town:"အုတ်တွင်း", code:"အတန", city:"၇", region:"ပဲခူးတိုင်းဒေသကြီး"},en:{town:"Oktwin", code:"AhTaNa", city:"7", region:"Bago Region"}},
+{mm:{town:"ဖြူး", code:"ဖမန", city:"၇", region:"ပဲခူးတိုင်းဒေသကြီး"},en:{town:"Phyu", code:"PhaMaNa", city:"7", region:"Bago Region"}},
+{mm:{town:"​ကျောက်ကြီး", code:"ကကန", city:"၇", region:"ပဲခူးတိုင်းဒေသကြီး"},en:{town:"Kyaukkyi", code:"KaKaNa", city:"7", region:"Bago Region"}},
+{mm:{town:"ပဲခူး", code:" ပခန", city:"၇", region:"ပဲခူးတိုင်းဒေသကြီး"},en:{town:"Bago", code:"PaKhaNa", city:"7", region:"Bago Region"}},
+{mm:{town:"​ကျောက်တံခါး", code:"ကတခ", city:"၇", region:"ပဲခူးတိုင်းဒေသကြီး"},en:{town:"Kyauktaga", code:"KaTaKha", city:"7", region:"Bago Region"}},
+{mm:{town:"​ရွှေကျင်", code:"ရကန", city:"၇", region:"ပဲခူးတိုင်းဒေသကြီး"},en:{town:"Shwegyin", code:"YaKaNa", city:"7", region:"Bago Region"}},
+{mm:{town:"​ညောင်လေးပင်", code:"ညလပ", city:"၇", region:"ပဲခူးတိုင်းဒေသကြီး"},en:{town:"Nyaunglebin", code:"NyaLaPa", city:"7", region:"Bago Region"}},
+{mm:{town:"ဒိုက်ဦး", code:"ဒဥန", city:"၇", region:"ပဲခူးတိုင်းဒေသကြီး"},en:{town:"Daik-U", code:"DaOoNa", city:"7", region:"Bago Region"}},
+{mm:{town:"​ဝေါ", code:"ဝမန", city:"၇", region:"ပဲခူးတိုင်းဒေသကြီး"},en:{town:"Waw", code:"WaMaNa", city:"7", region:"Bago Region"}},
+{mm:{town:"သနပ်ပင်", code:"သနပ", city:"၇", region:"ပဲခူးတိုင်းဒေသကြီး"},en:{town:"Thanatpin", code:"ThaNaPa", city:"7", region:"Bago Region"}},
+{mm:{town:"ကဝ", code:"ကဝန", city:"၇", region:"ပဲခူးတိုင်းဒေသကြီး"},en:{town:"Kawa", code:"KaWaNa", city:"7", region:"Bago Region"}},
+{mm:{town:"သာယာဝတီ", code:"သဝတ", city:"၇", region:"ပဲခူးတိုင်းဒေသကြီး"},en:{town:"Thayarwady", code:"ThaWaTa", city:"7", region:"Bago Region"}},
+{mm:{town:"လက်ပံတန်း", code:"လပတ", city:"၇", region:"ပဲခူးတိုင်းဒေသကြီး"},en:{town:"Letpadan", code:"LaPaTa", city:"7", region:"Bago Region"}},
+{mm:{town:"မင်းလှ", code:"မလန", city:"၇", region:"ပဲခူးတိုင်းဒေသကြီး"},en:{town:"Minhla", code:"MaLaNa", city:"7", region:"Bago Region"}},
+{mm:{town:"မိုးညို", code:"မညန", city:"၇", region:"ပဲခူးတိုင်းဒေသကြီး"},en:{town:"Monyo", code:"MaNyaNa", city:"7", region:"Bago Region"}},
+{mm:{town:"အုတ်ဖို", code:"အဖန", city:"၇", region:"ပဲခူးတိုင်းဒေသကြီး"},en:{town:"Okpho", code:"AhPhaNa", city:"7", region:"Bago Region"}},
+{mm:{town:"ကြို့ပင်ကောက်", code:"ကပက", city:"၇", region:"ပဲခူးတိုင်းဒေသကြီး"},en:{town:"Gyobingauk", code:"KaPaKa", city:"7", region:"Bago Region"}},
+{mm:{town:"ဇီးကုန်း", code:"ဇကန", city:"၇", region:"ပဲခူးတိုင်းဒေသကြီး"},en:{town:"Zigon", code:"ZaKaNa", city:"7", region:"Bago Region"}},
+{mm:{town:"နတ်တလင်း", code:"နတလ", city:"၇", region:"ပဲခူးတိုင်းဒေသကြီး"},en:{town:"Nattalin", code:"NaTaLa", city:"7", region:"Bago Region"}},
+{mm:{town:"ပြည်", code:"ပမန", city:"၇", region:"ပဲခူးတိုင်းဒေသကြီး"},en:{town:"Pyay", code:"PaMaNa", city:"7", region:"Bago Region"}},
+{mm:{town:"သဲကုန်း", code:"သကန", city:"၇", region:"ပဲခူးတိုင်းဒေသကြီး"},en:{town:"Thegon", code:"ThaKaNa", city:"7", region:"Bago Region"}},
+{mm:{town:"​ရွှေတောင်", code:"ရတန", city:"၇", region:"ပဲခူးတိုင်းဒေသကြီး"},en:{town:"Shwedaung", code:"YaTaNa", city:"7", region:"Bago Region"}},
+{mm:{town:"​ပေါင်းတည်", code:"ပတတ", city:"၇", region:"ပဲခူးတိုင်းဒေသကြီး"},en:{town:"Padaung", code:"PaTaTa", city:"7", region:"Bago Region"}},
+{mm:{town:"ပန်းတောင်း", code:"ပတန", city:"၇", region:"ပဲခူးတိုင်းဒေသကြီး"},en:{town:"Pandaung", code:"PaTaNa", city:"7", region:"Bago Region"}},
+{mm:{town:"​ပေါက်ခေါင်း", code:"ပခတ", city:"၇", region:"ပဲခူးတိုင်းဒေသကြီး"},en:{town:"Paukkaung", code:"PaKhaTa", city:"7", region:"Bago Region"}},
+{mm:{town:"မကွေး", code:"မကန", city:"၈", region:"မကွေးတိုင်းဒေသကြီး"},en:{town:"Magway", code:"MaKaNa", city:"8", region:"Magway Region"}},
+{mm:{town:"​ရေနံချောင်း", code:"ရနခ", city:"၈", region:"မကွေးတိုင်းဒေသကြီး"},en:{town:"Yenangyaung", code:"YaNaKha", city:"8", region:"Magway Region"}},
+{mm:{town:"​ချောက်", code:"ခမန", city:"၈", region:"မကွေးတိုင်းဒေသကြီး"},en:{town:"Chauk", code:"KhaMaNa", city:"8", region:"Magway Region"}},
+{mm:{town:"နတ်မောက်", code:"နမန", city:"၈", region:"မကွေးတိုင်းဒေသကြီး"},en:{town:"Natmauk", code:"NaMaNa", city:"8", region:"Magway Region"}},
+{mm:{town:"မြို့သစ်", code:"မသန", city:"၈", region:"မကွေးတိုင်းဒေသကြီး"},en:{town:"Myothit", code:"MaThaNa", city:"8", region:"Magway Region"}},
+{mm:{town:"တောင်တွင်းကြီး", code:"တတက", city:"၈", region:"မကွေးတိုင်းဒေသကြီး"},en:{town:"Taungdwingyi", code:"TaTaKa", city:"8", region:"Magway Region"}},
+{mm:{town:"မင်းဘူး", code:"မဘန", city:"၈", region:"မကွေးတိုင်းဒေသကြီး"},en:{town:"Minbu", code:"MaBaNa", city:"8", region:"Magway Region"}},
+{mm:{town:"ပွင့်ဖြူ", code:"ပဖန", city:"၈", region:"မကွေးတိုင်းဒေသကြီး"},en:{town:"Pwintbyu", code:"PaPhaNa", city:"8", region:"Magway Region"}},
+{mm:{town:"စလင်း", code:"စလန", city:"၈", region:"မကွေးတိုင်းဒေသကြီး"},en:{town:"Salin", code:"SaLaNa", city:"8", region:"Magway Region"}},
+{mm:{town:"​စေတုတ္တရာ", code:"စတရ", city:"၈", region:"မကွေးတိုင်းဒေသကြီး"},en:{town:"Setottara", code:"SaTaYa", city:"8", region:"Magway Region"}},
+{mm:{town:"ငဖဲ", code:"ငဖန", city:"၈", region:"မကွေးတိုင်းဒေသကြီး"},en:{town:"Ngape", code:"NgaPhaNa", city:"8", region:"Magway Region"}},
+{mm:{town:"သရက်", code:"သရန", city:"၈", region:"မကွေးတိုင်းဒေသကြီး"},en:{town:"Thayet", code:"ThaYaNa", city:"8", region:"Magway Region"}},
+{mm:{town:"​အောင်လံ", code:"မထန", city:"၈", region:"မကွေးတိုင်းဒေသကြီး"},en:{town:"Aunglan", code:"MaHtaNa", city:"8", region:"Magway Region"}},
+{mm:{town:"​အောင်လံ", code:"အလန", city:"၈", region:"မကွေးတိုင်းဒေသကြီး"},en:{town:"Aunglan", code:"AhLaNa", city:"8", region:"Magway Region"}},
+{mm:{town:"ကံမ", code:"ကမန", city:"၈", region:"မကွေးတိုင်းဒေသကြီး"},en:{town:"Kamma", code:"KaMaNa", city:"8", region:"Magway Region"}},
+{mm:{town:"မင်းတုန်း", code:"မတန", city:"၈", region:"မကွေးတိုင်းဒေသကြီး"},en:{town:"Mindon", code:"MaTaNa", city:"8", region:"Magway Region"}},
+{mm:{town:"ဆင်ပေါင်ဝဲ", code:"ဆပဝ", city:"၈", region:"မကွေးတိုင်းဒေသကြီး"},en:{town:"Sinpaungwe", code:"SaPaWa", city:"8", region:"Magway Region"}},
+{mm:{town:"မင်းလှ", code:"မလန", city:"၈", region:"မကွေးတိုင်းဒေသကြီး"},en:{town:"Minhla", code:"MaLaNa", city:"8", region:"Magway Region"}},
+{mm:{town:"ပခုက္ကူ", code:"ပခက", city:"၈", region:"မကွေးတိုင်းဒေသကြီး"},en:{town:"Pakokku", code:"PaKhaKa", city:"8", region:"Magway Region"}},
+{mm:{town:"​ရေစကြို", code:"ရစက", city:"၈", region:"မကွေးတိုင်းဒေသကြီး"},en:{town:"Yesagyo", code:"YaSaKa", city:"8", region:"Magway Region"}},
+{mm:{town:"မြိုင်", code:"မမန", city:"၈", region:"မကွေးတိုင်းဒေသကြီး"},en:{town:"Myaing", code:"MaMaNa", city:"8", region:"Magway Region"}},
+{mm:{town:"​ပေါက်", code:"ပမန", city:"၈", region:"မကွေးတိုင်းဒေသကြီး"},en:{town:"Pauk", code:"PaMaNa", city:"8", region:"Magway Region"}},
+{mm:{town:"ဆိပ်ဖြူ", code:"ဆဖန", city:"၈", region:"မကွေးတိုင်းဒေသကြီး"},en:{town:"Seikphyu", code:"SaPhaNa", city:"8", region:"Magway Region"}},
+{mm:{town:"ဂန့်ဂေါ", code:"ဂဂန", city:"၈", region:"မကွေးတိုင်းဒေသကြီး"},en:{town:"Gangaw", code:"GaGaNa", city:"8", region:"Magway Region"}},
+{mm:{town:"​ဆော", code:"ဆမန", city:"၈", region:"မကွေးတိုင်းဒေသကြီး"},en:{town:"Saw", code:"HsaMaNa", city:"8", region:"Magway Region"}},
+{mm:{town:"ထီးလင်း", code:"ထလန", city:"၈", region:"မကွေးတိုင်းဒေသကြီး"},en:{town:"Htilin", code:"HtaLaNa", city:"8", region:"Magway Region"}},
+{mm:{town:"​ကျောက်ထု", code:"ကထန", city:"၈", region:"မကွေးတိုင်းဒေသကြီး"},en:{town:"Kyaukhtu", code:"KaHtaNa", city:"8", region:"Magway Region"}},
+{mm:{town:"​အောင်မြေသာဇံ", code:"မနမ", city:"၉", region:"မန္တလေးတိုင်းဒေသကြီး"},en:{town:"Aungmyethazan", code:"MaNaMa", city:"9", region:"Mandalay Region"}},
+{mm:{town:"​အောင်မြေသာဇံ", code:"အမဇ", city:"၉", region:"မန္တလေးတိုင်းဒေသကြီး"},en:{town:"Aungmyethazan", code:"AhMaZa", city:"9", region:"Mandalay Region"}},
+{mm:{town:"ချမ်းအေးသာစံ", code:"မရမ", city:"၉", region:"မန္တလေးတိုင်းဒေသကြီး"},en:{town:"Chanayethazan", code:"MaYaMa", city:"9", region:"Mandalay Region"}},
+{mm:{town:"ချမ်းအေးသာစံ", code:"ခအဇ", city:"၉", region:"မန္တလေးတိုင်းဒေသကြီး"},en:{town:"Chanayethazan", code:"KhaAhZa", city:"9", region:"Mandalay Region"}},
+{mm:{town:"ချမ်းမြသာစည်", code:"မနတ", city:"၉", region:"မန္တလေးတိုင်းဒေသကြီး"},en:{town:"Chanmyathazi", code:"MaNaTa", city:"9", region:"Mandalay Region"}},
+{mm:{town:"ချမ်းမြသာစည်", code:"ခမစ", city:"၉", region:"မန္တလေးတိုင်းဒေသကြီး"},en:{town:"Chanmyathazi", code:"KhaMaSa", city:"9", region:"Mandalay Region"}},
+{mm:{town:"မဟာအောင်မြေ", code:"မရတ", city:"၉", region:"မန္တလေးတိုင်းဒေသကြီး"},en:{town:"Maha Aungmye", code:"MaYaTa", city:"9", region:"Mandalay Region"}},
+{mm:{town:"မဟာအောင်မြေ", code:"မဟမ", city:"၉", region:"မန္တလေးတိုင်းဒေသကြီး"},en:{town:"Maha Aungmye", code:"MaHaMa", city:"9", region:"Mandalay Region"}},
+{mm:{town:"ပြည်ကြီးတံခွန်", code:"ပကခ", city:"၉", region:"မန္တလေးတိုင်းဒေသကြီး"},en:{town:"Pyigyidagun", code:"PaKaKha", city:"9", region:"Mandalay Region"}},
+{mm:{town:"အမရပူရ", code:"အမရ", city:"၉", region:"မန္တလေးတိုင်းဒေသကြီး"},en:{town:"Amarapura", code:"AhMaYa", city:"9", region:"Mandalay Region"}},
+{mm:{town:"ပုသိမ်ကြီး", code:"ပသက", city:"၉", region:"မန္တလေးတိုင်းဒေသကြီး"},en:{town:"Patheingyi", code:"PaThaKa", city:"9", region:"Mandalay Region"}},
+{mm:{town:"ပြင်ဦးလွင်", code:"မမန", city:"၉", region:"မန္တလေးတိုင်းဒေသကြီး"},en:{town:"Pyin Oo Lwin", code:"MaMaNa", city:"9", region:"Mandalay Region"}},
+{mm:{town:"ပြင်ဦးလွင်", code:"ပဥလ", city:"၉", region:"မန္တလေးတိုင်းဒေသကြီး"},en:{town:"Pyin Oo Lwin", code:"PaOLa", city:"9", region:"Mandalay Region"}},
+{mm:{town:"မတ္တရာ", code:"မတရ", city:"၉", region:"မန္တလေးတိုင်းဒေသကြီး"},en:{town:"Mattaya", code:"MaTaYa", city:"9", region:"Mandalay Region"}},
+{mm:{town:"စဉ့်ကူး", code:"စကန", city:"၉", region:"မန္တလေးတိုင်းဒေသကြီး"},en:{town:"Singu", code:"SaKaNa", city:"9", region:"Mandalay Region"}},
+{mm:{town:"သပိတ်ကျင်း", code:"သပက", city:"၉", region:"မန္တလေးတိုင်းဒေသကြီး"},en:{town:"Thabeikkyin", code:"ThaPaKa", city:"9", region:"Mandalay Region"}},
+{mm:{town:"မိုးကုတ်", code:"မကန", city:"၉", region:"မန္တလေးတိုင်းဒေသကြီး"},en:{town:"Mogok", code:"MaKaNa", city:"9", region:"Mandalay Region"}},
+{mm:{town:"တကောင်း", code:"တကတ", city:"၉", region:"မန္တလေးတိုင်းဒေသကြီး"},en:{town:"Tagaung", code:"TaKaTa", city:"9", region:"Mandalay Region"}},
+{mm:{town:"ကျောက်ဆည်", code:"ကဆန", city:"၉", region:"မန္တလေးတိုင်းဒေသကြီး"},en:{town:"Kyaukse", code:"KaSaNa", city:"9", region:"Mandalay Region"}},
+{mm:{town:"စဉ့်ကိုင်", code:"စကတ", city:"၉", region:"မန္တလေးတိုင်းဒေသကြီး"},en:{town:"Sintgaing", code:"SaKaTa", city:"9", region:"Mandalay Region"}},
+{mm:{town:"မြစ်သား", code:"မသန", city:"၉", region:"မန္တလေးတိုင်းဒေသကြီး"},en:{town:"Myittha", code:"MaThaNa", city:"9", region:"Mandalay Region"}},
+{mm:{town:"တံတားဦး", code:"တတဥ", city:"၉", region:"မန္တလေးတိုင်းဒေသကြီး"},en:{town:"Tada-U", code:"TaTaOo", city:"9", region:"Mandalay Region"}},
+{mm:{town:"မြင်းခြံ", code:"မခန", city:"၉", region:"မန္တလေးတိုင်းဒေသကြီး"},en:{town:"Myingyan", code:"MaKhaNa", city:"9", region:"Mandalay Region"}},
+{mm:{town:"တောင်သာ", code:"တသန", city:"၉", region:"မန္တလေးတိုင်းဒေသကြီး"},en:{town:"Taungtha", code:"TaThaNa", city:"9", region:"Mandalay Region"}},
+{mm:{town:"ကျောက်ပန်းတောင်း", code:"ကပတ", city:"၉", region:"မန္တလေးတိုင်းဒေသကြီး"},en:{town:"Kyaukpadaung", code:"KaPaTa", city:"9", region:"Mandalay Region"}},
+{mm:{town:"နွားထိုးကြီး", code:"နထက", city:"၉", region:"မန္တလေးတိုင်းဒေသကြီး"},en:{town:"Natogyi", code:"NaHtaKa", city:"9", region:"Mandalay Region"}},
+{mm:{town:"ညောင်ဦး", code:"ညဥန", city:"၉", region:"မန္တလေးတိုင်းဒေသကြီး"},en:{town:"Nyaung-U", code:"NyaONa", city:"9", region:"Mandalay Region"}},
+{mm:{town:"ငါန်းဇွန်", code:"ငဇန", city:"၉", region:"မန္တလေးတိုင်းဒေသကြီး"},en:{town:"Ngazun", code:"NgaZaNa", city:"9", region:"Mandalay Region"}},
+{mm:{town:"ငါ့သရောက်", code:"ငသရ", city:"၉", region:"မန္တလေးတိုင်းဒေသကြီး"},en:{town:"Ngathayauk", code:"NgaThaYa", city:"9", region:"Mandalay Region"}},
+{mm:{town:"မိတ္ထီလာ", code:"မထလ", city:"၉", region:"မန္တလေးတိုင်းဒေသကြီး"},en:{town:"Meiktila", code:"MaHtaLa", city:"9", region:"Mandalay Region"}},
+{mm:{town:"မလှိုင်", code:"မလန", city:"၉", region:"မန္တလေးတိုင်းဒေသကြီး"},en:{town:"Mahlaing", code:"MaLaNa", city:"9", region:"Mandalay Region"}},
+{mm:{town:"သာစည်", code:"သစန", city:"၉", region:"မန္တလေးတိုင်းဒေသကြီး"},en:{town:"Thazi", code:"ThaSaNa", city:"9", region:"Mandalay Region"}},
+{mm:{town:"ဝမ်းတွင်း", code:"ဝတန", city:"၉", region:"မန္တလေးတိုင်းဒေသကြီး"},en:{town:"Wundwin", code:"WaTaNa", city:"9", region:"Mandalay Region"}},
+{mm:{town:"ရမည်းသင်း", code:"ရမသ", city:"၉", region:"မန္တလေးတိုင်းဒေသကြီး"},en:{town:"Yamethin", code:"YaMaTha", city:"9", region:"Mandalay Region"}},
+{mm:{town:"ပျော်ဘွယ်", code:"ပဘန", city:"၉", region:"မန္တလေးတိုင်းဒေသကြီး"},en:{town:"Pyawbwe", code:"PaBaNa", city:"9", region:"Mandalay Region"}},
+{mm:{town:"ဥတ္တရသီရိ", code:"ဥတသ", city:"၉", region:"မန္တလေးတိုင်းဒေသကြီး"},en:{town:"Ottarathiri", code:"OoTaTha", city:"9", region:"Mandalay Region"}},
+{mm:{town:"ဇေယျာသီရိ", code:"ဇယသ", city:"၉", region:"မန္တလေးတိုင်းဒေသကြီး"},en:{town:"Zeyathiri", code:"ZaYaTha", city:"9", region:"Mandalay Region"}},
+{mm:{town:"ပုဗ္ဗသီရိ", code:"ပဗသ", city:"၉", region:"မန္တလေးတိုင်းဒေသကြီး"},en:{town:"Pobbathiri", code:"PaBaTha", city:"9", region:"Mandalay Region"}},
+{mm:{town:"တပ်ကုန်း", code:"တကန", city:"၉", region:"မန္တလေးတိုင်းဒေသကြီး"},en:{town:"Tatkon", code:"TaKaNa", city:"9", region:"Mandalay Region"}},
+{mm:{town:"ဒက္ခိဏသီရိ", code:"ဒခသ", city:"၉", region:"မန္တလေးတိုင်းဒေသကြီး"},en:{town:"Dekkhinathiri", code:"DaKhaTha", city:"9", region:"Mandalay Region"}},
+{mm:{town:"ပျဉ်းမနား", code:"ပမန", city:"၉", region:"မန္တလေးတိုင်းဒေသကြီး"},en:{town:"Pyinmana", code:"PaMaNa", city:"9", region:"Mandalay Region"}},
+{mm:{town:"လယ်ဝေး", code:"လဝန", city:"၉", region:"မန္တလေးတိုင်းဒေသကြီး"},en:{town:"Lewe", code:"LaWaNa", city:"9", region:"Mandalay Region"}},
+{mm:{town:"ဇမ္ဗူသီရိ", code:"ဇဗသ", city:"၉", region:"မန္တလေးတိုင်းဒေသကြီး"},en:{town:"Zabuthiri", code:"ZaBaTha", city:"9", region:"Mandalay Region"}},
+{mm:{town:"​မော်လမြိုင်", code:"မလမ", city:"၁၀", region:"မွန်ပြည်နယ်"},en:{town:"Mawlamyine", code:"MaLaMa", city:"10", region:"Mon State"}},
+{mm:{town:"ကျိုက်မရော", code:"ကမရ", city:"၁၀", region:"မွန်ပြည်နယ်"},en:{town:"Kyaikmaraw", code:"KaMaYa", city:"10", region:"Mon State"}},
+{mm:{town:"​ချောင်းဆုံ", code:"ခဆန", city:"၁၀", region:"မွန်ပြည်နယ်"},en:{town:"Chaungzon", code:"KhaSaNa", city:"10", region:"Mon State"}},
+{mm:{town:"သံဖြူဇရပ်", code:"သဖရ", city:"၁၀", region:"မွန်ပြည်နယ်"},en:{town:"Thanbyuzayat", code:"ThaPhaYa", city:"10", region:"Mon State"}},
+{mm:{town:"မုဒုံ", code:"မဒန", city:"၁၀", region:"မွန်ပြည်နယ်"},en:{town:"Mudon", code:"MaDaNa", city:"10", region:"Mon State"}},
+{mm:{town:"​ရေး", code:"ရမန", city:"၁၀", region:"မွန်ပြည်နယ်"},en:{town:"Ye", code:"YaMaNa", city:"10", region:"Mon State"}},
+{mm:{town:"လမိုင်း", code:"လမန", city:"၁၀", region:"မွန်ပြည်နယ်"},en:{town:"Lamine", code:"LaMaNa", city:"10", region:"Mon State"}},
+{mm:{town:"​ခေါဇာ", code:"ခဇန", city:"၁၀", region:"မွန်ပြည်နယ်"},en:{town:"Khawzar", code:"KhaZaNa", city:"10", region:"Mon State"}},
+{mm:{town:"သထုံ", code:"သထန", city:"၁၀", region:"မွန်ပြည်နယ်"},en:{town:"Thaton", code:"ThaHtaNa", city:"10", region:"Mon State"}},
+{mm:{town:"​ပေါင်", code:"ပမန", city:"၁၀", region:"မွန်ပြည်နယ်"},en:{town:"Paung", code:"PaMaNa", city:"10", region:"Mon State"}},
+{mm:{town:"ကျိုက်ထို", code:"ကထန", city:"၁၀", region:"မွန်ပြည်နယ်"},en:{town:"Kyaikto", code:"KaHtaNa", city:"10", region:"Mon State"}},
+{mm:{town:"ဘီးလင်း", code:"ဘလန", city:"၁၀", region:"မွန်ပြည်နယ်"},en:{town:"Bilin", code:"BaLaNa", city:"10", region:"Mon State"}},
+{mm:{town:"စစ်တွေ", code:"စတန", city:"၁၁", region:"ရခိုင်ပြည်နယ်"},en:{town:"Sittwe", code:"SaTaNa", city:"11", region:"Rakhine State"}},
+{mm:{town:"ရသေ့တောင်", code:"ရသတ", city:"၁၁", region:"ရခိုင်ပြည်နယ်"},en:{town:"Rathedaung", code:"YaThaTa", city:"11", region:"Rakhine State"}},
+{mm:{town:"ပုဏ္ဏားကျွန်း", code:"ပဏက", city:"၁၁", region:"ရခိုင်ပြည်နယ်"},en:{town:"Ponnagyun", code:"PaNaKa", city:"11", region:"Rakhine State"}},
+{mm:{town:"​ပေါက်တော", code:"ပတန", city:"၁၁", region:"ရခိုင်ပြည်နယ်"},en:{town:"Pauktaw", code:"PaTaNa", city:"11", region:"Rakhine State"}},
+{mm:{town:"​မြောက်ဦး", code:"ပတန", city:"၁၁", region:"ရခိုင်ပြည်နယ်"},en:{town:"Mrauk-U", code:"PaTaNa", city:"11", region:"Rakhine State"}},
+{mm:{town:"မင်းပြား", code:"မပန", city:"၁၁", region:"ရခိုင်ပြည်နယ်"},en:{town:"Minbya", code:"MaPaNa", city:"11", region:"Rakhine State"}},
+{mm:{town:"​ကျောက်တော်", code:"ကတန", city:"၁၁", region:"ရခိုင်ပြည်နယ်"},en:{town:"Kyauktaw", code:"KaTaNa", city:"11", region:"Rakhine State"}},
+{mm:{town:"​မြေပုံ", code:"မပတ", city:"၁၁", region:"ရခိုင်ပြည်နယ်"},en:{town:"Myebon", code:"MaPaTa", city:"11", region:"Rakhine State"}},
+{mm:{town:"မောင်တော", code:"မတန", city:"၁၁", region:"ရခိုင်ပြည်နယ်"},en:{town:"Maungdaw", code:"MaTaNa", city:"11", region:"Rakhine State"}},
+{mm:{town:"ဘူးသီးတောင်", code:"ဘသတ", city:"၁၁", region:"ရခိုင်ပြည်နယ်"},en:{town:"Buthidaung", code:"BaThaTa", city:"11", region:"Rakhine State"}},
+{mm:{town:"တောင်ပြိုလက်ဝဲ", code:"တပဝ", city:"၁၁", region:"ရခိုင်ပြည်နယ်"},en:{town:"Taungbazar", code:"TaPaWa", city:"11", region:"Rakhine State"}},
+{mm:{town:"ကျောက်ဖြူ", code:"ကဖန", city:"၁၁", region:"ရခိုင်ပြည်နယ်"},en:{town:"Kyaukphyu", code:"KaPhaNa", city:"11", region:"Rakhine State"}},
+{mm:{town:"ရမ်းဗြဲ", code:"ရဗန", city:"၁၁", region:"ရခိုင်ပြည်နယ်"},en:{town:"Ramree", code:"YaBaNa", city:"11", region:"Rakhine State"}},
+{mm:{town:"မာန်အောင်", code:"မအန", city:"၁၁", region:"ရခိုင်ပြည်နယ်"},en:{town:"Manaung", code:"MaAhNa", city:"11", region:"Rakhine State"}},
+{mm:{town:"အမ်း", code:"အမန", city:"၁၁", region:"ရခိုင်ပြည်နယ်"},en:{town:"Ann", code:"AhMaNa", city:"11", region:"Rakhine State"}},
+{mm:{town:"သံတွဲ", code:"သတန", city:"၁၁", region:"ရခိုင်ပြည်နယ်"},en:{town:"Thandwe", code:"ThaTaNa", city:"11", region:"Rakhine State"}},
+{mm:{town:"တောင်ကုတ်", code:"တကန", city:"၁၁", region:"ရခိုင်ပြည်နယ်"},en:{town:"Taungup", code:"TaKaNa", city:"11", region:"Rakhine State"}},
+{mm:{town:"မအီ", code:"မအတ", city:"၁၁", region:"ရခိုင်ပြည်နယ်"},en:{town:"Ma Ei", code:"MaAhTa", city:"11", region:"Rakhine State"}},
+{mm:{town:"ဂွ", code:"ဂမန", city:"၁၁", region:"ရခိုင်ပြည်နယ်"},en:{town:"Gwa", code:"GaMaNa", city:"11", region:"Rakhine State"}},
+{mm:{town:"ကျိန္တလီ", code:"ကတလ", city:"၁၁", region:"ရခိုင်ပြည်နယ်"},en:{town:"Kyeintali", code:"KaTaLa", city:"11", region:"Rakhine State"}},
+{mm:{town:"သင်္ဃန်းကျွန်း", code:"သဃက", city:"၁၂", region:"ရန်ကုန်တိုင်းဒေသကြီး"},en:{town:"Thingangyun", code:"ThaGaKa", city:"12", region:"Yangon Region"}},
+{mm:{town:"ရန်ကင်း", code:"ရကန", city:"၁၂", region:"ရန်ကုန်တိုင်းဒေသကြီး"},en:{town:"Yankin", code:"YaKaNa", city:"12", region:"Yangon Region"}},
+{mm:{town:"​တောင်ဉက္ကလာပ", code:"ဥကတ", city:"၁၂", region:"ရန်ကုန်တိုင်းဒေသကြီး"},en:{town:"South Okkalapa", code:"OKaTa", city:"12", region:"Yangon Region"}},
+{mm:{town:"မြောက်ဥက္ကလာပ", code:"ဥကမ", city:"၁၂", region:"ရန်ကုန်တိုင်းဒေသကြီး"},en:{town:"North Okkalapa", code:"OKaMa", city:"12", region:"Yangon Region"}},
+{mm:{town:"သာကေတ", code:"သကတ", city:"၁၂", region:"ရန်ကုန်တိုင်းဒေသကြီး"},en:{town:"Thaketa", code:"ThaKaTa", city:"12", region:"Yangon Region"}},
+{mm:{town:"​ဒေါပုံ", code:"ဒပန", city:"၁၂", region:"ရန်ကုန်တိုင်းဒေသကြီး"},en:{town:"Dawbon", code:"DaPaNa", city:"12", region:"Yangon Region"}},
+{mm:{town:"တာမွေ", code:"တမန", city:"၁၂", region:"ရန်ကုန်တိုင်းဒေသကြီး"},en:{town:"Tamwe", code:"TaMaNa", city:"12", region:"Yangon Region"}},
+{mm:{town:"ပုဇွန်တောင်", code:"ပဇတ", city:"၁၂", region:"ရန်ကုန်တိုင်းဒေသကြီး"},en:{town:"Pazundaung", code:"PaZaTa", city:"12", region:"Yangon Region"}},
+{mm:{town:"ဗိုလ်တထောင်", code:"ဗတထ", city:"၁၂", region:"ရန်ကုန်တိုင်းဒေသကြီး"},en:{town:"Botahtaung", code:"BaTaHta", city:"12", region:"Yangon Region"}},
+{mm:{town:"မင်္ဂလာတောင်ညွန့်", code:"မဂတ", city:"၁၂", region:"ရန်ကုန်တိုင်းဒေသကြီး"},en:{town:"Mingala Taungnyunt", code:"MaGaTa", city:"12", region:"Yangon Region"}},
+{mm:{town:"ဒဂုံမြို့သစ်(မြောက်ပိုင်း)", code:"ဒဂမ", city:"၁၂", region:"ရန်ကုန်တိုင်းဒေသကြီး"},en:{town:"Dagon Myothit (North)", code:"DaGaMa", city:"12", region:"Yangon Region"}},
+{mm:{town:"ဒဂုံမြို့သစ်(အရှေ့ပိုင်း)", code:"ဒဂရ", city:"၁၂", region:"ရန်ကုန်တိုင်းဒေသကြီး"},en:{town:"Dagon Myothit (East)", code:"DaGaYa", city:"12", region:"Yangon Region"}},
+{mm:{town:"ဒဂုံမြို့သစ်(တောင်ပိုင်း)", code:"ဒဂတ", city:"၁၂", region:"ရန်ကုန်တိုင်းဒေသကြီး"},en:{town:"Dagon Myothit (South)", code:"DaGaTa", city:"12", region:"Yangon Region"}},
+{mm:{town:"ဒဂုံမြို့သစ်(ဆိပ်ကမ်း)", code:"ဒဂဆ", city:"၁၂", region:"ရန်ကုန်တိုင်းဒေသကြီး"},en:{town:"Dagon Myothit (Seikkan)", code:"DaGaSa", city:"12", region:"Yangon Region"}},
+{mm:{town:"​ကျောက်တံတား", code:"ကတတ", city:"၁၂", region:"ရန်ကုန်တိုင်းဒေသကြီး"},en:{town:"Kyauktada", code:"KaTaTa", city:"12", region:"Yangon Region"}},
+{mm:{town:"ပန်းဘဲတန်း", code:"ပဘတ", city:"၁၂", region:"ရန်ကုန်တိုင်းဒေသကြီး"},en:{town:"Pabedan", code:"PaBaTa", city:"12", region:"Yangon Region"}},
+{mm:{town:"လမ်းမတော်", code:"လမတ", city:"၁၂", region:"ရန်ကုန်တိုင်းဒေသကြီး"},en:{town:"Lanmadaw", code:"LaMaTa", city:"12", region:"Yangon Region"}},
+{mm:{town:"လသာ", code:"လသန", city:"၁၂", region:"ရန်ကုန်တိုင်းဒေသကြီး"},en:{town:"Latha", code:"LaThaNa", city:"12", region:"Yangon Region"}},
+{mm:{town:"အလုံ", code:"အလန", city:"၁၂", region:"ရန်ကုန်တိုင်းဒေသကြီး"},en:{town:"Ahlone", code:"AhLaNa", city:"12", region:"Yangon Region"}},
+{mm:{town:"ကြည့်မြင်တိုင်", code:"ကမတ", city:"၁၂", region:"ရန်ကုန်တိုင်းဒေသကြီး"},en:{town:"Kyimyindaing", code:"KaMaTa", city:"12", region:"Yangon Region"}},
+{mm:{town:"စမ်းချောင်း", code:"စခန", city:"၁၂", region:"ရန်ကုန်တိုင်းဒေသကြီး"},en:{town:"Sanchaung", code:"SaKhaNa", city:"12", region:"Yangon Region"}},
+{mm:{town:"လှိုင်", code:"လမန", city:"၁၂", region:"ရန်ကုန်တိုင်းဒေသကြီး"},en:{town:"Hlaing", code:"LaMaNa", city:"12", region:"Yangon Region"}},
+{mm:{town:"ကမာရွတ်", code:"ကမရ", city:"၁၂", region:"ရန်ကုန်တိုင်းဒေသကြီး"},en:{town:"Kamayut", code:"KaMaYa", city:"12", region:"Yangon Region"}},
+{mm:{town:"မရမ်းကုန်း", code:"မရက", city:"၁၂", region:"ရန်ကုန်တိုင်းဒေသကြီး"},en:{town:"Mayangone", code:"MaYaKa", city:"12", region:"Yangon Region"}},
+{mm:{town:"ဒဂုံ", code:"ဒဂန", city:"၁၂", region:"ရန်ကုန်တိုင်းဒေသကြီး"},en:{town:"Dagon", code:"DaGaNa", city:"12", region:"Yangon Region"}},
+{mm:{town:"ဗဟန်း", code:"ဗဟန", city:"၁၂", region:"ရန်ကုန်တိုင်းဒေသကြီး"},en:{town:"Bahan", code:"BaHaNa", city:"12", region:"Yangon Region"}},
+{mm:{town:"ဆိပ်ကမ်း", code:"ဆကန", city:"၁၂", region:"ရန်ကုန်တိုင်းဒေသကြီး"},en:{town:"Seikkan", code:"SaKaNa", city:"12", region:"Yangon Region"}},
+{mm:{town:"သန်လျင်", code:"သလန", city:"၁၂", region:"ရန်ကုန်တိုင်းဒေသကြီး"},en:{town:"Thanlyin", code:"ThaLaNa", city:"12", region:"Yangon Region"}},
+{mm:{town:"​ကျောက်တန်း", code:"ကတန", city:"၁၂", region:"ရန်ကုန်တိုင်းဒေသကြီး"},en:{town:"Kyauktan", code:"KaTaNa", city:"12", region:"Yangon Region"}},
+{mm:{town:"တံတား", code:"တတတ", city:"၁၂", region:"ရန်ကုန်တိုင်းဒေသကြီး"},en:{town:"Thongwa", code:"TaTaTa", city:"12", region:"Yangon Region"}},
+{mm:{town:"သုံးခွ", code:"သခန", city:"၁၂", region:"ရန်ကုန်တိုင်းဒေသကြီး"},en:{town:"Kayan", code:"ThaKhaNa", city:"12", region:"Yangon Region"}},
+{mm:{town:"ခရမ်း", code:"ခရန", city:"၁၂", region:"ရန်ကုန်တိုင်းဒေသကြီး"},en:{town:"Twante", code:"KhaYaNa", city:"12", region:"Yangon Region"}},
+{mm:{town:"တွံတေး", code:"တတန", city:"၁၂", region:"ရန်ကုန်တိုင်းဒေသကြီး"},en:{town:"Kawhmu", code:"TaTaNa", city:"12", region:"Yangon Region"}},
+{mm:{town:"​ကော့မှူး", code:"ကမန", city:"၁၂", region:"ရန်ကုန်တိုင်းဒေသကြီး"},en:{town:"Kungyangon", code:"KaMaNa", city:"12", region:"Yangon Region"}},
+{mm:{town:"ကွမ်းခြံကုန်း", code:"ကခက", city:"၁၂", region:"ရန်ကုန်တိုင်းဒေသကြီး"},en:{town:"Dala", code:"KaKhaKa", city:"12", region:"Yangon Region"}},
+{mm:{town:"ဒလ", code:"ဒလန", city:"၁၂", region:"ရန်ကုန်တိုင်းဒေသကြီး"},en:{town:"Seikkyi Kanaungto", code:"DaLaNa", city:"12", region:"Yangon Region"}},
+{mm:{town:"​ဆိပ်ကြီးခနောင်တို", code:"ဒလန", city:"၁၂", region:"ရန်ကုန်တိုင်းဒေသကြီး"},en:{town:"Coco Island", code:"DaLaNa", city:"12", region:"Yangon Region"}},
+{mm:{town:"ကိုကိုကျွန်း", code:"ကကက", city:"၁၂", region:"ရန်ကုန်တိုင်းဒေသကြီး"},en:{town:"Insein", code:"KaKaKa", city:"12", region:"Yangon Region"}},
+{mm:{town:"အင်းစိန်", code:"အစန", city:"၁၂", region:"ရန်ကုန်တိုင်းဒေသကြီး"},en:{town:"Mingaladon", code:"AhSaNa", city:"12", region:"Yangon Region"}},
+{mm:{town:"မင်္ဂလာဒုံ", code:"မဂဒ", city:"၁၂", region:"ရန်ကုန်တိုင်းဒေသကြီး"},en:{town:"Hmawbi", code:"MaGaDa", city:"12", region:"Yangon Region"}},
+{mm:{town:"​မှော်ဘီ", code:"မဘန", city:"၁၂", region:"ရန်ကုန်တိုင်းဒေသကြီး"},en:{town:"Hlegu", code:"MaBaNa", city:"12", region:"Yangon Region"}},
+{mm:{town:"လှည်းကူး", code:"လကန", city:"၁၂", region:"ရန်ကုန်တိုင်းဒေသကြီး"},en:{town:"Taikkyi", code:"LaKaNa", city:"12", region:"Yangon Region"}},
+{mm:{town:"တိုက်ကြီး", code:"တကန", city:"၁၂", region:"ရန်ကုန်တိုင်းဒေသကြီး"},en:{town:"Tantabin", code:"TaKaNa", city:"12", region:"Yangon Region"}},
+{mm:{town:"ထန်းတပင်", code:"ထတပ", city:"၁၂", region:"ရန်ကုန်တိုင်းဒေသကြီး"},en:{town:"Shwepyithar", code:"HtaTaPa", city:"12", region:"Yangon Region"}},
+{mm:{town:"​ရွှေပြည်သာ", code:"ရပသ", city:"၁၂", region:"ရန်ကုန်တိုင်းဒေသကြီး"},en:{town:"Hlaingtharyar", code:"YaPaTha", city:"12", region:"Yangon Region"}},
+{mm:{town:"လှိုင်သာယာ", code:"လသယ", city:"၁၂", region:"ရန်ကုန်တိုင်းဒေသကြီး"},en:{town:"Hlaingtharyar (East)", code:"LaThaYa", city:"12", region:"Yangon Region"}},
+{mm:{town:"လှိုင်သာယာ(အရှေ့)", code:"လယရ", city:"၁၂", region:"ရန်ကုန်တိုင်းဒေသကြီး"},en:{town:"Hlaingtharyar (West)", code:"LaYaYa", city:"12", region:"Yangon Region"}},
+{mm:{town:"လှိုင်သာယာ(အနောက်)", code:"လယန", city:"၁၂", region:"ရန်ကုန်တိုင်းဒေသကြီး"},en:{town:"Taunggyi", code:"LaYaNa", city:"12", region:"Yangon Region"}},
+{mm:{town:"တောင်ကြီး", code:"တကန", city:"၁၃", region:"ရှမ်းပြည်နယ်"},en:{town:"Hopong", code:"TaKaNa", city:"13", region:"Shan State"}},
+{mm:{town:"ဟိုပုံး", code:"ဟပန", city:"၁၃", region:"ရှမ်းပြည်နယ်"},en:{town:"Nyaungshwe", code:"HaPaNa", city:"13", region:"Shan State"}},
+{mm:{town:"ညောင်ရွှေ", code:"ညရန", city:"၁၃", region:"ရှမ်းပြည်နယ်"},en:{town:"Hsihseng", code:"NyaYaNa", city:"13", region:"Shan State"}},
+{mm:{town:"ဆီဆိုင်", code:"ဆဆန", city:"၁၃", region:"ရှမ်းပြည်နယ်"},en:{town:"Kalaw", code:"SaSaNa", city:"13", region:"Shan State"}},
+{mm:{town:"ကလော", code:"ကလန", city:"၁၃", region:"ရှမ်းပြည်နယ်"},en:{town:"Pindaya", code:"KaLaNa", city:"13", region:"Shan State"}},
+{mm:{town:"ပင်းတယ", code:"ပတယ", city:"၁၃", region:"ရှမ်းပြည်နယ်"},en:{town:"Ywangan", code:"PaTaYa", city:"13", region:"Shan State"}},
+{mm:{town:"ရွာငံ", code:"ရငန", city:"၁၃", region:"ရှမ်းပြည်နယ်"},en:{town:"Yaksauk", code:"YaNgaNa", city:"13", region:"Shan State"}},
+{mm:{town:"ရပ်စောက်", code:"ရစန", city:"၁၃", region:"ရှမ်းပြည်နယ်"},en:{town:"Pinlaung", code:"YaSaNa", city:"13", region:"Shan State"}},
+{mm:{town:"ပင်လောင်း", code:"ပလန", city:"၁၃", region:"ရှမ်းပြည်နယ်"},en:{town:"Pekon", code:"PaLaNa", city:"13", region:"Shan State"}},
+{mm:{town:"ဖယ်ခုံ", code:"ဖခန", city:"၁၃", region:"ရှမ်းပြည်နယ်"},en:{town:"Kyauktalonegyi", code:"PhaKhaNa", city:"13", region:"Shan State"}},
+{mm:{town:"ကျောက်တလုံးကြီး", code:"ကတလ", city:"၁၃", region:"ရှမ်းပြည်နယ်"},en:{town:"Naungtayar", code:"KaTaLa", city:"13", region:"Shan State"}},
+{mm:{town:"နောင်တရား", code:"နတရ", city:"၁၃", region:"ရှမ်းပြည်နယ်"},en:{town:"Intaw", code:"NaTaRa", city:"13", region:"Shan State"}},
+{mm:{town:"အင်တော", code:"အတန", city:"၁၃", region:"ရှမ်းပြည်နယ်"},en:{town:"Loilen", code:"AhTaNa", city:"13", region:"Shan State"}},
+{mm:{town:"လွိုင်လင်", code:"လလန", city:"၁၃", region:"ရှမ်းပြည်နယ်"},en:{town:"Laihka", code:"LaLaNa", city:"13", region:"Shan State"}},
+{mm:{town:"လဲချား", code:"လခန", city:"၁၃", region:"ရှမ်းပြည်နယ်"},en:{town:"Nansang", code:"LaKhaNa", city:"13", region:"Shan State"}},
+{mm:{town:"နမ့်စန်", code:"နစန", city:"၁၃", region:"ရှမ်းပြည်နယ်"},en:{town:"Kunhing", code:"NaSaNa", city:"13", region:"Shan State"}},
+{mm:{town:"ကွန်ဟိန်း", code:"ကဟန", city:"၁၃", region:"ရှမ်းပြည်နယ်"},en:{town:"Kyethi", code:"KaHaNa", city:"13", region:"Shan State"}},
+{mm:{town:"ကျေးသီး", code:"ကသန", city:"၁၃", region:"ရှမ်းပြည်နယ်"},en:{town:"Mongkaing", code:"KaThaNa", city:"13", region:"Shan State"}},
+{mm:{town:"မိုင်းကိုင်", code:"မကန", city:"၁၃", region:"ရှမ်းပြည်နယ်"},en:{town:"Mongshu", code:"MaKaNa", city:"13", region:"Shan State"}},
+{mm:{town:"မိုင်းရှူး", code:"မရန", city:"၁၃", region:"ရှမ်းပြည်နယ်"},en:{town:"Pinlon", code:"MaRaNa", city:"13", region:"Shan State"}},
+{mm:{town:"ပင်လုံ", code:"ပလတ", city:"၁၃", region:"ရှမ်းပြည်နယ်"},en:{town:"Mongnawng", code:"PaLaTa", city:"13", region:"Shan State"}},
+{mm:{town:"မိုင်းနောင်", code:"မနတ", city:"၁၃", region:"ရှမ်းပြည်နယ်"},en:{town:"Kholam", code:"MaNaTa", city:"13", region:"Shan State"}},
+{mm:{town:"ခိုလမ်", code:"ခလန", city:"၁၃", region:"ရှမ်းပြည်နယ်"},en:{town:"Karli", code:"KhaLaNa", city:"13", region:"Shan State"}},
+{mm:{town:"ကာလိ", code:"ကလဒ", city:"၁၃", region:"ရှမ်းပြည်နယ်"},en:{town:"Monghsat", code:"KaLaDa", city:"13", region:"Shan State"}},
+{mm:{town:"မိုင်းစံ(မုန်းဆန်း)", code:"မစန", city:"၁၃", region:"ရှမ်းပြည်နယ်"},en:{town:"Langkho", code:"MaSaNa", city:"13", region:"Shan State"}},
+{mm:{town:"လင်းခေး", code:"လခတ", city:"၁၃", region:"ရှမ်းပြည်နယ်"},en:{town:"Mongnai", code:"LaKhaTa", city:"13", region:"Shan State"}},
+{mm:{town:"မိုးနဲ", code:"မနန", city:"၁၃", region:"ရှမ်းပြည်နယ်"},en:{town:"Mawkmai", code:"MaNaNa", city:"13", region:"Shan State"}},
+{mm:{town:"မောက်မယ်", code:"မမန", city:"၁၃", region:"ရှမ်းပြည်နယ်"},en:{town:"Mongpan", code:"MaMaNa", city:"13", region:"Shan State"}},
+{mm:{town:"မိုင်းပန်", code:"မပန", city:"၁၃", region:"ရှမ်းပြည်နယ်"},en:{town:"Homong", code:"MaPaNa", city:"13", region:"Shan State"}},
+{mm:{town:"ဟိုမိန်း", code:"ဟမန", city:"၁၃", region:"ရှမ်းပြည်နယ်"},en:{town:"Kengtung", code:"HaMaNa", city:"13", region:"Shan State"}},
+{mm:{town:"ကျိုင်းတောင်း", code:"ကတတ", city:"၁၃", region:"ရှမ်းပြည်နယ်"},en:{town:"Mongla", code:"KaTaTa", city:"13", region:"Shan State"}},
+{mm:{town:"မက်မန်း", code:"ပယန", city:"၁၃", region:"ရှမ်းပြည်နယ်"},en:{town:"Mongyang", code:"PaYaNa", city:"13", region:"Shan State"}},
+{mm:{town:"နားဖန်", code:"နဖန", city:"၁၃", region:"ရှမ်းပြည်နယ်"},en:{town:"Mongpau", code:"NaPhaNa", city:"13", region:"Shan State"}},
+{mm:{town:"ပန်ဆန်း(ပန်ခမ်း)", code:"ပဆန", city:"၁၃", region:"ရှမ်းပြည်နယ်"},en:{town:"Mongkhat", code:"PaHsaNa", city:"13", region:"Shan State"}},
+{mm:{town:"မန်ကန်", code:"မကထ", city:"၁၃", region:"ရှမ်းပြည်နယ်"},en:{town:"Mongpyin", code:"MaKaHta", city:"13", region:"Shan State"}},
+{mm:{town:"ကျိုင်းတုံ", code:"ကတန", city:"၁၃", region:"ရှမ်းပြည်နယ်"},en:{town:"Tontar", code:"KaTaNa", city:"13", region:"Shan State"}},
+{mm:{town:"မိုင်းလား", code:"မလန", city:"၁၃", region:"ရှမ်းပြည်နယ်"},en:{town:"Monghsat", code:"MaLaNa", city:"13", region:"Shan State"}},
+{mm:{town:"မိုင်းယန်း", code:"မယန", city:"၁၃", region:"ရှမ်းပြည်နယ်"},en:{town:"Monghkut", code:"MaYaNa", city:"13", region:"Shan State"}},
+{mm:{town:"မိုင်းပေါက်", code:"မပထ", city:"၁၃", region:"ရှမ်းပြည်နယ်"},en:{town:"Mongton", code:"MaPaHta", city:"13", region:"Shan State"}},
+{mm:{town:"မိုင်းခတ်", code:"မခန", city:"၁၃", region:"ရှမ်းပြည်နယ်"},en:{town:"Panghsang", code:"MaKhaNa", city:"13", region:"Shan State"}},
+{mm:{town:"မိုင်းပျဉ်း", code:"မပတ", city:"၁၃", region:"ရှမ်းပြည်နယ်"},en:{town:"Monghpyak", code:"MaPaTa", city:"13", region:"Shan State"}},
+{mm:{town:"တုံတာ", code:"တတန", city:"၁၃", region:"ရှမ်းပြည်နယ်"},en:{town:"Mongyawng", code:"TaTaNa", city:"13", region:"Shan State"}},
+{mm:{town:"မိုင်းဆတ်", code:"မဆန", city:"၁၃", region:"ရှမ်းပြည်နယ်"},en:{town:"Mongyu", code:"MaHsaNa", city:"13", region:"Shan State"}},
+{mm:{town:"မိုင်းခုတ်", code:"မခတ", city:"၁၃", region:"ရှမ်းပြည်နယ်"},en:{town:"Tachileik", code:"MaKhaTa", city:"13", region:"Shan State"}},
+{mm:{town:"မိုင်းတုံ", code:"မတန", city:"၁၃", region:"ရှမ်းပြည်နယ်"},en:{town:"Tarlay", code:"MaTaNa", city:"13", region:"Shan State"}},
+{mm:{town:"ပုံပါကျင်", code:"ပပက", city:"၁၃", region:"ရှမ်းပြည်နယ်"},en:{town:"Kyainglap", code:"PaPaKa", city:"13", region:"Shan State"}},
+{mm:{town:"မုံးထ", code:"မထန", city:"၁၃", region:"ရှမ်းပြည်နယ်"},en:{town:"Lashio", code:"MaHtaNa", city:"13", region:"Shan State"}},
+{mm:{town:"မိုင်းဖြတ်", code:"မဖန", city:"၁၃", region:"ရှမ်းပြည်နယ်"},en:{town:"Hseni", code:"MaPhaNa", city:"13", region:"Shan State"}},
+{mm:{town:"မိုင်းယောင်း", code:"မယတ", city:"၁၃", region:"ရှမ်းပြည်နယ်"},en:{town:"Tangyan", code:"MaYaTa", city:"13", region:"Shan State"}},
+{mm:{town:"မိုင်းယု", code:"မယထ", city:"၁၃", region:"ရှမ်းပြည်နယ်"},en:{town:"Mongyai", code:"MaYaTha", city:"13", region:"Shan State"}},
+{mm:{town:"တာချီလိတ်", code:"တခလ", city:"၁၃", region:"ရှမ်းပြည်နယ်"},en:{town:"Kunlong", code:"TaKhaLa", city:"13", region:"Shan State"}},
+{mm:{town:"တာလေ", code:"တလန", city:"၁၃", region:"ရှမ်းပြည်နယ်"},en:{town:"Muse", code:"TaLaNa", city:"13", region:"Shan State"}},
+{mm:{town:"ကျိုင်းလပ်", code:"ကလထ", city:"၁၃", region:"ရှမ်းပြည်နယ်"},en:{town:"Namkham", code:"KaLaHta", city:"13", region:"Shan State"}},
+{mm:{town:"လားရှိုး", code:"လရန", city:"၁၃", region:"ရှမ်းပြည်နယ်"},en:{town:"Kutkai", code:"LaYaNa", city:"13", region:"Shan State"}},
+{mm:{town:"သိန္နီ", code:"သနန", city:"၁၃", region:"ရှမ်းပြည်နယ်"},en:{town:"Tarmoenye", code:"ThaNaNa", city:"13", region:"Shan State"}},
+{mm:{town:"တန့်ယန်း", code:"တယန", city:"၁၃", region:"ရှမ်းပြည်နယ်"},en:{town:"Mantong", code:"TaYaNa", city:"13", region:"Shan State"}},
+{mm:{town:"မိုင်းရယ်", code:"မရတ", city:"၁၃", region:"ရှမ်းပြည်နယ်"},en:{town:"Mongkoe", code:"MaYaTa", city:"13", region:"Shan State"}},
+{mm:{town:"ကွမ်းလုံ", code:"ကလတ", city:"၁၃", region:"ရှမ်းပြည်နယ်"},en:{town:"Pansai (Kyu Koke)", code:"KaLaTa", city:"13", region:"Shan State"}},
+{mm:{town:"မန်ဖန့်", code:"မဖတ", city:"၁၃", region:"ရှမ်းပြည်နယ်"},en:{town:"Kyaukme", code:"MaPhaTa", city:"13", region:"Shan State"}},
+{mm:{town:"မူဆယ်မြို့", code:"မဆတ", city:"၁၃", region:"ရှမ်းပြည်နယ်"},en:{town:"Hsipaw", code:"MaSaTa", city:"13", region:"Shan State"}},
+{mm:{town:"နမ့်ခမ်းမြို့", code:"နခန", city:"၁၃", region:"ရှမ်းပြည်နယ်"},en:{town:"Nawnghkio", code:"NaKhaNa", city:"13", region:"Shan State"}},
+{mm:{town:"ကွတ်ခိုင်မြို့", code:"ကခန", city:"၁၃", region:"ရှမ်းပြည်နယ်"},en:{town:"Namtu", code:"KaKhaNa", city:"13", region:"Shan State"}},
+{mm:{town:"တားမိုးညဲမြို့", code:"တမည", city:"၁၃", region:"ရှမ်းပြည်နယ်"},en:{town:"Namsan", code:"TaMaNya", city:"13", region:"Shan State"}},
+{mm:{town:"မန်ဟျှိုး(မန်ဟီးရိုး)မြို့", code:"မဟရ", city:"၁၃", region:"ရှမ်းပြည်နယ်"},en:{town:"Mantong", code:"MaHaYa", city:"13", region:"Shan State"}},
+{mm:{town:"မုံးကိုးမြို့", code:"မကတ", city:"၁၃", region:"ရှမ်းပြည်နယ်"},en:{town:"Mongngawt", code:"MaKaTa", city:"13", region:"Shan State"}},
+{mm:{town:"ပန်ဆိုင်း(ကြူကုတ်)မြို့", code:"ပဆတ", city:"၁၃", region:"ရှမ်းပြည်နယ်"},en:{town:"Monglon", code:"PaHsaTa", city:"13", region:"Shan State"}},
+{mm:{town:"ကျောက်မဲ", code:"ကမန", city:"၁၃", region:"ရှမ်းပြည်နယ်"},en:{town:"Momeik", code:"KaMaNa", city:"13", region:"Shan State"}},
+{mm:{town:"သီပေါ", code:"သပန", city:"၁၃", region:"ရှမ်းပြည်နယ်"},en:{town:"Mabein", code:"ThaPaNa", city:"13", region:"Shan State"}},
+{mm:{town:"နောင်ချို", code:"နခတ", city:"၁၃", region:"ရှမ်းပြည်နယ်"},en:{town:"Hopang", code:"NaKhaTa", city:"13", region:"Shan State"}},
+{mm:{town:"နမ္မတူ", code:"နမတ", city:"၁၃", region:"ရှမ်းပြည်နယ်"},en:{town:"Panwai", code:"NaMaTa", city:"13", region:"Shan State"}},
+{mm:{town:"နမ့်ဆန်", code:"နဆန", city:"၁၃", region:"ရှမ်းပြည်နယ်"},en:{town:"Mongmao", code:"NaHsaNa", city:"13", region:"Shan State"}},
+{mm:{town:"မန်တုံ", code:"မတတ", city:"၁၃", region:"ရှမ်းပြည်နယ်"},en:{town:"Namtit", code:"MaTaTa", city:"13", region:"Shan State"}},
+{mm:{town:"မိုင်းငေါ့", code:"မငန", city:"၁၃", region:"ရှမ်းပြည်နယ်"},en:{town:"Panlon", code:"MaNgaNa", city:"13", region:"Shan State"}},
+{mm:{town:"မိုင်းလုံ", code:"မလတ", city:"၁၃", region:"ရှမ်းပြည်နယ်"},en:{town:"Laukkaing", code:"MaLaTa", city:"13", region:"Shan State"}},
+{mm:{town:"မိုးမိတ်", code:"မမတ", city:"၁၃", region:"ရှမ်းပြည်နယ်"},en:{town:"Konkyan", code:"MaMaTa", city:"13", region:"Shan State"}},
+{mm:{town:"မဘိမ်း", code:"မဘန", city:"၁၃", region:"ရှမ်းပြည်နယ်"},en:{town:"Chinshwehaw", code:"MaBaNa", city:"13", region:"Shan State"}},
+{mm:{town:"ဟိုပန်", code:"ဟပတ", city:"၁၃", region:"ရှမ်းပြည်နယ်"},en:{town:"Mawhtike", code:"HaPaTa", city:"13", region:"Shan State"}},
+{mm:{town:"ပန်ဝိုင်", code:"ပဝန", city:"၁၃", region:"ရှမ်းပြည်နယ်"},en:{town:"Pathein", code:"PaWaNa", city:"13", region:"Shan State"}},
+{mm:{town:"မိုင်းမော", code:"မမထ", city:"၁၃", region:"ရှမ်းပြည်နယ်"},en:{town:"Shwethaungyan", code:"MaMaHta", city:"13", region:"Shan State"}},
+{mm:{town:"နမ့်တစ်", code:"နတန", city:"၁၃", region:"ရှမ်းပြည်နယ်"},en:{town:"Ngwesaung", code:"NaTaNa", city:"13", region:"Shan State"}},
+{mm:{town:"ပန်လုံ", code:"ပလထ", city:"၁၃", region:"ရှမ်းပြည်နယ်"},en:{town:"Kangyidaunt", code:"PaLaHta", city:"13", region:"Shan State"}},
+{mm:{town:"လောက်ကိုင်", code:"လကန", city:"၁၃", region:"ရှမ်းပြည်နယ်"},en:{town:"Kangyidaunt", code:"LaKaNa", city:"13", region:"Shan State"}},
+{mm:{town:"ကုန်ကြမ်း", code:"ကကန", city:"၁၃", region:"ရှမ်းပြည်နယ်"},en:{town:"Ngapudaw", code:"KaKaNa", city:"13", region:"Shan State"}},
+{mm:{town:"ချင်းရွှေဟော်", code:"ခရဟ", city:"၁၃", region:"ရှမ်းပြည်နယ်"},en:{town:"Hainggyi Island", code:"KhaYaHa", city:"13", region:"Shan State"}},
+{mm:{town:"မော်ထိုက်", code:"မထတ", city:"၁၃", region:"ရှမ်းပြည်နယ်"},en:{town:"Ngayokekaung", code:"MaHtaTa", city:"13", region:"Shan State"}},
+{mm:{town:"ပုသိမ်", code:"ပသန", city:"၁၄", region:"ဧရာဝတီတိုင်းဒေသကြီး"},en:{town:"Thabaung", code:"PaThaNa", city:"14", region:"Ayeyarwady Region"}},
+{mm:{town:"ရွှေသောင်ယံ", code:"ရသယ", city:"၁၄", region:"ဧရာဝတီတိုင်းဒေသကြီး"},en:{town:"Kyaunggon", code:"YaThaYa", city:"14", region:"Ayeyarwady Region"}},
+{mm:{town:"ငွေဆောင်", code:"ငဆန", city:"၁၄", region:"ဧရာဝတီတိုင်းဒေသကြီး"},en:{town:"Yekyi", code:"NgaSaNa", city:"14", region:"Ayeyarwady Region"}},
+{mm:{town:"ကန်ကြီးထောင့်", code:"ပသရ", city:"၁၄", region:"ဧရာဝတီတိုင်းဒေသကြီး"},en:{town:"Ngathaingchaung", code:"PaThaYa", city:"14", region:"Ayeyarwady Region"}},
+{mm:{town:"ကန်ကြီးထောင့်", code:"ကကထ", city:"၁၄", region:"ဧရာဝတီတိုင်းဒေသကြီး"},en:{town:"Kyonpyaw", code:"KaKaHta", city:"14", region:"Ayeyarwady Region"}},
+{mm:{town:"ငပုတော", code:"ငပတ", city:"၁၄", region:"ဧရာဝတီတိုင်းဒေသကြီး"},en:{town:"Hinthada", code:"NgaPaTa", city:"14", region:"Ayeyarwady Region"}},
+{mm:{town:"ဟိုင်းကြီးကျွန်း", code:"ဟကက", city:"၁၄", region:"ဧရာဝတီတိုင်းဒေသကြီး"},en:{town:"Zalun", code:"HaKaKa", city:"14", region:"Ayeyarwady Region"}},
+{mm:{town:"ငရုတ်ကောင်း", code:"ငရက", city:"၁၄", region:"ဧရာဝတီတိုင်းဒေသကြီး"},en:{town:"Laymyethna", code:"NgaYaKa", city:"14", region:"Ayeyarwady Region"}},
+{mm:{town:"သာပေါင်း", code:"သပန", city:"၁၄", region:"ဧရာဝတီတိုင်းဒေသကြီး"},en:{town:"Ingapu", code:"ThaPaNa", city:"14", region:"Ayeyarwady Region"}},
+{mm:{town:"ကျောင်းကုန်း", code:"ကကန", city:"၁၄", region:"ဧရာဝတီတိုင်းဒေသကြီး"},en:{town:"Myanaung", code:"KaKaNa", city:"14", region:"Ayeyarwady Region"}},
+{mm:{town:"​ရေကြည်", code:"ရကန", city:"၁၄", region:"ဧရာဝတီတိုင်းဒေသကြီး"},en:{town:"Kyangin", code:"YaKaNa", city:"14", region:"Ayeyarwady Region"}},
+{mm:{town:"ငါးသိုင်းချောင်း", code:"ငသခ", city:"၁၄", region:"ဧရာဝတီတိုင်းဒေသကြီး"},en:{town:"Maubin", code:"NgaThaKha", city:"14", region:"Ayeyarwady Region"}},
+{mm:{town:"ကျုံပျော်", code:"ကပန", city:"၁၄", region:"ဧရာဝတီတိုင်းဒေသကြီး"},en:{town:"Pantanaw", code:"KaPaNa", city:"14", region:"Ayeyarwady Region"}},
+{mm:{town:"ဟင်္သာတ", code:"ဟသတ", city:"၁၄", region:"ဧရာဝတီတိုင်းဒေသကြီး"},en:{town:"Nyaungdon", code:"HaThaTa", city:"14", region:"Ayeyarwady Region"}},
+{mm:{town:"ဇလွန်", code:"ဇလန", city:"၁၄", region:"ဧရာဝတီတိုင်းဒေသကြီး"},en:{town:"Danubyu", code:"ZaLaNa", city:"14", region:"Ayeyarwady Region"}},
+{mm:{town:"လေးမျက်နှာ", code:"လမန", city:"၁၄", region:"ဧရာဝတီတိုင်းဒေသကြီး"},en:{town:"Pyapon", code:"LaMaNa", city:"14", region:"Ayeyarwady Region"}},
+{mm:{town:"အင်္ဂပူ", code:"အဂပ", city:"၁၄", region:"ဧရာဝတီတိုင်းဒေသကြီး"},en:{town:"Ahmar", code:"AhGaPa", city:"14", region:"Ayeyarwady Region"}},
+{mm:{town:"မြန်အောင်", code:"မအန", city:"၁၄", region:"ဧရာဝတီတိုင်းဒေသကြီး"},en:{town:"Bogale", code:"MaAhNa", city:"14", region:"Ayeyarwady Region"}},
+{mm:{town:"ကြံခင်း", code:"ကခန", city:"၁၄", region:"ဧရာဝတီတိုင်းဒေသကြီး"},en:{town:"Kyaiklat", code:"KaKhaNa", city:"14", region:"Ayeyarwady Region"}},
+{mm:{town:"မအူပင်", code:"မအပ", city:"၁၄", region:"ဧရာဝတီတိုင်းဒေသကြီး"},en:{town:"Dedaye", code:"MaAhPa", city:"14", region:"Ayeyarwady Region"}},
+{mm:{town:"ပန်းတနော်", code:"ပတန", city:"၁၄", region:"ဧရာဝတီတိုင်းဒေသကြီး"},en:{town:"Labutta", code:"PaTaNa", city:"14", region:"Ayeyarwady Region"}},
+{mm:{town:"​ညောင်တုန်း", code:"ညတန", city:"၁၄", region:"ဧရာဝတီတိုင်းဒေသကြီး"},en:{town:"Pyinsalu", code:"NyaTaNa", city:"14", region:"Ayeyarwady Region"}},
+{mm:{town:"ဓနုဖြူ", code:"ဓနဖ", city:"၁၄", region:"ဧရာဝတီတိုင်းဒေသကြီး"},en:{town:"Mawlamyinegyun", code:"DaNaPha", city:"14", region:"Ayeyarwady Region"}},
+{mm:{town:"ဖျာပုံ", code:"ဖပန", city:"၁၄", region:"ဧရာဝတီတိုင်းဒေသကြီး"},en:{town:"Myaungmya", code:"PhaPaNa", city:"14", region:"Ayeyarwady Region"}},
+{mm:{town:"အမာ", code:"အမတ", city:"၁၄", region:"ဧရာဝတီတိုင်းဒေသကြီး"},en:{town:"Einme", code:"AhMaTa", city:"14", region:"Ayeyarwady Region"}},
+{mm:{town:"ဘိုကလေး", code:"ဘကလ", city:"၁၄", region:"ဧရာဝတီတိုင်းဒေသကြီး"},en:{town:"Wakema", code:"BaKaLa", city:"14", region:"Ayeyarwady Region"}},
+{mm:{town:"ကျိုက်လတ်", code:"ကလန", city:"၁၄", region:"ဧရာဝတီတိုင်းဒေသကြီး"},en:{town:"", code:"KaLaNa", city:"14", region:"Ayeyarwady Region"}},
+{mm:{town:"ဒေးဒရဲ", code:"ဒဒရ", city:"၁၄", region:"ဧရာဝတီတိုင်းဒေသကြီး"},en:{town:"", code:"DaDaYa", city:"14", region:"Ayeyarwady Region"}},
+{mm:{town:"လပွတ္တာ", code:"လပတ", city:"၁၄", region:"ဧရာဝတီတိုင်းဒေသကြီး"},en:{town:"", code:"LaPaTa", city:"14", region:"Ayeyarwady Region"}},
+{mm:{town:"ပြင်စလူ", code:"ပစလ", city:"၁၄", region:"ဧရာဝတီတိုင်းဒေသကြီး"},en:{town:"", code:"PaSaLa", city:"14", region:"Ayeyarwady Region"}},
+{mm:{town:"မော်လမြိုင်ကျွန်း", code:"မမက", city:"၁၄", region:"ဧရာဝတီတိုင်းဒေသကြီး"},en:{town:"", code:"MaMaKa", city:"14", region:"Ayeyarwady Region"}},
+{mm:{town:"မြောင်းမြ", code:"မမန", city:"၁၄", region:"ဧရာဝတီတိုင်းဒေသကြီး"},en:{town:"", code:"MaMaNa", city:"14", region:"Ayeyarwady Region"}},
+{mm:{town:"အိမ်မဲ", code:"အမန", city:"၁၄", region:"ဧရာဝတီတိုင်းဒေသကြီး"},en:{town:"", code:"AhMaNa", city:"14", region:"Ayeyarwady Region"}},
+{mm:{town:"ဝါးခယ်မ", code:"ဝခမ", city:"၁၄", region:"ဧရာဝတီတိုင်းဒေသကြီး"},en:{town:"", code:"WaKhaMa", city:"14", region:"Ayeyarwady Region"}}
 ];
 
-/* Convert */
-function mmToEnNumber(str) {
-    const map = {"၀":"0","၁":"1","၂":"2","၃":"3","၄":"4","၅":"5","၆":"6","၇":"7","၈":"8","၉":"9"};
-    return str.replace(/[၀-၉]/g, m => map[m]);
-}
-function enToMmNumber(str) {
-    const map = {"0":"၀","1":"၁","2":"၂","3":"၃","4":"၄","5":"၅","6":"၆","7":"၇","8":"၈","9":"၉"};
-    return str.replace(/[0-9]/g, m => map[m]);
-}
-
-/* Clean */
-const cleanData = data.map(i => ({
-    town: i.town.trim(),
-    code: i.code.trim(),
-    city: mmToEnNumber(String(i.city).trim()),
-    region: i.region.trim()
-}));
-
-/* Render */
-function render(list) {
-    let t="", c="";
+/* RENDER */
+function render(list){
+    let t="",c="";
     list.forEach(i=>{
+        let d = isMM ? i.mm : i.en;
+
         t+=`<tr>
-        <td>${enToMmNumber(i.city)}</td>
-        <td>${i.code}</td>
-        <td>${i.town}</td>
-        <td>${i.region}</td>
+        <td>${d.city}</td>
+        <td>${d.code}</td>
+        <td>${d.town}</td>
+        <td>${d.region}</td>
         </tr>`;
 
         c+=`<div class="card">
-        <b>${i.town}</b>
-        <div>${i.code}</div>
-        <div>${enToMmNumber(i.city)}</div>
-        <div>${i.region}</div>
+        <b>${d.town}</b>
+        <div>${d.code}</div>
+        <div>${d.city}</div>
+        <div>${d.region}</div>
         </div>`;
     });
-
     tableBody.innerHTML=t;
     cardList.innerHTML=c;
 }
 
-/* 🔍 SEARCH (debounce + enter key) */
-let timer;
-search.addEventListener("keyup", function(e){
-    clearTimeout(timer);
-    timer=setTimeout(()=>{
-        let v = mmToEnNumber(search.value).toLowerCase().trim();
+/* SEARCH */
+search.addEventListener("keyup",()=>{
+    let v = search.value.toLowerCase();
 
-        let f = cleanData.filter(i =>
-            i.town.toLowerCase().includes(v) ||
-            i.code.toLowerCase().includes(v) ||
-            i.city.includes(v) ||
-            i.region.toLowerCase().includes(v)
-        );
+    let f = data.filter(i=>{
+        let d = isMM ? i.mm : i.en;
+        return Object.values(d).some(x=>x.toLowerCase().includes(v));
+    });
 
-        render(f);
-        noResult.style.display = f.length ? "none":"block";
-    },200);
-
-    if(e.key==="Enter"){
-        search.blur();
-    }
+    render(f);
+    noResult.style.display = f.length ? "none":"block";
 });
 
-/* Menu */
+/* LANG */
+function toggleLang(){
+    isMM = !isMM;
+    document.querySelector(".lang-btn").innerText = isMM ? "MM":"EN";
+    render(data);
+}
+
+/* MENU */
 function toggleMenu(){
     menu.classList.add("active");
     overlay.style.display="block";
@@ -727,26 +689,25 @@ function closeMenu(){
     overlay.style.display="none";
 }
 
-/* Dark Mode */
+/* DARK MODE */
 function toggleDarkMode(){
     if(darkToggle.checked){
         document.body.classList.add("dark");
-        localStorage.setItem("darkMode","on");
+        localStorage.setItem("dark","on");
     }else{
         document.body.classList.remove("dark");
-        localStorage.setItem("darkMode","off");
+        localStorage.setItem("dark","off");
     }
 }
-
-function loadDarkMode(){
-    if(localStorage.getItem("darkMode")==="on"){
+function loadDark(){
+    if(localStorage.getItem("dark")==="on"){
         document.body.classList.add("dark");
         darkToggle.checked=true;
     }
 }
 
-loadDarkMode();
-render(cleanData);
+loadDark();
+render(data);
 </script>
 
 </body>
