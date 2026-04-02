@@ -6,155 +6,584 @@
 <title>Township Search</title>
 
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Sans+Myanmar:wght@400;500;600;700&display=swap');
+
 :root {
-    --bg: #f1f5f9;
-    --card: #ffffff;
-    --text: #111;
+    --bg: #f5f1e9;
+    --panel: rgba(255, 255, 255, 0.88);
+    --surface: #fbf8f2;
+    --surface-strong: #ffffff;
+    --text: #24322c;
+    --muted: #69766f;
+    --line: #d7dfd6;
+    --accent: #35584a;
+    --accent-soft: #e6efe8;
+    --accent-strong: #29473b;
+    --danger: #c85c60;
+    --shadow: 0 18px 42px rgba(36, 50, 44, 0.08);
 }
+
 body.dark {
-    --bg: #0f172a;
-    --card: #1e293b;
-    --text: #f1f5f9;
+    --bg: #131815;
+    --panel: rgba(25, 32, 28, 0.9);
+    --surface: #1a221e;
+    --surface-strong: #202923;
+    --text: #edf3ef;
+    --muted: #9aa9a0;
+    --line: #2d3933;
+    --accent: #8db8a1;
+    --accent-soft: #233129;
+    --accent-strong: #cbe3d4;
+    --danger: #ff9b9f;
+    --shadow: 0 22px 52px rgba(0, 0, 0, 0.28);
 }
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
 body {
     margin: 0;
-    font-family: system-ui;
-    background: var(--bg);
+    min-height: 100vh;
+    font-family: "Plus Jakarta Sans", "Noto Sans Myanmar", system-ui, sans-serif;
+    color: var(--text);
+    background:
+        radial-gradient(circle at top left, rgba(53, 88, 74, 0.12), transparent 32%),
+        radial-gradient(circle at top right, rgba(181, 146, 99, 0.12), transparent 24%),
+        linear-gradient(180deg, #fbf8f3 0%, var(--bg) 100%);
+}
+
+body.dark {
+    background:
+        radial-gradient(circle at top left, rgba(141, 184, 161, 0.1), transparent 32%),
+        radial-gradient(circle at top right, rgba(92, 118, 104, 0.1), transparent 24%),
+        linear-gradient(180deg, #161d18 0%, var(--bg) 100%);
+}
+
+button,
+input {
+    font: inherit;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.page-shell {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 28px 18px 34px;
+}
+
+.header,
+.intro-card,
+.search-panel,
+.results-panel,
+.menu {
+    border: 1px solid var(--line);
+    border-radius: 26px;
+    background: var(--panel);
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(18px);
+}
+
+.header {
+    position: sticky;
+    top: 16px;
+    z-index: 10;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 18px;
+    padding: 14px 16px;
+}
+
+.menu-btn,
+.lang-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 46px;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    cursor: pointer;
+    transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease, background-color 0.18s ease;
+}
+
+.menu-btn {
+    position: relative;
+    width: 46px;
+    font-size: 0;
+    color: transparent;
+    background: var(--surface-strong);
+}
+
+.menu-btn::before {
+    content: "\2630";
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    font-size: 18px;
     color: var(--text);
 }
 
-/* HEADER */
-.header {
+.lang-btn {
+    min-width: 62px;
+    padding: 0 16px;
+    border-color: var(--accent);
+    background: var(--accent);
+    color: #fff;
+    font-weight: 700;
+    box-shadow: 0 10px 22px rgba(53, 88, 74, 0.22);
+}
+
+body.dark .lang-btn {
+    color: #132019;
+    box-shadow: none;
+}
+
+.menu-btn:hover,
+.lang-btn:hover,
+.menu-card:hover {
+    transform: translateY(-1px);
+}
+
+.brand {
+    min-width: 0;
+}
+
+.brand-label {
+    display: block;
+    margin-bottom: 4px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+.header-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+}
+
+.container {
+    display: grid;
+    gap: 18px;
+}
+
+.intro-card {
+    display: grid;
+    grid-template-columns: minmax(0, 1.5fr) minmax(240px, 0.95fr);
+    gap: 18px;
+    padding: 28px;
+}
+
+.eyebrow {
+    margin: 0 0 12px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+}
+
+.intro-card h1 {
+    margin: 0 0 12px;
+    font-size: clamp(2rem, 4.6vw, 3rem);
+    line-height: 1.06;
+    letter-spacing: -0.04em;
+}
+
+.intro-card p {
+    margin: 0;
+    max-width: 40rem;
+    color: var(--muted);
+    line-height: 1.7;
+}
+
+.intro-meta {
+    display: grid;
+    gap: 12px;
+}
+
+.meta-pill {
+    padding: 18px 18px 16px;
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    background: var(--surface);
+}
+
+.meta-pill span {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 0.74rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+.meta-pill strong {
+    font-size: 1.55rem;
+    font-weight: 700;
+    color: var(--accent);
+}
+
+.search-panel,
+.results-panel {
+    padding: 20px;
+}
+
+.search-label {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 0.92rem;
+    font-weight: 700;
+}
+
+.search-box {
+    padding: 0 16px;
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    background: var(--surface);
+    transition: border-color 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease;
+}
+
+.search-box:focus-within {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 4px rgba(53, 88, 74, 0.12);
+    background: var(--surface-strong);
+}
+
+.search-box input {
+    width: 100%;
+    padding: 16px 0;
+    border: none;
+    background: transparent;
+    color: var(--text);
+    font-size: 0.96rem;
+    font-weight: 600;
+}
+
+.search-box input::placeholder {
+    color: var(--muted);
+    font-weight: 500;
+}
+
+.search-box input:focus {
+    outline: none;
+}
+
+.search-hint {
+    margin-top: 10px;
+    color: var(--muted);
+    font-size: 0.92rem;
+    line-height: 1.6;
+}
+
+.section-head {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 12px 16px;
-    background: var(--card);
-    border-bottom: 1px solid #ccc;
-}
-.menu-btn {
-    font-size: 22px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    color: var(--text);
-}
-/* Dark mode auto adjust */
-body.dark .menu-btn {
-    color: var(--text);
-}
-.header-title {
-    font-weight: bold;
-}
-.lang-btn {
-    border: none;
-    padding: 6px 10px;
-    border-radius: 8px;
-    background: #0ea5e9;
-    color: #fff;
-    cursor: pointer;
+    gap: 12px;
+    margin-bottom: 16px;
 }
 
-/* CONTAINER */
-.container {
-    max-width: 1000px;
-    margin: auto;
-    padding: 16px;
+.section-head h2 {
+    margin: 0 0 4px;
+    font-size: 1.08rem;
 }
 
-/* SEARCH */
-.search-box {
-    margin: 20px 0;
-}
-.search-box input {
-    width: 100%;
-    padding: 14px;
-    border-radius: 12px;
-    border: 1px solid #ccc;
-    background: var(--card);
-    color: var(--text);
-    box-sizing: border-box;
-}
-.search-box input:focus {
-    outline: none;
-    border-color: #0ea5e9;
+.section-head p {
+    margin: 0;
+    color: var(--muted);
 }
 
-/* TABLE */
+.result-badge {
+    flex-shrink: 0;
+    padding: 8px 12px;
+    border-radius: 999px;
+    background: var(--accent-soft);
+    color: var(--accent-strong);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.table-wrap {
+    overflow: auto;
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    background: var(--surface);
+}
+
 .table {
     width: 100%;
-    background: var(--card);
-    border-radius: 12px;
+    min-width: 720px;
+    border-collapse: separate;
+    border-spacing: 0;
+    background: transparent;
 }
-.table th, .table td {
-    padding: 12px;
-    text-align: center;
+
+.table th,
+.table td {
+    padding: 15px 16px;
+    text-align: left;
 }
+
 .table th {
-    background: #4e5e74;
-    color: #fff;
+    font-size: 0.74rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    background: rgba(53, 88, 74, 0.07);
 }
 
-/* CARDS */
-.cards { display:none; }
+.table td {
+    font-size: 0.95rem;
+    font-weight: 500;
+    border-top: 1px solid var(--line);
+}
+
+.table tbody tr:first-child td {
+    border-top: none;
+}
+
+.table tbody tr:hover {
+    background: rgba(53, 88, 74, 0.05);
+}
+
+.cards {
+    display: none;
+    gap: 12px;
+    margin-top: 14px;
+}
+
 .card {
-    background: var(--card);
-    padding: 12px;
-    margin-bottom: 10px;
-    border-radius: 12px;
-    text-align:center;
+    padding: 18px;
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    background: var(--surface);
 }
 
-/* MENU */
+.card-title {
+    margin-bottom: 14px;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--accent);
+}
+
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+}
+
+.card-row {
+    padding: 12px;
+    border-radius: 16px;
+    background: var(--accent-soft);
+}
+
+.card-row span {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+.card-row strong {
+    display: block;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
 .overlay {
     position: fixed;
-    inset:0;
-    background: rgba(0,0,0,0.4);
-    display:none;
+    inset: 0;
+    display: block;
+    opacity: 0;
+    pointer-events: none;
+    background: rgba(19, 24, 21, 0.36);
+    transition: opacity 0.24s ease;
+    z-index: 20;
 }
+
+.overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
 .menu {
     position: fixed;
-    top:0;
-    left:-100%;
-    width:260px;
-    height:100%;
-    background: var(--card);
-    padding:15px;
-    transition:.3s;
+    top: 18px;
+    left: 18px;
+    z-index: 25;
+    width: 290px;
+    max-width: calc(100% - 36px);
+    padding: 22px;
+    transform: translateX(calc(-100% - 26px));
+    transition: transform 0.25s ease;
 }
-.menu.active { left:0; }
+
+.menu.active {
+    transform: translateX(0);
+}
+
+.menu h3 {
+    margin: 0 0 16px;
+    font-size: 1rem;
+}
 
 .menu-card {
-    display:block;
-    padding:12px;
-    margin-bottom:10px;
-    border-radius:12px;
-    text-decoration:none;
-    color:#ff0088;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 14px 16px;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    background: var(--surface);
+    color: var(--text);
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.18s ease, border-color 0.18s ease, background-color 0.18s ease;
 }
-body.dark .menu-card { color:#fff; }
 
-/* FOOTER */
+.menu-card:last-child {
+    margin-bottom: 0;
+}
+
+.menu-card:hover {
+    border-color: var(--accent);
+}
+
+.menu-card input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--accent);
+}
+
+.no-result {
+    display: none;
+    margin-top: 14px;
+    padding: 14px 16px;
+    border: 1px dashed rgba(200, 92, 96, 0.35);
+    border-radius: 18px;
+    background: rgba(200, 92, 96, 0.08);
+    color: var(--danger);
+    text-align: center;
+    font-weight: 700;
+}
+
 .footer {
-    text-align:center;
-    padding:12px;
-    margin-top:20px;
+    padding: 8px 8px 0;
+    text-align: center;
+    color: var(--muted);
+    font-weight: 600;
+    line-height: 1.7;
 }
 
-/* MOBILE */
-@media(max-width:768px){
-    .table{display:none;}
-    .cards{display:block;}
+.footer strong {
+    color: var(--text);
+}
+
+@media (max-width: 900px) {
+    .intro-card {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .page-shell {
+        padding: 18px 14px 28px;
+    }
+
+    .header {
+        position: static;
+    }
+
+    .table-wrap {
+        display: none;
+    }
+
+    .cards {
+        display: grid;
+    }
+
+    .section-head {
+        align-items: start;
+    }
+}
+
+@media (max-width: 520px) {
+    .page-shell {
+        padding: 14px 12px 22px;
+    }
+
+    .header,
+    .intro-card,
+    .search-panel,
+    .results-panel,
+    .menu {
+        border-radius: 22px;
+    }
+
+    .header {
+        gap: 12px;
+        padding: 12px 14px;
+    }
+
+    .brand-label {
+        font-size: 10px;
+    }
+
+    .header-title {
+        font-size: 1rem;
+    }
+
+    .intro-card {
+        padding: 22px;
+    }
+
+    .result-badge {
+        display: none;
+    }
+
+    .card-grid {
+        grid-template-columns: 1fr;
+    }
 }
 </style>
 </head>
 
 <body>
 
+<div class="page-shell">
+
 <div class="header">
-    <button class="menu-btn" onclick="toggleMenu()">☰</button>
-    <div class="header-title">🔍 Township Search</div>
-    <button class="lang-btn" onclick="toggleLang()">MM</button>
+    <button type="button" class="menu-btn" onclick="toggleMenu()" aria-label="Open menu">Menu</button>
+    <div class="brand">
+        <span class="brand-label">Township Code Finder</span>
+        <div class="header-title">Township Search</div>
+    </div>
+    <button type="button" class="lang-btn" onclick="toggleLang()">MM</button>
 </div>
 
 <div class="overlay" id="overlay" onclick="closeMenu()"></div>
@@ -162,21 +591,37 @@ body.dark .menu-card { color:#fff; }
 <div class="menu" id="menu">
     <h3>Menu</h3>
 
-    <div class="menu-card">
-        🌙 Dark Mode
+    <label class="menu-card" for="darkToggle">
+        <span>Dark Mode</span>
         <input type="checkbox" id="darkToggle" onchange="toggleDarkMode()">
-    </div>
+    </label>
 
-    <a href="#" class="menu-card">🏠 Home</a>
+    <a href="#" class="menu-card">Home</a>
     <a href="excelln.html" class="menu-card">Excel Learning</a>
-    <a href="about.html" class="menu-card">ℹ️ About</a>
+    <a href="about.html" class="menu-card">About</a>
 </div>
 
 <div class="container">
+    <section class="search-panel">
 
+    <label class="search-label" for="search">Search Township</label>
     <div class="search-box">
-        <input id="search" placeholder="Search...">
+        <input id="search" placeholder="Search by town, code, city or region">
     </div>
+
+
+    </section>
+
+    <section class="results-panel">
+        <div class="section-head">
+            <div>
+                <h2>Results</h2>
+                <p id="resultMeta">Showing all township records</p>
+            </div>
+            <div class="result-badge">Live Search</div>
+        </div>
+
+        <div class="table-wrap">
 
     <table class="table">
         <thead>
@@ -190,17 +635,33 @@ body.dark .menu-card { color:#fff; }
         <tbody id="tableBody"></tbody>
     </table>
 
-    <div class="cards" id="cardList"></div>
-    <div id="noResult" style="text-align:center;color:red;display:none;">❌ No result</div>
+        </div>
 
+    <div class="cards" id="cardList"></div>
+    <div id="noResult" class="no-result">No result</div>
+
+    </section>
 </div>
 
 <footer class="footer">
-Developer by Zar Soe
+<strong>Township Search</strong><br>
+Developed by Zar Soe
 </footer>
+</div>
 
 <script>
 let isMM = true;
+const search = document.getElementById("search");
+const tableBody = document.getElementById("tableBody");
+const cardList = document.getElementById("cardList");
+const noResult = document.getElementById("noResult");
+const menu = document.getElementById("menu");
+const overlay = document.getElementById("overlay");
+const darkToggle = document.getElementById("darkToggle");
+const langButton = document.querySelector(".lang-btn");
+const recordCount = document.getElementById("recordCount");
+const langStatus = document.getElementById("langStatus");
+const resultMeta = document.getElementById("resultMeta");
 
 /* SAMPLE DATA (MM + ENG) */
 const data = [
@@ -638,57 +1099,117 @@ const data = [
 
 /* RENDER */
 function render(list){
-    let t="",c="";
-    list.forEach(i=>{
-        let d = isMM ? i.mm : i.en;
+    let t = "";
+    let c = "";
 
-        t+=`<tr>
-        <td>${d.city}</td>
-        <td>${d.code}</td>
-        <td>${d.town}</td>
-        <td>${d.region}</td>
+    list.forEach(item => {
+        let d = isMM ? item.mm : item.en;
+        let city = formatValue(d.city);
+        let code = formatValue(d.code);
+        let town = formatValue(d.town);
+        let region = formatValue(d.region);
+
+        t += `<tr>
+        <td>${city}</td>
+        <td>${code}</td>
+        <td>${town}</td>
+        <td>${region}</td>
         </tr>`;
 
-        c+=`<div class="card">
-        <b>${d.town}</b>
-        <div>${d.code}</div>
-        <div>${d.city}</div>
-        <div>${d.region}</div>
-        </div>`;
+        c += `<article class="card">
+        <div class="card-title">${town}</div>
+        <div class="card-grid">
+            <div class="card-row">
+                <span>Code</span>
+                <strong>${code}</strong>
+            </div>
+            <div class="card-row">
+                <span>City</span>
+                <strong>${city}</strong>
+            </div>
+            <div class="card-row">
+                <span>Town</span>
+                <strong>${town}</strong>
+            </div>
+            <div class="card-row">
+                <span>Region</span>
+                <strong>${region}</strong>
+            </div>
+        </div>
+        </article>`;
     });
-    tableBody.innerHTML=t;
-    cardList.innerHTML=c;
+
+    tableBody.innerHTML = t;
+    cardList.innerHTML = c;
+    updateSummary(list);
+}
+
+function formatValue(value) {
+    return value && String(value).trim() ? value : "-";
+}
+
+function getFilteredData() {
+    let value = search.value.trim().toLowerCase();
+
+    if (!value) {
+        return data;
+    }
+
+    return data.filter(item => {
+        let current = isMM ? item.mm : item.en;
+        return Object.values(current).some(field => String(field).toLowerCase().includes(value));
+    });
+}
+
+function updateSummary(list) {
+    if (recordCount) {
+        recordCount.textContent = list.length;
+    }
+
+    if (langStatus) {
+        langStatus.textContent = isMM ? "Myanmar" : "English";
+    }
+
+    if (resultMeta) {
+        resultMeta.textContent = list.length === data.length
+            ? "Showing all township records"
+            : `Showing ${list.length} matching record${list.length === 1 ? "" : "s"}`;
+    }
+}
+
+function applySearch() {
+    let filtered = getFilteredData();
+    render(filtered);
+    noResult.textContent = "No matching township found.";
+    noResult.style.display = filtered.length ? "none" : "block";
 }
 
 /* SEARCH */
-search.addEventListener("keyup",()=>{
-    let v = search.value.toLowerCase();
-
-    let f = data.filter(i=>{
-        let d = isMM ? i.mm : i.en;
-        return Object.values(d).some(x=>x.toLowerCase().includes(v));
-    });
-
-    render(f);
-    noResult.style.display = f.length ? "none":"block";
-});
+search.addEventListener("input", applySearch);
 
 /* LANG */
 function toggleLang(){
     isMM = !isMM;
-    document.querySelector(".lang-btn").innerText = isMM ? "MM":"EN";
-    render(data);
+    langButton.innerText = isMM ? "MM" : "EN";
+    applySearch();
 }
 
 /* MENU */
 function toggleMenu(){
     menu.classList.add("active");
-    overlay.style.display="block";
+    overlay.classList.add("active");
 }
+
 function closeMenu(){
     menu.classList.remove("active");
-    overlay.style.display="none";
+    overlay.classList.remove("active");
 }
+
+document.addEventListener("keydown", event => {
+    if (event.key === "Escape") {
+        closeMenu();
+    }
+});
 
 /* DARK MODE */
 function toggleDarkMode(){
@@ -703,12 +1224,12 @@ function toggleDarkMode(){
 function loadDark(){
     if(localStorage.getItem("dark")==="on"){
         document.body.classList.add("dark");
-        darkToggle.checked=true;
+        darkToggle.checked = true;
     }
 }
 
 loadDark();
-render(data);
+applySearch();
 </script>
 
 </body>
