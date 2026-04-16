@@ -1,1 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>Lensort | Smart Image Link Sorter</title>
+<!-- Google Fonts & simple reset for better UI -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
 
+  body {
+    min-height: 100vh;
+    background: radial-gradient(circle at 10% 20%, rgba(10, 20, 40, 1) 0%, rgba(0, 0, 0, 0.95) 100%);
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1.5rem;
+    position: relative;
+  }
+
+  /* animated noise texture + glassmorphic container */
+  body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: radial-gradient(rgba(255,255,255,0.03) 1px, transparent 1px);
+    background-size: 32px 32px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .glass-panel {
+    max-width: 760px;
+    width: 100%;
+    background: rgba(18, 22, 35, 0.65);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-radius: 2.5rem;
+    border: 1px solid rgba(72, 187, 255, 0.2);
+    box-shadow: 0 25px 45px rgba(0, 0, 0, 0.5), 0 0 0 0.5px rgba(0, 230, 255, 0.1) inset;
+    transition: all 0.2s ease;
+    padding: 1.8rem 2rem 2rem 2rem;
+    z-index: 2;
+  }
+
+  @media (max-width: 550px) {
+    body { padding: 1rem; }
+    .glass-panel { padding: 1.5rem; }
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(0, 230, 255, 0.12);
+    padding: 6px 14px;
+    border-radius: 60px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    color: #9befff;
+    border: 0.5px solid rgba(0, 230, 255, 0.3);
+    margin-bottom: 1.2rem;
+  }
+
+  h2 {
+    font-size: 1.9rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #FFFFFF, #a0e9ff);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.25rem;
+  }
+
+  .sub {
+    color: #8f9bb3;
+    font-size: 0.85rem;
+    margin-bottom: 1.8rem;
+    border-left: 3px solid #2c9bff;
+    padding-left: 12px;
+    font-weight: 450;
+  }
+
+  .input-group, .output-group {
+    margin-bottom: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .label-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #ccd6f6;
+    letter-spacing: 0.3px;
+  }
+
+  .label-row span:first-child {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .hint {
+    font-size: 0.7rem;
+    color: #6c7a9e;
+    background: rgba(0,0,0,0.3);
+    padding: 4px 8px;
+    border-radius: 20px;
+  }
+
+  textarea {
+    width: 100%;
+    background: rgba(12, 16, 28, 0.8);
+    border: 1px solid #2d3a5e;
+    border-radius: 1.5rem;
+    padding: 1rem 1.2rem;
+    font-family: 'Inter', monospace;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: #eef5ff;
+    resize: vertical;
+    outline: none;
+    transition: all 0.2s;
+    font-weight: 450;
+  }
+
+  textarea:focus {
+    border-color: #2c9bff;
+    box-shadow: 0 0 0 3px rgba(44, 155, 255, 0.25);
+    background: rgba(10, 14, 27, 0.9);
+  }
+
+  textarea#output {
+    background: rgba(5, 8, 18, 0.85);
+    color: #b9f3ff;
+    border-color: #2c6a9e;
+  }
+
+  button {
+    width: 100%;
+    padding: 0.9rem 1rem;
+    border: none;
+    border-radius: 2rem;
+    font-weight: 600;
+    font-size: 0.95rem;
+    font-family: 'Inter', sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+    background: linear-gradient(105deg, #1c2f48, #0e1a2a);
+    color: white;
+    border: 0.5px solid rgba(0, 180, 255, 0.4);
+    letter-spacing: 0.3px;
+  }
+
+  button i {
+    font-style: normal;
+    font-weight: 600;
+    font-size: 1.1rem;
+  }
+
+  .btn-primary {
+    background: linear-gradient(115deg, #0066ff, #00a3ff);
+    box-shadow: 0 8px 18px rgba(0, 102, 255, 0.25);
+    border: none;
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 22px rgba(0, 160, 255, 0.35);
+    background: linear-gradient(115deg, #1a75ff, #00b4ff);
+  }
+
+  .btn-copy {
+    background: rgba(0, 210, 140, 0.12);
+    border: 1px solid rgba(0, 230, 150, 0.5);
+    backdrop-filter: blur(4px);
+    color: #b3ffdd;
+  }
+
+  .btn-copy:hover {
+    background: rgba(0, 210, 140, 0.3);
+    transform: translateY(-2px);
+    color: white;
+    border-color: #00ffb3;
+  }
+
+  button:active {
+    transform: scale(0.97);
+  }
+
+  .double-btn {
+    display: flex;
+    gap: 12px;
+    margin-top: 6px;
+    margin-bottom: 12px;
+  }
+
+  .double-btn button {
+    width: 50%;
+  }
+
+  .footer {
+    margin-top: 1.8rem;
+    text-align: center;
+    font-size: 0.7rem;
+    color: #5d6f8f;
+    border-top: 1px dashed rgba(72, 187, 255, 0.2);
+    padding-top: 1rem;
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .status-toast {
+    position: fixed;
+    bottom: 25px;
+    left: 50%;
+    transform: translateX(-50%) scale(0.9);
+    background: #1e2a3aee;
+    backdrop-filter: blur(20px);
+    color: #d0f0ff;
+    padding: 10px 22px;
+    border-radius: 50px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    border: 1px solid #48bbff;
+    opacity: 0;
+    transition: opacity 0.2s, transform 0.2s;
+    pointer-events: none;
+    z-index: 200;
+    font-family: monospace;
+    letter-spacing: 0.3px;
+  }
+
+  .toast-show {
+    opacity: 1;
+    transform: translateX(-50%) scale(1);
+  }
+
+  .counter {
+    background: #00000055;
+    border-radius: 20px;
+    padding: 2px 10px;
+    font-size: 0.7rem;
+    font-weight: 500;
+  }
+</style>
+</head>
+<body>
+
+<div class="glass-panel">
+  <div class="badge">
+    <span>⚡ INTELLIGENT SORTER</span>
+  </div>
+  <h2>✨ Lensort</h2>
+  <div class="sub">Image Link Organizer — sort by <strong>(number)</strong> pattern</div>
+
+  <div class="input-group">
+    <div class="label-row">
+      <span>📎 <span style="font-weight: 600;">Image links</span></span>
+      <span class="hint">one per line • supports (1), (2) ... (123)</span>
+    </div>
+    <textarea id="input" placeholder="https://example.com/img(1).jpg&#10;https://cdn.pics/photo(3).png&#10;https://images.site/gallery(2).webp&#10;https://storage.link/image(12).jpeg"></textarea>
+  </div>
+
+  <div class="double-btn">
+    <button class="btn-primary" id="sortBtn">🔃 Sort by number</button>
+    <button id="resetBtn" style="background: rgba(255,80,80,0.1); border-color: #ff7060;">↺ Clear all</button>
+  </div>
+
+  <div class="output-group">
+    <div class="label-row">
+      <span>📋 <span style="font-weight: 600;">Sorted result</span></span>
+      <span class="counter" id="lineCounter">0 links</span>
+    </div>
+    <textarea id="output" placeholder="Sorted image links will appear here ..." readonly></textarea>
+  </div>
+
+  <button class="btn-copy" id="copyBtn">📋 Copy to clipboard</button>
+
+  <div class="footer">
+    <span>🧠 Auto detects (n) inside filename or URL</span>
+    <span>⚡ Drag & paste ready</span>
+  </div>
+</div>
+
+<div id="toastMsg" class="status-toast">✨ Copied to clipboard</div>
+
+<script>
+  // DOM elements
+  const inputArea = document.getElementById('input');
+  const outputArea = document.getElementById('output');
+  const sortBtn = document.getElementById('sortBtn');
+  const resetBtn = document.getElementById('resetBtn');
+  const copyBtn = document.getElementById('copyBtn');
+  const lineCounterSpan = document.getElementById('lineCounter');
+
+  // helper: extract number from parentheses (1) (123) etc.
+  function extractNumberFromUrl(url) {
+    if (!url || typeof url !== 'string') return Infinity;
+    // match the first occurrence of a number inside parentheses: e.g., (5), (42)
+    // also handles cases like (01) but parseInt will treat as 1
+    const match = url.match(/\((\d+)\)/);
+    if (match && match[1] !== undefined) {
+      return parseInt(match[1], 10);
+    }
+    // additional fallback: if pattern like -5- or maybe just trailing numbers? spec says (number)
+    // but we keep robust, still return large number to keep unsorted at end? better to put at bottom.
+    return Infinity;
+  }
+
+  // update link counter in output field (based on sorted lines)
+  function updateCounter() {
+    const text = outputArea.value.trim();
+    if (text === "") {
+      lineCounterSpan.innerText = "0 links";
+      return;
+    }
+    const lines = text.split(/\r?\n/).filter(l => l.trim().length > 0);
+    const count = lines.length;
+    lineCounterSpan.innerText = `${count} ${count === 1 ? 'link' : 'links'}`;
+  }
+
+  // main sorting logic: read input, split lines, sort using extracted number
+  function performSort() {
+    let rawInput = inputArea.value;
+    // Split by newlines, preserve empty lines? we trim and filter empty meaningful lines
+    let lines = rawInput.split(/\r?\n/);
+    // trim each line, but keep empty lines? we filter out completely empty to avoid extra blank sorting
+    let linkItems = lines
+      .map(l => l.trim())
+      .filter(l => l !== "");
+    
+    if (linkItems.length === 0) {
+      outputArea.value = "";
+      updateCounter();
+      showToast("⚠️ No links to sort — paste some URLs", 1800);
+      return;
+    }
+    
+    // sort using extracted numeric value; if same number preserve original order (stable sort)
+    // for modern JS, .sort with custom compare may not guarantee stable across all engines? but it's stable since ES2019.
+    // manually make stable via map index if needed but usually fine.
+    const sorted = [...linkItems];
+    sorted.sort((a, b) => {
+      const numA = extractNumberFromUrl(a);
+      const numB = extractNumberFromUrl(b);
+      if (numA === numB) return 0;
+      return numA - numB;
+    });
+    
+    // join with newline
+    const resultText = sorted.join("\n");
+    outputArea.value = resultText;
+    updateCounter();
+    
+    // subtle success effect: glow on output for moment
+    outputArea.style.transition = "box-shadow 0.15s";
+    outputArea.style.boxShadow = "0 0 0 2px #2c9bff55";
+    setTimeout(() => {
+      outputArea.style.boxShadow = "";
+    }, 400);
+    
+    // optional: show toast summary
+    showToast(`✔ Sorted ${sorted.length} link${sorted.length !== 1 ? 's' : ''} by (n)`, 1500);
+  }
+  
+  // reset both input & output fields
+  function resetAll() {
+    inputArea.value = "";
+    outputArea.value = "";
+    updateCounter();
+    inputArea.focus();
+    showToast("🧹 Cleared all fields", 1300);
+  }
+  
+  // copy output with modern clipboard API + fallback
+  async function copyOutput() {
+    const textToCopy = outputArea.value;
+    if (!textToCopy || textToCopy.trim() === "") {
+      showToast("❌ Nothing to copy — sort links first", 1500);
+      return;
+    }
+    
+    try {
+      // Use modern clipboard API if available
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        await navigator.clipboard.writeText(textToCopy);
+        showToast("📋 Sorted links copied!", 1500);
+      } else {
+        // fallback for older browsers
+        outputArea.select();
+        outputArea.setSelectionRange(0, 99999);
+        const success = document.execCommand("copy");
+        if (success) {
+          showToast("📋 Copied (legacy)", 1500);
+        } else {
+          showToast("⚠️ Copy failed, manually select", 1800);
+        }
+        // remove selection after copy
+        window.getSelection()?.removeAllRanges();
+      }
+    } catch (err) {
+      console.warn("copy error:", err);
+      showToast("⚠️ Copy error, try manual select", 1800);
+    }
+  }
+  
+  // custom toast manager
+  let toastTimeout = null;
+  function showToast(message, duration = 1600) {
+    const toast = document.getElementById('toastMsg');
+    if (!toast) return;
+    // clear ongoing timeout
+    if (toastTimeout) clearTimeout(toastTimeout);
+    toast.innerText = message;
+    toast.classList.add('toast-show');
+    toastTimeout = setTimeout(() => {
+      toast.classList.remove('toast-show');
+    }, duration);
+  }
+  
+  // live counter for input? extra polish: show number of links detected in input (real time)
+  function updateInputHint() {
+    const raw = inputArea.value;
+    const lines = raw.split(/\r?\n/).filter(l => l.trim().length > 0);
+    const count = lines.length;
+    // we can show small badge but optional, just for fun but not cluttering.
+    const inputLabelHint = document.querySelector('.input-group .hint');
+    if (inputLabelHint && count > 0) {
+      // subtle but don't disturb user too much
+      inputLabelHint.style.opacity = "0.9";
+      inputLabelHint.setAttribute('data-count', ` ${count} item${count !== 1 ? 's' : ''}`);
+      inputLabelHint.innerHTML = `🔍 ${count} line${count !== 1 ? 's' : ''} • (n) sort`;
+    } else if (inputLabelHint && count === 0) {
+      inputLabelHint.innerHTML = `one per line • supports (1), (2) ... (123)`;
+    }
+  }
+  
+  // Enhance UI: attach auto sort suggestion? not auto, but we can watch input realtime and update hint
+  // Also handle realtime detection when user clicks sort obviously. Provide 'smart' sample.
+  // Add sample demo for better UX - but not mandatory.
+  function insertExample() {
+    if (inputArea.value.trim() === "") {
+      const exampleText = `https://images.unsplash.com/photo1(4).jpg
+https://cdn.picsum.photo/id/2(1).png
+https://my-storage.s3/image(12).webp
+https://artwork.org/gallery(3).jpeg
+https://random.link/pic(7).gif
+https://legacy.site/old(2).bmp`;
+      inputArea.value = exampleText;
+      showToast("✨ Example loaded — hit sort", 1700);
+      updateInputHint();
+    } else {
+      showToast("Paste your own links above", 1000);
+    }
+  }
+  
+  // event listeners
+  sortBtn.addEventListener('click', performSort);
+  resetBtn.addEventListener('click', resetAll);
+  copyBtn.addEventListener('click', copyOutput);
+  
+  // Additional feature: when typing in input, update hint counter
+  inputArea.addEventListener('input', function() {
+    updateInputHint();
+    // If output exists but user modifies input, we don't auto-clear output, but we can optionally hint
+    if (outputArea.value !== "") {
+      // subtle indicator that output may be stale? we add a border style optional
+      outputArea.style.borderColor = "#ffaa4455";
+      setTimeout(() => {
+        if (outputArea.value !== "" && document.activeElement !== outputArea) {
+          outputArea.style.borderColor = "#2c6a9e";
+        }
+      }, 1000);
+    }
+  });
+  
+  // when focusing output, reset stale hint
+  outputArea.addEventListener('focus', () => {
+    outputArea.style.borderColor = "#2c9bff";
+  });
+  
+  // Keyboard shortcut: Ctrl+Enter to sort from input field
+  inputArea.addEventListener('keydown', (e) => {
+    if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+      e.preventDefault();
+      performSort();
+    }
+  });
+  
+  // Also add nice initial placeholder update
+  updateInputHint();
+  updateCounter();
+  
+  // if page loads with empty fields, maybe show a quick tip?
+  setTimeout(() => {
+    if (inputArea.value.trim() === "") {
+      // show elegant floating tip? just using toast once
+      const tipToast = () => {
+        showToast("💡 Tip: paste image links with (1), (2)... then click Sort", 2800);
+      };
+      tipToast();
+    }
+  }, 500);
+  
+  // small helper: auto trim and allow drag & drop text (default works)
+  // prevent accidental double sorting with large data? no problem.
+  // optional: additional sample button? but we keep minimal, but we add a secret double-click on logo?
+  const badgeElement = document.querySelector('.badge');
+  if (badgeElement) {
+    badgeElement.style.cursor = "pointer";
+    badgeElement.addEventListener('dblclick', () => {
+      insertExample();
+    });
+    badgeElement.title = "Double-click to load example links";
+  }
+  
+  // Provide robust handling of extractNumber to return large number for non-matching links,
+  // so any url without (n) will appear at the bottom (preserving original order among non-number)
+  // improve stable sorting: actually our custom extract uses Infinity for unmatched, that pushes them last
+  // also check edge case: numbers like (001) -> becomes 1, works fine.
+  
+  // extra: visual line count for output on any change
+  const observer = new MutationObserver(() => updateCounter());
+  observer.observe(outputArea, { attributes: true, childList: false, subtree: false, characterData: false });
+  // also observe value change via setter? not needed, we call updateCounter after manual updates.
+  // Override default updateCounter call from sort and reset ensures.
+  
+  // add style for smooth interactions
+  console.log("Lensort ready — image link sorter with premium UI");
+</script>
+</body>
+</html>
